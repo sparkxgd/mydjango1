@@ -16,14 +16,11 @@ import com.wudi.model.UserModel;
 import com.wudi.plugin.BaiduPlugin;
 import com.wudi.util.StringUtil;
 import com.wudi.util.Util;
-
 /**
  * 
- * @author ljp
+ * @author xiao
  *
  */
-
-
 public class WeixinController extends Controller{
 	/**
 	 * 微信路径
@@ -500,5 +497,11 @@ public class WeixinController extends Controller{
 	    JSONObject res = BaiduPlugin.face.search(image, imageType, groupIdList, options);
 	    
 	    renderJson(res.toString(2));
+	}
+	/**
+	 * 人脸登录
+	 */
+	public void faceLogin() {
+		
 	}
 }
