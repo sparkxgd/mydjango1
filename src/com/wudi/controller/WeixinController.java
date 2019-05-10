@@ -502,6 +502,26 @@ public class WeixinController extends Controller{
 	 * 人脸登录
 	 */
 	public void faceLogin() {
+		UploadFile upFile = getFile();//单个上传文件一句搞定  默认路径是 upload
+		File file = upFile.getFile();
+        String extName = StringUtil.getFileExt(file.getName());
+        String filePath = upFile.getUploadPath();
+        String fileName = System.currentTimeMillis() + extName;
+        file.renameTo(new File(filePath+"\\"+fileName));        
 		
+	    // 传入可选参数调用接口
+	    HashMap<String, String> options = new HashMap<String, String>();
+//	    options.put("quality_control", "NORMAL");
+//	    options.put("liveness_control", "LOW");
+	    String url=filePath+"\\"+fileName;
+	    String image =Util.GetImageStr(url);
+	    String imageType = "BASE64";
+	    String groupIdList = "test";
+	    
+	    // 人脸搜索
+	    JSONObject res = BaiduPlugin.face.search(image, imageType, groupIdList, options);
+	    res.get("");
+	    
+	    renderJson(res.toString(2));
 	}
 }
