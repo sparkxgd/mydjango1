@@ -1,13 +1,16 @@
 package com.wudi.controller;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 
 import org.json.JSONObject;
 
 import com.jfinal.core.Controller;
 import com.jfinal.upload.UploadFile;
+import com.wudi.bean.FaceSeachModel;
 import com.wudi.model.CustomerModel;
 import com.wudi.model.NewsModel;
 import com.wudi.model.TeamModel;
@@ -474,7 +477,7 @@ public class WeixinController extends Controller{
 	/**
 	 * 人脸识别搜索
 	 */
-	public void faceSearch() {
+	public void faceSearch2() {
 		
 		UploadFile upFile = getFile();//单个上传文件一句搞定  默认路径是 upload
 		File file = upFile.getFile();
@@ -501,7 +504,8 @@ public class WeixinController extends Controller{
 	/**
 	 * 人脸登录
 	 */
-	public void faceLogin() {
+//	public void faceLogin() {
+	public void faceSearch() {
 		UploadFile upFile = getFile();//单个上传文件一句搞定  默认路径是 upload
 		File file = upFile.getFile();
         String extName = StringUtil.getFileExt(file.getName());
@@ -520,8 +524,18 @@ public class WeixinController extends Controller{
 	    
 	    // 人脸搜索
 	    JSONObject res = BaiduPlugin.face.search(image, imageType, groupIdList, options);
-	    res.get("");
-	    
-	    renderJson(res.toString(2));
+	    List<FaceSeachModel> flist=new ArrayList<FaceSeachModel>();
+	    Iterator<Object> it=res.getJSONObject("result").getJSONArray("user_list").iterator();
+	    while(it.hasNext()) {
+	    	JSONObject jo=(JSONObject)it.next();
+	    	FaceSeachModel m=new FaceSeachModel();
+	    	m.setGroup_id(jo.getString("group_id"));
+	    	m.setUser_id(jo.getString("user_id"));
+	    	m.setUser_info(jo.getString("user_info"));
+	    	m.setScore(jo.getDouble("score"));
+	    	flist.add(m);
+	    }
+	    setAttr("flist", flist);
+	    renderJson();
 	}
 }
