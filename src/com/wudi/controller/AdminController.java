@@ -12,12 +12,17 @@ import com.jfinal.kit.JsonKit;
 import com.jfinal.plugin.activerecord.Page;
 import com.wudi.bean.TubiaoBean;
 import com.wudi.interceptor.AdminInterceptor;
-import com.wudi.model.CustomerModel;
-import com.wudi.model.CustomerTypeModel;
+import com.wudi.model.ClassinfoModel;
+import com.wudi.model.MajorModel;
+import com.wudi.model.ParentsModel;
 import com.wudi.model.RoleModel;
+import com.wudi.model.Stu_pareModel;
+import com.wudi.model.StudentModel;
+import com.wudi.model.TeacherModel;
 import com.wudi.model.TeamModel;
 import com.wudi.model.TeamersModel;
 import com.wudi.model.UserModel;
+import com.wudi.util.StringUtil;
 /**
  * 
  * @author ljp
@@ -37,12 +42,12 @@ public class AdminController extends Controller {
 		String password = getPara("password");
 		// 如果不正确，就提示什么不正确？
 		// 如果正确，就正常显示系统页面
-		UserModel m = UserModel.findByLogin(username);
-		String check = m.getRole_id();
-		RoleModel pp = RoleModel.getModelById(check);
-		String right = pp.getName();
+		UserModel m = UserModel.findById(username);
+//		String check = m.getRole_id();
+//		RoleModel pp = RoleModel.getModelById(check);
+//		String right = pp.getName();
 		// 判断用户名和密码是否正确
-		if (m != null && (right.equals("超级管理员")||right.equals("客服人员"))) {
+		if (m != null/* && (right.equals("超级管理员")||right.equals("客服人员"))*/) {
 			if (m.getPassword().equals(password)) {
 				setAttr("result", 0);// 可以登录
 				setCookie("cname",m.getUsername(), 36000);
@@ -106,34 +111,6 @@ public class AdminController extends Controller {
 		setAttr("user", m);
 		renderFreeMarker("userinfo/uppassword.html");
 	}
-	public void openCustomerRemark() {
-		String id=getPara("id");
-		CustomerModel m = CustomerModel.getById(id);
-		int sex = m.getSex();
-		int disclose = m.getDisclose();
-		String Ssex = "";
-		String Dis = "";
-		if(sex == 1) {
-			Ssex = "男";
-		} else {
-			Ssex = "女";
-		}
-		if(disclose == 1) {
-			Dis = "是";
-		} else {
-			Dis = "否";
-		}
-		setAttr("id", id);
-		setAttr("name", m.getName());
-		setAttr("tel", m.getTel());
-		setAttr("Ssex", Ssex);
-		setAttr("Dis", Dis);
-		setAttr("age", m.getAge());
-		setAttr("nation", m.getNation());
-		setAttr("addr", m.getAddr());
-		setAttr("remark", m.getRemark());
-		renderFreeMarker("customer/upremark.html");
-	}
 	/**
 	 *  功能：保存修改密码
 	 *  修改时间：2019年3月21日20:47:23
@@ -157,32 +134,22 @@ public class AdminController extends Controller {
 		renderJson();
 	}
 	
-	public void openCuStomers() {
-		String type=getPara("type");
-		setAttr("type", type);
-		renderFreeMarker("customer/customerInfo.html");
-	}
-	public void queryCustomers() {
-		String key = getPara("key");
-        int limit=getParaToInt("limit");
-        int page=getParaToInt("page");
-        String type=getPara("type"); 
-        Page<CustomerModel> list = CustomerModel.getList(page, limit, key,type);
-        setAttr("code", 0);
-        setAttr("msg", "你好！");
-        setAttr("count", list.getTotalRow());
-        setAttr("data", list.getList());
-        renderJson();
+	public void openUserinfoAdd() {
+		render("userinfo/userinfoAdd.html");
 	}
 	
-	/**
-	 * 团队页面
-	 */
-	public void groupinfo() {
-		render("groupinfo/groupinfoInfo.html");
+	public void saveUser() {
+		String username = getPara("username");
+		int sex = getParaToInt("sex");
+		String password = getPara("password");
+		String birth = getPara("birth");
+		int type = getParaToInt("type");
+		String role_id = getPara("role_id");
+		String img = getPara("img");
+		boolean result = UserModel.saveUserinfo(username, sex, password, birth, type, img);
+		setAttr("result", result);
+		renderJson();
 	}
-	
-	
 	
 	/**
 	 * 打开用户信息界面
@@ -238,49 +205,12 @@ public class AdminController extends Controller {
 		renderJson();
 	}
 	
-	public void getCustomerNum() {
-		String type=getPara("type");
-		List<CustomerModel> Num = CustomerModel.getCustomerByType(type);
-		setAttr("row", Num.size());
-		renderJson();
-	}
-	public void getTubiaoinfo() {
-		List<TubiaoBean> chengjiao=new ArrayList<TubiaoBean>();//成交
-		List<TubiaoBean> weichengjiao=new ArrayList<TubiaoBean>();//未成交
-		
-		for(int i=1;i<=12;i++) {//从本年的第一个月开始
-			int c_num=0;//成交的数量
-			int w_num=0;//未成交的数量
-			List<CustomerModel> list=CustomerModel.getListByCYeanMonth(i);//获取客户信息列表
-			for(CustomerModel m:list) {
-				
-				if(m.getStatus()==6 || m.getStatus()==7) {//找到成交的客户信息
-					c_num++;
-				}else {
-					w_num++;
-				}
-			}
-			TubiaoBean b=new TubiaoBean();
-			b.setName("已成交");
-			b.setValue(c_num);
-			chengjiao.add(b);
-			TubiaoBean a=new TubiaoBean();
-			a.setName("未成交");
-			a.setValue(w_num);
-			weichengjiao.add(a);
-		}
-		
-		setAttr("chengjiao", chengjiao);
-		setAttr("weichengjiao", weichengjiao);
-		renderJson();
-	}
-	public void delCustomerModel() {
+	public void delUserModel() {
 		String id= getPara("id");
-		boolean result = CustomerModel.delById(id);
+		boolean result = UserModel.delById(id);
 		setAttr("result", result);
 		renderJson();
 	}
-	
 	/**
 	 * 
 	* @Title: openRoles
@@ -404,190 +334,391 @@ public class AdminController extends Controller {
 		setAttr("result", result);
 		renderJson();
 	}
+//	/**
+//	 * 打开团队信息页面
+//	 */
+//	public void openTeams() {
+//		render("team/teaminfo.html");
+//	}
+//	public void getTeamsList() {
+//		String key = getPara("key");
+//        int limit=getParaToInt("limit");
+//        int page=getParaToInt("page");
+//        Page<TeamModel> list = TeamModel.getList(page, limit, key);
+//        setAttr("code", 0);
+//        setAttr("msg", "你好！");
+//        setAttr("count", list.getTotalRow());
+//        setAttr("data", list.getList());
+//        renderJson();
+//	}
+//	/**
+//	 * 打开团队成员信息页面
+//	 */
+//	public void openTeamDetail() {
+//		String id=getPara("id");
+//		setAttr("id", id);
+//		renderFreeMarker("team/teamDetail.html");
+//	}
+//	public void getTeamDetailList() {
+//		String team_id=getPara("id");
+//		String key = getPara("key");
+//        int limit=getParaToInt("limit");
+//        int page=getParaToInt("page");
+//        Page<TeamersModel> list = TeamersModel.getList(page, limit, team_id,key);
+//        setAttr("code", 0);
+//        setAttr("msg", "你好！");
+//        setAttr("count", list.getTotalRow());
+//        setAttr("data", list.getList());
+//        renderJson();
+//	}
+	
+	
 	/**
-	 * 打开客户类型页面
+	 * 学生表
 	 */
-	public void openCustomerTypes() {
-		render("customer/customerTypeInfo.html");
+	public void openStudentInfo() {
+		render("student/studentInfo.html");
 	}
-	public void getCustomerTypeList() {
-		String key = getPara("key");
-        int limit=getParaToInt("limit");
-        int page=getParaToInt("page");
-        Page<CustomerTypeModel> list = CustomerTypeModel.getList(page, limit, key);
-        setAttr("code", 0);
-        setAttr("msg", "你好！");
-        setAttr("count", list.getTotalRow());
-        setAttr("data", list.getList());
-        renderJson();
+	public void openStudentAdd() {
+		render("student/studentAdd.html");
 	}
-	/**
-	 * 
-	* @Title: openCustomerTypeAdd
-	* @Description:打开添加客户类型页面
-	* @param     参数
-	* @return void    返回类型
-	* @throws
-	 */
-	public void openCustomerTypeAdd() {
-		render("customer/customerTypeAdd.html");
+	public void openStuentEdit() {
+		render("student/studentEdit.html");
 	}
-	/**
-	 * 
-	* @Title: saveCustomerType
-	* @Description:添加保存数据
-	* @param     参数
-	* @return void    返回类型
-	* @throws
-	 */
-	public void saveCustomerType() {
-		
-		String name=getPara("name");
-		String type_no=getPara("type_no");
-		boolean result =CustomerTypeModel.save(name,type_no);
-		// 返回结果
-		setAttr("result", result);
-		renderJson();
-	}
-	/**
-	 * 
-	* @Title: openCustomerTypeEdit
-	* @Description:打开编辑页面
-	* @param     参数
-	* @return void    返回类型
-	* @throws
-	 */
-	public void openCustomerTypeEdit() {
+	public void getStudentModel() {
 		String id=getPara("id");
-		setAttr("id", id);
-		renderFreeMarker("customer/customerTypeEdit.html");
-		
-	}
-	/**
-	 * 
-	* @Title: getCustomerTypeModel
-	* @Description:获取编辑页面数据
-	* @param     参数
-	* @return void    返回类型
-	* @throws
-	 */
-	public void getCustomerTypeModel() {
-		String id=getPara("id");
-		CustomerTypeModel m=CustomerTypeModel.getById(id);
+		StudentModel m=StudentModel.getById(id);
 		setAttr("m", m);
 		renderJson();
 	}
-	/**
-	 * 
-	* @Title: updateCustomerType
-	* @Description:添加保存数据
-	* @param     参数
-	* @return void    返回类型
-	* @throws
-	 */
-	public void updateCustomerType() {
-		String id=getPara("id");
-		String name=getPara("name");
-		String type_no=getPara("type_no");
-		boolean result =CustomerTypeModel.update(id,name,type_no);
-		// 返回结果
+	public void saveStudent() {
+		String no = getPara("no");
+		String clas = getPara("clas");
+		int type = getParaToInt("type");
+		boolean result = StudentModel.save(no, clas, type);
 		setAttr("result", result);
 		renderJson();
 	}
-	/**
-	 * 打开团队信息页面
-	 */
-	public void openTeams() {
-		render("team/teaminfo.html");
-	}
-	public void getTeamsList() {
-		String key = getPara("key");
-        int limit=getParaToInt("limit");
-        int page=getParaToInt("page");
-        Page<TeamModel> list = TeamModel.getList(page, limit, key);
-        setAttr("code", 0);
-        setAttr("msg", "你好！");
-        setAttr("count", list.getTotalRow());
-        setAttr("data", list.getList());
-        renderJson();
-	}
-	/**
-	 * 打开团队成员信息页面
-	 */
-	public void openTeamDetail() {
-		String id=getPara("id");
-		setAttr("id", id);
-		renderFreeMarker("team/teamDetail.html");
-	}
-	public void getTeamDetailList() {
-		String team_id=getPara("id");
-		String key = getPara("key");
-        int limit=getParaToInt("limit");
-        int page=getParaToInt("page");
-        Page<TeamersModel> list = TeamersModel.getList(page, limit, team_id,key);
-        setAttr("code", 0);
-        setAttr("msg", "你好！");
-        setAttr("count", list.getTotalRow());
-        setAttr("data", list.getList());
-        renderJson();
-	}
-	/**
-	 * 完成按钮的方法
-	 */
-	public void completeCustomer() {
+	public void updateStudent() {
 		String id = getPara("id");
-		boolean result;
-		CustomerModel comp = CustomerModel.getById(id);
-		if(comp!=null) {
-			comp.setStatus(6);
-			 result =comp.update();
-		}else {
-			result = false;
-		}
+		String no = getPara("no");
+		String clas = getPara("clas");
+		int type = getParaToInt("type");
+		boolean result = StudentModel.updateStudent(id, no, clas, type);
 		setAttr("result", result);
 		renderJson();
 	}
-	/**
-	 * 打开升级会员的页面
-	 */
-	public void openChangeLevel() {
-		String id=getPara("id");
-		setAttr("id", id);
-		renderFreeMarker("userinfo/changeLevel.html");
-	}
-	public void updateLevel() {
-		String id=getPara("id");
-		int level = getParaToInt("level");
-		boolean result=UserModel.updateLevel(id, level);
+	public void delStudent() {
+		String id = getPara("id");
+		boolean result = StudentModel.delStudent(id);
 		setAttr("result", result);
+		renderJson();
+	}
+	public void queryStudent() {
+		String key = getPara("key");
+		int limit = getParaToInt("limit");
+		int page = getParaToInt("page");
+		Page<StudentModel> c = StudentModel.getList(page, limit, key);
+		setAttr("infos", c);
+		setAttr("code", 0);
+		setAttr("msg", "你好！");
+		setAttr("count", c.getTotalRow());
+		setAttr("data", c.getList());
+		renderJson();
+	}
+	public void getStudentlist() {
+		List<StudentModel> list = StudentModel.getListAll();
+		setAttr("dp", list);
 		renderJson();
 	}
 	
-	public void updateRemark() {
+	
+	/**
+	 * 教师表
+	 */
+	public void openTeacherInfo() {
+		render("teacher/teacherInfo.html");
+	}
+	public void openTeacherAdd() {
+		render("teacher/teacherAdd.html");
+	}
+	public void openTeacherEdit() {
+		render("teacher/teacherEdit.html");
+	}
+	public void getTeacherModel() {
 		String id=getPara("id");
+		TeacherModel m=TeacherModel.getById(id);
+		setAttr("m", m);
+		renderJson();
+	}
+	public void saveTeacher() {
+		String no = getPara("no");
 		String remark = getPara("remark");
-		boolean result=CustomerModel.updateRemark(id, remark);
-		setAttr("result", result);
-		renderJson();
-}
-	
-	public void hideCustomer() {
-		String id=getPara("id");
-		boolean result=CustomerModel.updateStatus(id);
+		String contact = getPara("contact");
+		boolean result = TeacherModel.save(no, remark, contact);
 		setAttr("result", result);
 		renderJson();
 	}
-	public void cencelCustomer() {
+	public void updateTeacher() {
 		String id = getPara("id");
-		boolean result=CustomerModel.updateCancel(id);
+		String no = getPara("no");
+		String remark = getPara("remark");
+		String contact = getPara("contact");
+		boolean result = TeacherModel.updateTeacher(id, no, remark, contact);
 		setAttr("result", result);
 		renderJson();
 	}
-	
-	public void delUserModel() {
-		String id= getPara("id");
-		boolean result = UserModel.delById(id);
+	public void delTeacher() {
+		String id = getPara("id");
+		boolean result = TeacherModel.delTeacher(id);
 		setAttr("result", result);
 		renderJson();
-}
+	}
+	public void queryTeacher() {
+		String key = getPara("key");
+        int limit=getParaToInt("limit");
+        int page=getParaToInt("page");
+        Page<TeacherModel> list = TeacherModel.getList(page, limit, key);
+        setAttr("code", 0);
+        setAttr("msg", "你好！");
+        setAttr("count", list.getTotalRow());
+        setAttr("data", list.getList());
+        renderJson();
+	}
+	public void getTeacherlist() {
+		List<TeacherModel> list = TeacherModel.getListAll();
+		setAttr("dp", list);
+		renderJson();
+	}
+	
+
+	/**
+	 * 家长表
+	 */
+	public void openParentInfo() {
+		render("parent/parentInfo.html");
+	}
+	public void openParentAdd() {
+		render("parent/parentAdd.html");
+	}
+	public void openParentEdit() {
+		render("parent/parentEdit.html");
+	}
+	public void getParentModel() {
+		String id=getPara("id");
+		ParentsModel m=ParentsModel.getById(id);
+		setAttr("m", m);
+		renderJson();
+	}
+	public void saveParent() {
+		String home_addr = getPara("home_addr");
+		String remark = getPara("remark");
+		String contact = getPara("contact");
+		boolean result = ParentsModel.save(home_addr, remark, contact);
+		setAttr("result", result);
+		renderJson();
+	}
+	public void updateParent() {
+		String id = getPara("id");
+		String home_addr = getPara("home_addr");
+		String remark = getPara("remark");
+		String contact = getPara("contact");
+		boolean result = ParentsModel.update(id, home_addr, remark, contact);
+		setAttr("result", result);
+		renderJson();
+	}
+	public void delParent() {
+		String id = getPara("id");
+		boolean result = ParentsModel.delParent(id);
+		setAttr("result", result);
+		renderJson();
+	}
+	public void queryParent() {
+		String key = getPara("key");
+		int limit = getParaToInt("limit");
+		int page = getParaToInt("page");
+		Page<ParentsModel> c = ParentsModel.getList(page, limit, key);
+		setAttr("infos", c);
+		setAttr("code", 0);
+		setAttr("msg", "你好！");
+		setAttr("count", c.getTotalRow());
+		setAttr("data", c.getList());
+		renderJson();
+	}
+	public void getParentlist() {
+		List<ParentsModel> list = ParentsModel.getListAll();
+		setAttr("dp", list);
+		renderJson();
+	}
+	
+	/**
+	 * 专业表
+	 */
+	public void openMajorInfo() {
+		render("major/majorInfo.html");
+	}
+	public void openMajorAdd() {
+		render("major/majorAdd.html");
+	}
+	public void openMajorEdit() {
+		render("major/majorEdit.html");
+	}
+	public void getMajorModel() {
+		String id=getPara("id");
+		ParentsModel m=ParentsModel.getById(id);
+		setAttr("m", m);
+		renderJson();
+	}
+	public void saveMajor() {
+		String nickname = getPara("nickname");
+		String remark = getPara("remark");
+		String department = getPara("department");
+		boolean result = MajorModel.save(nickname, remark, department);
+		setAttr("result", result);
+		renderJson();
+	}
+	public void updateMajor() {
+		String id = getPara("id");
+		String nickname = getPara("nickname");
+		String remark = getPara("remark");
+		String department = getPara("department");
+		boolean result = MajorModel.update(id, nickname, remark, department);
+		setAttr("result", result);
+		renderJson();
+	}
+	public void delMajor() {
+		String id = getPara("id");
+		boolean result = MajorModel.delMajorByID(id);
+		setAttr("result", result);
+		renderJson();
+	}
+	public void queryMajor() {
+		String key = getPara("key");
+		int limit = getParaToInt("limit");
+		int page = getParaToInt("page");
+		Page<MajorModel> c = MajorModel.getList(page, limit, key);
+		setAttr("infos", c);
+		setAttr("code", 0);
+		setAttr("msg", "你好！");
+		setAttr("count", c.getTotalRow());
+		setAttr("data", c.getList());
+		renderJson();
+	}
+	public void getMajorlist() {
+		List<MajorModel> list = MajorModel.getListAll();
+		setAttr("dp", list);
+		renderJson();
+	}
+	
+	/**
+	 * 学生关联表
+	 */
+	public void openStu_pareInfo() {
+		render("stu_pare/stu_pareInfo.html");
+	}
+	public void openStu_pareAdd() {
+		render("stu_pare/stu_pareAdd.html");
+	}
+	public void openStu_pareEdit() {
+		render("stu_pare/stu_pareEdit.html");
+	}
+	public void getStu_preModel() {
+		 String id=getPara("id");
+		 Stu_pareModel result = Stu_pareModel.getById(id);
+		 setAttr("result", result);
+		 renderJson();
+	}
+	public void saveStu_pare() {
+		String pare_id = getPara("pare_id");
+		String stu_id = getPara("stu_id");
+		String relation = getPara("relation");
+		boolean result = Stu_pareModel.save(pare_id, stu_id, relation);
+		setAttr("result", result);
+		renderJson();
+	}
+	public void updateStu_pare() {
+		String id = getPara("id");
+		String pare_id = getPara("pare_id");
+		String stu_id = getPara("stu_id");
+		String relation = getPara("relation");
+		boolean result = Stu_pareModel.update(id, pare_id, stu_id, relation);
+		setAttr("result", result);
+		renderJson();
+	}
+	public void delStu_pare() {
+		String id = getPara("id");
+		boolean result = Stu_pareModel.delStu_pareByID(id);
+		setAttr("result", result);
+		renderJson();
+	}
+	public void queryStu_pare() {
+		String key = getPara("key");
+		int limit = getParaToInt("limit");
+		int page = getParaToInt("page");
+		Page<Stu_pareModel> c = Stu_pareModel.getList(page, limit, key);
+		setAttr("infos", c);
+		setAttr("code", 0);
+		setAttr("msg", "你好！");
+		setAttr("count", c.getTotalRow());
+		setAttr("data", c.getList());
+		renderJson();
+	}
+	
+	/**
+	 * 班级表
+	 */
+	public void openClassinfoInfo() {
+		render("classinfo/classinfoInfo.html");
+	}
+	public void openClassinfoAdd() {
+		render("classinfo/classinfoAdd.html");
+	}
+	public void openClassinfoEdit() {
+		render("classinfo/classinfoEdit.html");
+	}
+	public void getClassinfoModel() {
+		 String id=getPara("id");
+		 ClassinfoModel result = ClassinfoModel.getById(id);
+		 setAttr("result", result);
+		 renderJson();
+	}
+	public void saveClassinfo() {
+		String nickname = getPara("nickname");
+		String grade = getPara("grade");
+		String major_id = getPara("major_id");
+		String headmaster = getPara("headmaster");
+		String remark = getPara("remark");
+		boolean result = ClassinfoModel.save(nickname, grade, major_id, headmaster, remark);
+		setAttr("result", result);
+		renderJson();
+	}
+	public void updateClassinfo() {
+		String id = getPara("id");
+		String nickname = getPara("nickname");
+		String grade = getPara("grade");
+		String major_id = getPara("major_id");
+		String headmaster = getPara("headmaster");
+		String remark = getPara("remark");
+		boolean result = ClassinfoModel.update(id, nickname, grade, major_id, headmaster, remark);
+		setAttr("result", result);
+		renderJson();
+	}
+	public void delClassinfo() {
+		String id = getPara("id");
+		boolean result = ClassinfoModel.delClassInfo(id);
+		setAttr("result", result);
+		renderJson();
+	}
+	public void queryClassinfo() {
+		String key = getPara("key");
+		int limit = getParaToInt("limit");
+		int page = getParaToInt("page");
+		Page<ClassinfoModel> c = ClassinfoModel.getList(page, limit, key);
+		setAttr("infos", c);
+		setAttr("code", 0);
+		setAttr("msg", "你好！");
+		setAttr("count", c.getTotalRow());
+		setAttr("data", c.getList());
+		renderJson();
+	}
 }

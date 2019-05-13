@@ -7,7 +7,7 @@ layui.config({
 		table = layui.table,
 		laytpl = layui.laytpl,
 		$ = layui.$;//以上只是将所需要的文件拿出来，以便于后面使用。
-	var per;
+		var per;
 	//设置权限
 	$.get("getPermission", function(data){
 		var p=data.user.permission;
@@ -25,7 +25,7 @@ layui.config({
 	var ins=  table.render({
 	    elem: '#demo',//渲染对象
 	    height: 'full-88',//表格高度
-	    url: 'getRoleList', //数据接口
+	    url: 'queryTeacher', //数据接口
 	    where: {key: ''},//给后台传的参数
 	    page: true, //开启分页
 	    limit: 10,//每页显示信息条数
@@ -33,8 +33,9 @@ layui.config({
 	    id: 'testReload',
 	    cols: [[ //表头
 		      {field: 'id', title: 'ID', sort: true, fixed: 'left',width:150}
-		      ,{field: 'name', title: '角色名称',width:150}
-		      ,{field: 'permission' ,title:'权限'}
+		      ,{field: 'no', title: '学工号',width:150}
+		      ,{field: 'remark' ,title:'备注', width:150}
+		      ,{field: 'contact' ,title:'联系方式', width:150}
 		      ,{fixed: 'right', align:'center',title:'操作', templet:function(d){
 		    	  var arr=new Array();
 		    	  if(per==1){
@@ -86,7 +87,7 @@ layui.config({
 				title : "【添加信息】",
 				icon: 2,
 				type : 2,
-				content : "openRoleAdd",
+				content : "openTeacherAdd",
 				success : function(layero, index){
 					setTimeout(function(){
 						layui.layer.tips('点击此处返回列表', '.layui-layer-setwin .layui-layer-close', {
@@ -112,7 +113,7 @@ layui.config({
 				var msgid;
 				//向服务端发送删除指令
 		 		 $.ajax({//异步请求返回给后台
-			    	  url:'deleteUserinfo',
+			    	  url:'delTeacher',
 			    	  type:'POST',
 			    	  data:{"id":data.id},
 			    	  dataType:'json',
@@ -147,7 +148,7 @@ layui.config({
 		  var index = layui.layer.open({
               title : "修改信息",
               type : 2,
-              content : "openRoleEdit?id="+data.id,
+              content : "openTeacherEdit?id="+data.id,
               success : function(layero, index){
                   setTimeout(function(){
                       layui.layer.tips('点击此处返回列表', '.layui-layer-setwin .layui-layer-close', {

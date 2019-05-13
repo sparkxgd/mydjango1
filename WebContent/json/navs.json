@@ -16,11 +16,41 @@
 			"spread" : false
 		},
 		{
-			"title" : "团队管理",
+			"title" : "学生管理",
 			"icon" : "&#xe613;",
-			"href" : "admin/openTeams",
+			"href" : "admin/openStudentInfo",
 			"spread" : false
-			}]
+		},
+		{
+			"title" : "家长管理",
+			"icon" : "&#xe613;",
+			"href" : "admin/openParentInfo",
+			"spread" : false
+		},
+		{
+			"title" : "教师管理",
+			"icon" : "&#xe613;",
+			"href" : "admin/openTeacherInfo",
+			"spread" : false
+		},
+		{
+			"title" : "专业管理",
+			"icon" : "&#xe613;",
+			"href" : "admin/openMajorInfo",
+			"spread" : false
+		},
+		{
+			"title" : "学生家长关联表管理",
+			"icon" : "&#xe613;",
+			"href" : "admin/openStu_pareInfo",
+			"spread" : false
+		},
+		{
+			"title" : "班级表管理",
+			"icon" : "&#xe613;",
+			"href" : "admin/openClassinfoInfo",
+			"spread" : false
+		}]
 	},{
 		"title" : "系统设置",
 		"icon" : "&#xe614;",

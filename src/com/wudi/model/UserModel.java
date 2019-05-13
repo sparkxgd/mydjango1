@@ -5,6 +5,7 @@ import java.util.List;
 import com.jfinal.plugin.activerecord.Db;
 import com.jfinal.plugin.activerecord.Model;
 import com.jfinal.plugin.activerecord.Page;
+import com.jfinal.render.Render;
 import com.wudi.util.StringUtil;
 /**
  * 
@@ -43,17 +44,17 @@ public class UserModel extends Model<UserModel>{
 	public void setPassword(String password) {
         set("password",password);
 	}
-	public String getPhone() {
-		return get("phone");
+	public String getBirth() {
+		return get("birth");
 	}
-	public void setPhone(String phone) {
-		set("phone",phone);
+	public void setBirth(String birth) {
+		set("birth",birth);
 	}
-	public int getLevel() {
-		return get("level");
+	public int getType() {
+		return get("type");
 	}
-	public void setLevel(int level) {
-		set("level",level);
+	public void setType(int type) {
+		set("type",type);
 	}
 	public int getStatus() {
 		return get("status");
@@ -67,6 +68,12 @@ public class UserModel extends Model<UserModel>{
 	public void setRole_id(String role_id) {
 		set("role_id",role_id);
 	}
+	public String getImg() {
+		return get("img");
+	}
+	public void setImg(String img) {
+		set("img", img);
+	}
 	
 	
 	
@@ -79,7 +86,7 @@ public class UserModel extends Model<UserModel>{
 	 * 
 	 */
 	public static Page<UserModel> getList(int pageNumber, int pageSize, String key) {
-		String sele_sql = "select a.* ,b.name as rolename ";
+		String sele_sql = "select a.* ,b.name as role_id ";
 		StringBuffer from_sql = new StringBuffer();
 		from_sql.append(" from ").append(tableName).append(" a INNER JOIN ").append(RoleModel.tableName).append(" b on a.role_id=b.id");
 		if (!StringUtil.isBlankOrEmpty(key)) {
@@ -98,68 +105,41 @@ public class UserModel extends Model<UserModel>{
 		return list;
 	}
 	
-	/**
-	 * 
-	 * ע���û� �����û���Ϣ
-	 * @author ��־ǿ 
-	 * @param username 
-	 * @param password 
-	 * @param sex
-	 * @param phone
-	 * @param level
-	 * @param status
-	 * @return
-	 */
-	public static boolean saveUserinfo(String username,String password, String phone, int sex) {
+	
+	public static boolean saveUserinfo(String username, int sex, String password, String birth, int type, String img) {
 		UserModel m=new UserModel();
+		m.setId(StringUtil.getId());
 		m.setUsername(username);
-		m.setPassword(password);
 		m.setSex(sex);
-		m.setPhone(phone);
-		m.setLevel(0);
+		m.setPassword(password);
+		m.setBirth(birth);
+		m.setType(type);
 		m.setStatus(0);
 		m.setRole_id("1555138505019");
-		m.setId(StringUtil.getId());
+		m.setImg(img);
 		return m.save();
 	}
 	
 
-	/**
-	 * ��ѯ����
-	 * @param phone_no
-	 * @return
-	 */
-	public UserModel getphone(String phone) {
-		String selectsql ="SELECT * FROM " + tableName +  " WHERE phone=?";
-		return dao.findFirst(selectsql,phone);
-		
-	}
+	
 	/**
 	 * @author ljp
 	 * @param phone
 	 * @return
 	 */
-	public static UserModel loginByPhone(String phone) {
-		String sql = "select a.*,b.name as rolename,b.permission from "+tableName+" a LEFT JOIN "+RoleModel.tableName+" b ON a.role_id=b.id where a.phone = ?";
-		return dao.findFirst(sql,phone);
+	public static UserModel loginById(String id) {
+		String sql = "select a.*,b.name as rolename,b.permission from "+tableName+" a LEFT JOIN "+RoleModel.tableName+" b ON a.role_id=b.id where a.id = ?";
+		return dao.findFirst(sql,id);
 	}
-	/**
-	 * @author ljp
-	 */
-	
-//	public static List<?> queryTeamCustomerListByUT(String user_id,String Team_id,int status){
-//		Stirng sql = "select * FROM customer where user_id in (SELECT user_id from teamers where team_id='1554896316282') and `status`=1;"
-//	}
 	/**
 	 * ���ݺ�����ҿͻ�������Ϣ
 	 * @param phone_no
 	 * @return
 	 */
-	public List<UserModel> getUserAllInfo(String phone) {
+	public List<UserModel> getUserAllInfo(String id) {
 		UserModel m=new UserModel();
-		String selectsql = "SELECT * FROM user WHERE phone=?";
-		List<UserModel> list = m.find(selectsql,phone);
-	
+		String selectsql = "SELECT * FROM user WHERE id=?";
+		List<UserModel> list = m.find(selectsql,id);
 		return list;
 	}
 	
@@ -168,9 +148,9 @@ public class UserModel extends Model<UserModel>{
 	 * @param phone_no
 	 * @return
 	 */
-	public static UserModel findByPhone(String phone) {
-		String selectsql = "SELECT * FROM " + tableName + " WHERE phone=?";
-		return dao.findFirst(selectsql,phone);
+	public static UserModel findById(String username) {
+		String selectsql = "SELECT * FROM " + tableName + " WHERE username=?";
+		return dao.findFirst(selectsql,username);
 		
 	}
 	/**
@@ -195,12 +175,12 @@ public class UserModel extends Model<UserModel>{
 	 * @param phone
 	 * @return
 	 */
-	public static UserModel findByLogin(String phone) {
+	public static UserModel findByLogin(String username) {
 		StringBuffer sql = new StringBuffer();
 		sql.append("select * from ").append(tableName).append(" a INNER JOIN ");
 		sql.append(RoleModel.tableName).append(" b on a.role_id=b.id ");
-		sql.append(" where a.phone=?");
-		return dao.findFirst(sql.toString(),phone);
+		sql.append(" where a.username=?");
+		return dao.findFirst(sql.toString(),username);
 		
 	}
 	/**
@@ -213,16 +193,16 @@ public class UserModel extends Model<UserModel>{
 		m.setPassword(password);
 		return m.update();
 	}
-	public static boolean updateLevel(String id){
-		UserModel m=getById(id);
-		m.setLevel(1);
-		return m.update();
-	}
-	public static boolean updateLevel(String id,int level){
-		UserModel m=getById(id);
-		m.setLevel(level);
-		return m.update();
-	}
+//	public static boolean updateLevel(String id){
+//		UserModel m=getById(id);
+//		m.setLevel(1);
+//		return m.update();
+//	}
+//	public static boolean updateLevel(String id,int level){
+//		UserModel m=getById(id);
+//		m.setLevel(level);
+//		return m.update();
+//	}
 	
 
 	public static boolean delById(String id) {

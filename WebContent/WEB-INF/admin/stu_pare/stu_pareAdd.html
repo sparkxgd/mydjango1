@@ -17,18 +17,27 @@
 <body class="childrenBody">
 	<form class="layui-form layui-form-pane" name="addform">
 		<div class="layui-form-item">
-			<label class="layui-form-label">类型名称</label>
+			<label class="layui-form-label">家长ID</label>
 			<div class="layui-input-inline">
-				<input type="text" class="layui-input" name="name"  lay-verify="required" placeholder="类型名称"  autocomplete="off">
+				<select name="pare_id"  id="pare_id" lay-filter="state">
+			      	<option value="-1">请选择家长ID</option>
+      			</select>
 			</div>
 		</div>
 		<div class="layui-form-item">
-			<label class="layui-form-label">类型编码</label>
-			<div class="layui-input-inline">
-				<input type="text" class="layui-input" name="type_no"  lay-verify="required" placeholder="类型编码"  autocomplete="off">
+			<label class="layui-form-label">学生ID</label>
+			  <div class="layui-input-inline">
+				<select name="stu_id"  id="stu_id" lay-filter="state">
+			      	<option value="-1">请选择学生ID</option>
+      			</select>
 			</div>
 		</div>
-
+		<div class="layui-form-item">
+			<label class="layui-form-label">关系</label>
+			  <div class="layui-input-inline">
+				<input type="text" class="layui-input" name="relation"  lay-verify="required" placeholder="请输入关系"  autocomplete="off">
+			</div>
+		</div>
 		<div class="layui-form-item">
 			<div class="layui-input-block">
 				<button class="layui-btn" lay-submit="" lay-filter="add">保存</button>
@@ -37,6 +46,6 @@
 		</div>
 	</form>
 	<script type="text/javascript" src="../../layui/layui.js"></script>
-	<script type="text/javascript" src="../js/customer/customerTypeAdd.js"></script>
+	<script type="text/javascript" src="../js/stu_pare/stu_pareAdd.js"></script>
 </body>
 </html>

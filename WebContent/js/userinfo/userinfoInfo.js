@@ -34,38 +34,40 @@ layui.config({
 	    toolbar: '#toolbarDemo',
 	    id: 'testReload',
 	    cols: [[ //表头
-		      {field: 'username', title: '用户名',width:100}
-		      ,{field: 'sex', title: '性别',width:80,templet:function(d){
+	    	  {field: 'id', title: 'ID', width:150,  align:'left'}
+		      ,{field: 'username', title: '用户名',width:150, align:'center'}
+		      ,{field: 'sex', title: '性别',width:80,  align:'center', templet:function(d){
 		    	  if(d.sex==1){
 		    		  return '<span style="color: blue">男</span>'
 		    	  }else{
 		    		  return '<span style="color: red" >女</span>'
 		    	  }
 		      }} 
-		      ,{field: 'phone', title: '账号（手机号码）',width:150}
-		      ,{field: 'level' ,title:'等级',width:70,templet:function(d){
-		    	  if(d.level== 1){
-		    		  return '<span style="color: blue">1级</span>'
-		    	  }else{
-		    		  return '<span style="color: red" >0级</span>'
+		      ,{field: 'birth', title: '出生年月',width:150,  align:'center'}
+		      ,{field: 'type' ,title:'类型',width:70,  align:'center', templet:function(d){
+		    	  if(d.type== 1){
+		    		  return '<span style="color: blue">学生</span>'
+		    	  }else if(d.type==2){
+		    		  return '<span style="color: red" >老师</span>'
+		    	  } else {
+		    		  return '<span style="color: red" >家长</span>'
 		    	  }
 		      }}
-		      ,{field: 'rolename', title: '角色',width:130}
-		      ,{field: 'status' ,title:'状态',width:100, templet: function(d){
+		      ,{field: 'rolename', title: '角色',width:150,  align:'center'}
+		      ,{field: 'status' ,title:'状态',width:150,  align:'center', templet: function(d){
 		    	  if(d.status==0){
 		    		  return '<span class="layui-badge layui-bg-red">未审核</span>'
 		    	  }else{
 		    		  return '<span class="layui-badge layui-bg-blue">已审核</span>'
 		    	  }
 		      }}
+		      ,{fixed: 'img',  align:'center',title: '头像', width:150}
 		      ,{fixed: 'right', align:'center',title:'操作', templet:function(d){
-		    	 
 		    	  var arr=new Array();
 		    	  if(per==1){
 			    	  if(d.status==0){
 			    		  arr.push("<a class='layui-btn layui-btn-xs layui-bg-blue' lay-event='check'><i class='layui-icon'>&#xe654;</i>通过</a>");
 			    	  }
-			    	  arr.push("<a class='layui-btn layui-btn-xs' lay-event='changeLevel'><i class='layui-icon'></i>升级会员</a>");
 			    	  arr.push("<a class='layui-btn layui-btn-xs' lay-event='edit'><i class='layui-icon'>&#xe642;</i>修改角色</a>");
 			    	  arr.push("<a class='layui-btn layui-btn-xs' lay-event='uppassword'><i class='layui-icon'></i>修改密码</a>");
 			    	  arr.push("<a class='layui-btn layui-btn-xs layui-btn-danger' lay-event='del'><i class='layui-icon'></i>删除</a>");
