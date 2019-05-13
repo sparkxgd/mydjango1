@@ -53,45 +53,6 @@ public class WeixinController extends Controller{
 		setAttr("code", code);
 		renderJson();
 	}
-
-	/**
-	 * @author ljp
-	 * @TODO 用戶登录
-	 */
-	
-	public void userLogin() {
-		String phone = getPara("phone");
-		String password = getPara("password");	
-		int code = -1;
-		UserModel data = UserModel.loginByPhone(phone);
-		if(data!=null) {
-			if(data.getStatus()==0) {
-				code = -1;//-1未审核
-			}else {
-				if(password.equals(data.getPassword())) {
-					code = 0;//0成功
-				}else {
-					code = 2;//2密码错
-				}
-			}
-		}else {
-			code = 1;//1用户不存在
-		}
-		UserModel user = UserModel.findByPhone(phone);//判断成交量是否大于等于10，是的话就给他升级为1级会员，让他可以创建团队
-		if(user!=null) {
-			List<CustomerModel> list = CustomerModel.getCJL(user.getId());
-			if(list.size()>=10&&user.getLevel()!=1) {
-				user.setLevel(1);
-				user.update();
-			}else {
-				String words = "你没有成交10个客户或者你已经是会员。";
-				setAttr("words", words);
-			}
-		}
-		setAttr("data", data);
-		setAttr("code", code);
-		renderJson();
-}
 	/**
 	 * @author ljp
 	 * @TODO 登出
@@ -505,7 +466,7 @@ public class WeixinController extends Controller{
 	 * 人脸登录
 	 */
 //	public void faceLogin() {
-	public void faceSearch() {
+	public void faceLogin() {
 		UploadFile upFile = getFile();//单个上传文件一句搞定  默认路径是 upload
 		File file = upFile.getFile();
         String extName = StringUtil.getFileExt(file.getName());
@@ -538,4 +499,34 @@ public class WeixinController extends Controller{
 	    setAttr("flist", flist);
 	    renderJson();
 	}
+	/**
+	 * @author xiao
+	 * @TODO 用戶登录
+	 */
+	public void login() {
+		String id = getPara("username");
+		String password = getPara("password");	
+		int code = -1;
+		UserModel data =new UserModel();
+		data.setUsername(id);
+		data.setSex(1);
+		data.setStatus(1);
+		data.setPassword(password);
+		if(data!=null) {
+			if(data.getStatus()==0) {
+				code = -1;//-1未审核
+			}else {
+				if(password.equals(data.getPassword())) {
+					code = 0;//0成功
+				}else {
+					code = 2;//2密码错
+				}
+			}
+		}else {
+			code = 1;//1用户不存在
+		}
+		setAttr("data", data);
+		setAttr("code", code);
+		renderJson();
+}
 }
