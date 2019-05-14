@@ -38,7 +38,7 @@ public class ParentsModel extends Model<ParentsModel> {
 	}
 	
 	public static ParentsModel getById(String id) {
-		String sql = "select * from " + tableName + "where id=?";
+		String sql = "select * from " + tableName + " where id=?";
 		return dao.findFirst(sql, id);
 	}
 	

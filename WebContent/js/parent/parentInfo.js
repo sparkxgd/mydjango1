@@ -33,9 +33,9 @@ layui.config({
 	    id: 'testReload',
 	    cols: [[ //表头
 		      {field: 'id', title: 'ID', sort: true, fixed: 'left',width:150}
-		      ,{field: 'contact', title: '学号',width:150}
-		      ,{field: 'home_addr' ,title:'班级', width:150}
-		      ,{field: 'remark' ,title:'类型', width:150}
+		      ,{field: 'contact', title: '联系方式',width:150}
+		      ,{field: 'home_addr' ,title:'家庭地址', width:150}
+		      ,{field: 'remark' ,title:'备注信息', width:150}
 		      ,{fixed: 'right', align:'center',title:'操作', templet:function(d){
 		    	  var arr=new Array();
 		    	  if(per==1){

@@ -38,7 +38,7 @@ public class TeacherModel extends Model<TeacherModel> {
 	}
 	
 	public static TeacherModel getById(String id) {
-		String sql = "select * from " + tableName + "where id=?";
+		String sql = "select * from " + tableName + " where id=?";
 		return dao.findFirst(sql, id);
 	}
 	

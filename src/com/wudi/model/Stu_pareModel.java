@@ -42,7 +42,7 @@ public class Stu_pareModel extends Model<Stu_pareModel> {
 	}
 	
 	public static Stu_pareModel getById(String id) {
-		String sql = "select * from " + tableName + "where id=?";
+		String sql = "select * from " + tableName + " where id=?";
 		return dao.findFirst(sql, id);
 	}
 	public static Page<Stu_pareModel> getList(int pageNumber, int pageSize,String key) {

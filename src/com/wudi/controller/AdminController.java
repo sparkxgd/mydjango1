@@ -42,7 +42,7 @@ public class AdminController extends Controller {
 		String password = getPara("password");
 		// 如果不正确，就提示什么不正确？
 		// 如果正确，就正常显示系统页面
-		UserModel m = UserModel.findById(username);
+		UserModel m = UserModel.findByLogin(username);
 //		String check = m.getRole_id();
 //		RoleModel pp = RoleModel.getModelById(check);
 //		String right = pp.getName();

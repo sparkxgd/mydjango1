@@ -115,7 +115,7 @@ public class UserModel extends Model<UserModel>{
 		m.setBirth(birth);
 		m.setType(type);
 		m.setStatus(0);
-		m.setRole_id("1555138505019");
+		m.setRole_id("1555148650901");
 		m.setImg(img);
 		return m.save();
 	}

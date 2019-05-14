@@ -50,7 +50,7 @@ public class ClassinfoModel extends Model<ClassinfoModel> {
 	}
 	
 	public static ClassinfoModel getById(String id) {
-		String sql = "select * from " + tableName + "where id=?";
+		String sql = "select * from " + tableName + " where id=?";
 		return dao.findFirst(sql, id);
 	}
 	public static Page<ClassinfoModel> getList(int pageNumber, int pageSize, String key) {

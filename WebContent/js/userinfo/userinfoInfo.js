@@ -8,6 +8,7 @@ layui.config({
 		table = layui.table,
 		laytpl = layui.laytpl,
 		$ = layui.$;//以上只是将所需要的文件拿出来，以便于后面使用。
+	var per;
 	//设置权限
 	$.get("getPermission", function(data){
 		var p=data.user.permission;
@@ -53,7 +54,7 @@ layui.config({
 		    		  return '<span style="color: red" >家长</span>'
 		    	  }
 		      }}
-		      ,{field: 'rolename', title: '角色',width:150,  align:'center'}
+		      ,{field: 'role_id', title: '角色',width:150,  align:'center'}
 		      ,{field: 'status' ,title:'状态',width:150,  align:'center', templet: function(d){
 		    	  if(d.status==0){
 		    		  return '<span class="layui-badge layui-bg-red">未审核</span>'

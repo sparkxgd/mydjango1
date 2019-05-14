@@ -34,8 +34,16 @@ layui.config({
 	    cols: [[ //表头
 		      {field: 'id', title: 'ID', sort: true, fixed: 'left',width:150}
 		      ,{field: 'no', title: '学号',width:150}
-		      ,{field: 'remark' ,title:'备注', width:150}
-		      ,{field: 'contact' ,title:'联系方式', width:150}
+		      ,{field: 'clas' ,title:'班级', width:150}
+		      ,{field: 'type' ,title:'类型', width:150,
+		    	  templet:function(d){
+			    	  if(d.type==1){
+			    		  return '<span style="color: blue">班干部</span>'
+			    	  }else{
+			    		  return '<span style="color: red" >普通学生</span>'
+			    	  }
+			      } 
+		      }
 		      ,{fixed: 'right', align:'center',title:'操作', templet:function(d){
 		    	  var arr=new Array();
 		    	  if(per==1){
