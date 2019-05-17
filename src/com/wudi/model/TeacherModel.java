@@ -38,8 +38,7 @@ public class TeacherModel extends Model<TeacherModel> {
 	}
 	
 	public static TeacherModel getById(String id) {
-		String sql = "select * from " + tableName + " where id=?";
-		return dao.findFirst(sql, id);
+		return dao.findFirst("select *  from " + tableName + " where id = ?", id);
 	}
 	
 	public static Page<TeacherModel> getList(int pageNumber, int pageSize, String key) {
@@ -62,16 +61,24 @@ public class TeacherModel extends Model<TeacherModel> {
 	}
 	
 	public static boolean updateTeacher(String id, String no, String remark, String contact) {
-		TeacherModel m = dao.getById(id);
+		TeacherModel m = TeacherModel.getById(id);
+		if(m==null){
+			return false;
+		}
 		m.setNo(no);
 		m.setRemark(remark);
 		m.setContact(contact);
-		return m.update();
+		try {
+			m.update();
+		} catch (Exception e) {
+			return false;
+		}
+		return true;
 	}
 	
 	public static boolean delTeacher(String id) {
 		try {
-			String delsql = "delete from " + tableName + "where id=?";
+			String delsql = "delete from " + tableName + " where id=?";
 			int iRet = Db.update(delsql, id);
 			if(iRet > 0) {
 				return true;

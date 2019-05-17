@@ -86,7 +86,7 @@ public class ClassinfoModel extends Model<ClassinfoModel> {
 	}
 	public static boolean delClassInfo(String id) {
 		try {
-			String delsql = "delete from " + tableName + "where id=?";
+			String delsql = "delete from " + tableName + " where id=?";
 			int iRet = Db.update(delsql, id);
 			if(iRet > 0) {
 				return true;

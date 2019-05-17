@@ -10,24 +10,10 @@ layui.config({
 		//加载页面数据
 		$.get("getStudentModel?id="+id, function(data){
 			var m=data.m;
-			var obj = $.parseJSON(m.permission);
-	        //执行加载数据的方法
-			$("input[name='name']").val(m.name);
-	        
-	        var arr=new Array();
-	        
-	        for(var i=100;i<105;i++){
-	        	var c="c"+i;
-	        	var v=obj[c];
-	        	if(v==1){
-		        	arr.push("<input type='checkbox' name='"+c+"' lay-skin='primary' checked=''  title='"+c+"'>");
-	        	}else{
-		        	arr.push("<input type='checkbox' name='"+c+"' lay-skin='primary' title='"+c+"'>");
-	        	}
-	        	
-	        }	        
-	        $("#permission").append(arr.join("\n"));
-			form.render();//必须要再次渲染，要不然option显示不出来
+	        //执行加载数据的方法 
+			$("input[name='no']").val(m.no);
+			$("input[name='clas']").val(m.clas);
+			$("input[name='type']").val(m.type);
 		})
 
  	form.on("submit(update)",function(data){

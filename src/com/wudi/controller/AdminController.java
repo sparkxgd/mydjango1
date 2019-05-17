@@ -12,12 +12,20 @@ import com.jfinal.kit.JsonKit;
 import com.jfinal.plugin.activerecord.Page;
 import com.wudi.bean.TubiaoBean;
 import com.wudi.interceptor.AdminInterceptor;
+import com.wudi.model.Arrange_subjectModel;
 import com.wudi.model.ClassinfoModel;
+import com.wudi.model.ClassroomModel;
+import com.wudi.model.DepartmentModel;
 import com.wudi.model.MajorModel;
 import com.wudi.model.ParentsModel;
 import com.wudi.model.RoleModel;
+import com.wudi.model.SchoolModel;
 import com.wudi.model.Stu_pareModel;
+import com.wudi.model.Stu_registerModel;
+import com.wudi.model.Stu_studyModel;
 import com.wudi.model.StudentModel;
+import com.wudi.model.StudyModel;
+import com.wudi.model.SubjectModel;
 import com.wudi.model.TeacherModel;
 import com.wudi.model.TeamModel;
 import com.wudi.model.TeamersModel;
@@ -382,11 +390,11 @@ public class AdminController extends Controller {
 	public void openStudentAdd() {
 		render("student/studentAdd.html");
 	}
-	public void openStuentEdit() {
+	public void openStudentEdit() {
 		render("student/studentEdit.html");
 	}
 	public void getStudentModel() {
-		String id=getPara("id");
+		String id = getPara("id");
 		StudentModel m=StudentModel.getById(id);
 		setAttr("m", m);
 		renderJson();
@@ -443,10 +451,12 @@ public class AdminController extends Controller {
 		render("teacher/teacherAdd.html");
 	}
 	public void openTeacherEdit() {
-		render("teacher/teacherEdit.html");
+		String id = getPara("id");
+		setAttr("id", id);
+		renderFreeMarker("teacher/teacherEdit.html");
 	}
 	public void getTeacherModel() {
-		String id=getPara("id");
+		String id = getPara("id");
 		TeacherModel m=TeacherModel.getById(id);
 		setAttr("m", m);
 		renderJson();
@@ -714,6 +724,470 @@ public class AdminController extends Controller {
 		int limit = getParaToInt("limit");
 		int page = getParaToInt("page");
 		Page<ClassinfoModel> c = ClassinfoModel.getList(page, limit, key);
+		setAttr("infos", c);
+		setAttr("code", 0);
+		setAttr("msg", "你好！");
+		setAttr("count", c.getTotalRow());
+		setAttr("data", c.getList());
+		renderJson();
+	}
+	
+	
+	/**
+	 * 分院表
+	 */
+	public void openDepartmentInfo() {
+		render("department/departmentinfo.html");
+	}
+	public void openDepartmentAdd() {
+		render("department/departmentAdd.html");
+	}
+	public void openDepartmentEdit() {
+		render("department/departmentEdit.html");
+	}
+	public void getDepartmentModel() {
+		 String id=getPara("id");
+		 DepartmentModel result = DepartmentModel.getById(id);
+		 setAttr("result", result);
+		 renderJson();
+	}
+	public void saveDepartment() {
+		String nickname = getPara("nickname");
+		String school = getPara("school");
+		String remark = getPara("remark");
+		boolean result = DepartmentModel.save(nickname, school, remark);
+		setAttr("result", result);
+		renderJson();
+	}
+	public void updateDepartment() {
+		String id = getPara("id");
+		String nickname = getPara("nickname");
+		String school = getPara("school");
+		String remark = getPara("remark");
+		boolean result = DepartmentModel.update(id, nickname, school, remark);
+		setAttr("result", result);
+		renderJson();
+	}
+	public void delDepartment() {
+		String id = getPara("id");
+		boolean result = DepartmentModel.delDepartmentByID(id);
+		setAttr("result", result);
+		renderJson();
+	}
+	public void queryDepartment() {
+		String key = getPara("key");
+		int limit = getParaToInt("limit");
+		int page = getParaToInt("page");
+		Page<DepartmentModel> c = DepartmentModel.getList(page, limit, key);
+		setAttr("infos", c);
+		setAttr("code", 0);
+		setAttr("msg", "你好！");
+		setAttr("count", c.getTotalRow());
+		setAttr("data", c.getList());
+		renderJson();
+	}
+	
+	/**
+	 * 学校表
+	 */
+	public void openSchoolInfo() {
+		render("school/schoolinfo.html");
+	}
+	public void openSchoolAdd() {
+		render("school/schoolAdd.html");
+	}
+	public void openSchoolEdit() {
+		render("school/schoolEdit.html");
+	}
+	public void getSchoolModel() {
+		 String id=getPara("id");
+		 SchoolModel result = SchoolModel.getById(id);
+		 setAttr("result", result);
+		 renderJson();
+	}
+	public void saveSchool() {
+		String nickname = getPara("nickname");
+		String school = getPara("school");
+		String remark = getPara("remark");
+		boolean result = SchoolModel.save(nickname, school, remark);
+		setAttr("result", result);
+		renderJson();
+	}
+	public void updateSchool() {
+		String id = getPara("id");
+		String nickname = getPara("nickname");
+		String school = getPara("school");
+		String remark = getPara("remark");
+		boolean result = SchoolModel.update(id, nickname, school, remark);
+		setAttr("result", result);
+		renderJson();
+	}
+	public void delSchool() {
+		String id = getPara("id");
+		boolean result = SchoolModel.delSchoolById(id);
+		setAttr("result", result);
+		renderJson();
+	}
+	public void querySchool() {
+		String key = getPara("key");
+		int limit = getParaToInt("limit");
+		int page = getParaToInt("page");
+		Page<SchoolModel> c = SchoolModel.getList(page, limit, key);
+		setAttr("infos", c);
+		setAttr("code", 0);
+		setAttr("msg", "你好！");
+		setAttr("count", c.getTotalRow());
+		setAttr("data", c.getList());
+		renderJson();
+	}
+
+	public void getSchoolModels() {
+		List<SchoolModel> list = SchoolModel.getListAll();
+		setAttr("ml", list);
+		renderJson();
+	}
+	
+	
+	/**
+	 * 上课教室表
+	 */
+	public void openClassroomInfo() {
+		render("classroom/classroominfo.html");
+	}
+	public void openClassroomAdd() {
+		render("classroom/classroomAdd.html");
+	}
+	public void openClassroomEdit() {
+		render("classroom/classroomEdit.html");
+	}
+	public void getClassroomModel() {
+		 String id=getPara("id");
+		 ClassroomModel result = ClassroomModel.getById(id);
+		 setAttr("result", result);
+		 renderJson();
+	}
+	public void saveClassroom() {
+		String nickname = getPara("nickname");
+		String addr = getPara("addr");
+		int status = getParaToInt("status");
+		String remark = getPara("remark");
+		boolean result = ClassroomModel.save(nickname, addr, status, remark);
+		setAttr("result", result);
+		renderJson();
+	}
+	public void updateClassroom() {
+		String id = getPara("id");
+		String nickname = getPara("nickname");
+		String addr = getPara("addr");
+		int status = getParaToInt("status");
+		String remark = getPara("remark");
+		boolean result = ClassroomModel.update(id, nickname, addr, status, remark);
+		setAttr("result", result);
+		renderJson();
+	}
+	public void delClassroom() {
+		String id = getPara("id");
+		boolean result = ClassroomModel.delClassInfo(id);
+		setAttr("result", result);
+		renderJson();
+	}
+	public void queryClassroom() {
+		String key = getPara("key");
+		int limit = getParaToInt("limit");
+		int page = getParaToInt("page");
+		Page<ClassroomModel> c = ClassroomModel.getList(page, limit, key);
+		setAttr("infos", c);
+		setAttr("code", 0);
+		setAttr("msg", "你好！");
+		setAttr("count", c.getTotalRow());
+		setAttr("data", c.getList());
+		renderJson();
+	}
+	
+	/**
+	 * 科目表
+	 */
+	public void openSubjectInfo() {
+		render("subject/subjectinfo.html");
+	}
+	public void openSubjectAdd() {
+		render("subject/subjectAdd.html");
+	}
+	public void openSubjectEdit() {
+		render("subject/subjectEdit.html");
+	}
+	public void getSubjectModel() {
+		 String id=getPara("id");
+		 SubjectModel result = SubjectModel.getById(id);
+		 setAttr("result", result);
+		 renderJson();
+	}
+	public void saveSubject() {
+		String nickname = getPara("nickname");
+		String remark = getPara("remark");
+		boolean result = SubjectModel.save(nickname, remark);
+		setAttr("result", result);
+		renderJson();
+	}
+	public void updateSubject() {
+		String id = getPara("id");
+		String nickname = getPara("nickname");
+		String remark = getPara("remark");
+		boolean result = SubjectModel.update(id, nickname, remark);
+		setAttr("result", result);
+		renderJson();
+	}
+	public void delSubject() {
+		String id = getPara("id");
+		boolean result = SubjectModel.delSuject(id);
+		setAttr("result", result);
+		renderJson();
+	}
+	public void querySubject() {
+		String key = getPara("key");
+		int limit = getParaToInt("limit");
+		int page = getParaToInt("page");
+		Page<SubjectModel> c = SubjectModel.getList(page, limit, key);
+		setAttr("infos", c);
+		setAttr("code", 0);
+		setAttr("msg", "你好！");
+		setAttr("count", c.getTotalRow());
+		setAttr("data", c.getList());
+		renderJson();
+	}
+	
+	/**
+	 * 教师课表
+	 */
+	public void openArr_SubjectInfo() {
+		render("arr_sub/arr_subinfo.html");
+	}
+	public void openArr_SubjectAdd() {
+		render("arr_sub/arr_subAdd.html");
+	}
+	public void openArr_SubjectEdit() {
+		String id = getPara("id");
+		setAttr("id", id);
+		renderFreeMarker("arr_sub/arr_subEdit.html");
+	}
+	public void getArr_SubjectModel() {
+		 String id=getPara("id");
+		 Arrange_subjectModel result = Arrange_subjectModel.getById(id);
+		 setAttr("result", result);
+		 renderJson();
+	}
+	public void saveArr_Subject() {
+		String teacher = getPara("teacher");
+		String subject = getPara("subject");
+		String class_time = getPara("class_time");
+		String classid = getPara("classid");
+		String classroom = getPara("classroom");
+		boolean result = Arrange_subjectModel.save(teacher, subject, class_time, classid, classroom);
+		setAttr("result", result);
+		renderJson();
+	}
+
+	public void updateArr_Subject() {
+		String id = getPara("id");
+		String teacher = getPara("teacher");
+		String subject = getPara("subject");
+		String class_time = getPara("class_time");
+		String classid = getPara("classid");
+		String classroom = getPara("classroom");
+		boolean result = Arrange_subjectModel.updata(id, teacher, subject, class_time, classid, classroom);
+		setAttr("result", result);
+		renderJson();
+	}
+	public void delArr_Subject() {
+		String id = getPara("id");
+		boolean result = Arrange_subjectModel.delArrang_sub(id);
+		setAttr("result", result);
+		renderJson();
+	}
+	public void queryArr_Subject() {
+		String key = getPara("key");
+		int limit = getParaToInt("limit");
+		int page = getParaToInt("page");
+		Page<Arrange_subjectModel> c = Arrange_subjectModel.getList(page, limit, key);
+		setAttr("infos", c);
+		setAttr("code", 0);
+		setAttr("msg", "你好！");
+		setAttr("count", c.getTotalRow());
+		setAttr("data", c.getList());
+		renderJson();
+	}
+	
+	/**
+	 * 上课记录表
+	 */
+	public void openStudyInfo() {
+		render("study/studyinfo.html");
+	}
+	public void openStudyAdd() {
+		render("study/studyAdd.html");
+	}
+	public void openStudyEdit() {
+		String id = getPara("id");
+		setAttr("id", id);
+		renderFreeMarker("study/studyEdit.html");
+	}
+	public void getStudyModel() {
+		 String id=getPara("id");
+		 StudyModel result = StudyModel.getById(id);
+		 setAttr("result", result);
+		 renderJson();
+	}
+	public void saveStudy() {
+		String start_time = getPara("start_time");
+		String end_time = getPara("end_time");
+		String teacher = getPara("teacher");
+		String subject = getPara("subject");
+		int status = getParaToInt("status");
+		String remark = getPara("remark");
+		boolean result = StudyModel.save(start_time, end_time, teacher, subject, status, remark);
+		setAttr("result", result);
+		renderJson();
+	}
+
+	public void updateStudy() {
+		String id = getPara("id");
+		String start_time = getPara("start_time");
+		String end_time = getPara("end_time");
+		String teacher = getPara("teacher");
+		String subject = getPara("subject");
+		int status = getParaToInt("status");
+		String remark = getPara("remark");
+		boolean result = StudyModel.update(id, start_time, end_time, teacher, subject, status, remark);
+		setAttr("result", result);
+		renderJson();
+	}
+	public void delStudy() {
+		String id = getPara("id");
+		boolean result = StudyModel.delStudy(id);
+		setAttr("result", result);
+		renderJson();
+	}
+	public void queryStudy() {
+		String key = getPara("key");
+		int limit = getParaToInt("limit");
+		int page = getParaToInt("page");
+		Page<StudyModel> c = StudyModel.getList(page, limit, key);
+		setAttr("infos", c);
+		setAttr("code", 0);
+		setAttr("msg", "你好！");
+		setAttr("count", c.getTotalRow());
+		setAttr("data", c.getList());
+		renderJson();
+	}
+	/**
+	 * 学生上课记录表
+	 */
+	public void openStu_studyInfo() {
+		render("stu_study/stu_studyinfo.html");
+	}
+	public void openStu_studyAdd() {
+		render("stu_study/stu_studyAdd.html");
+	}
+	public void openStu_studyEdit() {
+		String id = getPara("id");
+		setAttr("id", id);
+		renderFreeMarker("stu_study/stu_studyEdit.html");
+	}
+	public void getStu_studyModel() {
+		 String id=getPara("id");
+		 Stu_studyModel result = Stu_studyModel.getById(id);
+		 setAttr("result", result);
+		 renderJson();
+	}
+	public void saveStu_study() {
+		String studey_id = getPara("studey_id");
+		int status = getParaToInt("status");
+		String remark = getPara("remark");
+		boolean result = Stu_studyModel.save(studey_id, status, remark);
+		setAttr("result", result);
+		renderJson();
+	}
+
+	public void updateStu_study() {
+		String id = getPara("id");
+		String studey_id = getPara("studey_id");
+		int status = getParaToInt("status");
+		String remark = getPara("remark");
+		boolean result = Stu_studyModel.update(id, studey_id, status, remark);
+		setAttr("result", result);
+		renderJson();
+	}
+	public void delStu_study() {
+		String id = getPara("id");
+		boolean result = Stu_studyModel.delStu_study(id);
+		setAttr("result", result);
+		renderJson();
+	}
+	public void queryStu_study() {
+		String key = getPara("key");
+		int limit = getParaToInt("limit");
+		int page = getParaToInt("page");
+		Page<Stu_studyModel> c = Stu_studyModel.getList(page, limit, key);
+		setAttr("infos", c);
+		setAttr("code", 0);
+		setAttr("msg", "你好！");
+		setAttr("count", c.getTotalRow());
+		setAttr("data", c.getList());
+		renderJson();
+	}
+	/**
+	 * 学生签到表
+	 */
+	public void openStu_registerInfo() {
+		render("stu_reg/stu_reginfo.html");
+	}
+	public void openStu_registerAdd() {
+		render("stu_reg/stu_regAdd.html");
+	}
+	public void openStu_registerEdit() {
+		String id = getPara("id");
+		setAttr("id", id);
+		renderFreeMarker("stu_reg/stu_regEdit.html");
+	}
+	public void getStu_registerModel() {
+		 String id=getPara("id");
+		 Stu_registerModel result = Stu_registerModel.getById(id);
+		 setAttr("result", result);
+		 renderJson();
+	}
+	public void saveStu_register() {
+		String reg_time = getPara("reg_time");
+		String addr = getPara("addr");
+		int type = getParaToInt("type");
+		String remark = getPara("remark");
+		String studey_id = getPara("studey_id");
+		boolean result = Stu_registerModel.save(reg_time, addr, type, remark, studey_id);
+		setAttr("result", result);
+		renderJson();
+	}
+
+	public void updateStu_register() {
+		String id = getPara("id");
+		String reg_time = getPara("reg_time");
+		String addr = getPara("addr");
+		int type = getParaToInt("type");
+		String remark = getPara("remark");
+		String studey_id = getPara("studey_id");
+		boolean result = Stu_registerModel.update(id, reg_time, addr, type, remark, studey_id);
+		setAttr("result", result);
+		renderJson();
+	}
+	public void delStu_register() {
+		String id = getPara("id");
+		boolean result = Stu_registerModel.delStu_register(id);
+		setAttr("result", result);
+		renderJson();
+	}
+	public void queryStu_register() {
+		String key = getPara("key");
+		int limit = getParaToInt("limit");
+		int page = getParaToInt("page");
+		Page<Stu_registerModel> c = Stu_registerModel.getList(page, limit, key);
 		setAttr("infos", c);
 		setAttr("code", 0);
 		setAttr("msg", "你好！");

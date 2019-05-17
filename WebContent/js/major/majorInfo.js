@@ -2,10 +2,24 @@ layui.config({
 	base : "js/"
 }).use(['form','layer','jquery','laypage','table'],function(){
 	var form = layui.form,
-		layer = parent.layer === undefined ? layui.layer : parent.layer,
-		laypage = layui.laypage,
-		table = layui.table,
-		$ = layui.$;
+	layer = parent.layer === undefined ? layui.layer : parent.layer,
+	laypage = layui.laypage,
+	table = layui.table,
+	laytpl = layui.laytpl,
+	$ = layui.$;//以上只是将所需要的文件拿出来，以便于后面使用。
+	var per;
+	//设置权限
+	$.get("getPermission", function(data){
+		var p=data.user.permission;
+		var obj = $.parseJSON(p);
+		var v=obj['c101'];
+		per=v;
+		if(v==1){
+			var arr=new Array();
+			arr.push("<a class='layui-btn layui-btn-normal add_btn' id='add_b'> <i class='layui-icon'>&#xe608;</i>添加</a>");
+			$("#add_xiao").append(arr.join("\n"));
+		}
+	});
 //==================一个table实例================================
 	  table.render({
 	    elem: '#demo',//渲染对象
@@ -20,7 +34,15 @@ layui.config({
 	      ,{field: 'nickname', title: '专业名称', align:'center'}
 	      ,{field: 'department', title: '分院', align:'center'}
 	      ,{field: 'remark', title: '备注',align:'center' }
-	      ,{fixed: 'right',  align:'center', toolbar: '#barDemo'} //这里的toolbar值是模板元素的选择器
+	      ,{fixed: 'right', align:'center',title:'操作', templet:function(d){
+	    	  var arr=new Array();
+	    	  if(per==1){
+		    	  arr.push("<a class='layui-btn layui-btn-xs' lay-event='edit'><i class='layui-icon'>&#xe642;</i>编辑</a>");
+		    	  arr.push("<a class='layui-btn layui-btn-xs layui-btn-danger' lay-event='del'><i class='layui-icon'></i>删除</a>");
+	    	  }
+	    	  return arr.join("\n");
+	      	}
+	      }
 	    ]]
 	  });
 	  
