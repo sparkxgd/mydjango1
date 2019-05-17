@@ -20,11 +20,12 @@ layui.config({
 			$("#add_xiao").append(arr.join("\n"));
 		}
 	});
+	
 //==================一个table实例================================
 	var ins=  table.render({
 	    elem: '#demo',//渲染对象
 	    height: 'full-88',//表格高度
-	    url: 'getGroupList', //数据接口
+	    url: 'getFaceList', //数据接口
 	    where: {key: ''},//给后台传的参数
 	    page: true, //开启分页
 	    limit: 10,//每页显示信息条数
@@ -32,11 +33,15 @@ layui.config({
 	    id: 'testReload',
 	    cols: [[ //表头
 		      {field: 'id', title: 'ID', sort: true, fixed: 'left',width:150}
-		      ,{field: 'name', title: '组别名称',width:150}
+		      ,{field: 'group_id', title: '百度的组id',width:150}
+		      ,{field: 'name', title: '百度的组id',width:150}
+		      ,{field: 'user_info' ,title:'百度的用户信息', width:150}
+		      ,{field: 'img' ,title:'识别头像', width:150}
 		      ,{fixed: 'right', align:'center',title:'操作', templet:function(d){
 		    	  var arr=new Array();
 		    	  if(per==1){
-			    	  arr.push("<a class='layui-btn layui-btn-xs' lay-event='del'><i class='layui-icon'>&#xe642;</i>删除</a>");
+			    	  arr.push("<a class='layui-btn layui-btn-xs layui-btn-warm' lay-event='del'><i class='layui-icon'>&#xe615;</i>删除</a>");
+			    	  arr.push("<a class='layui-btn layui-btn-xs' lay-event='edit'><i class='layui-icon'>&#xe642;</i>编辑</a>");
 		    	  }
 		    	  return arr.join("\n");
 		      	}
@@ -66,7 +71,6 @@ layui.config({
 					  });
 			  }
   };
-  
   /**
    * 点击操作后刷新数据
    */
@@ -81,6 +85,7 @@ layui.config({
 					  });
 			  }
   };
+  
 //绑定搜索事件
   $('.layui-btn').on('click', function() {
 	  var type = $(this).data('type');
@@ -88,23 +93,24 @@ layui.config({
 	  });
   
   
-	//=============绑定【添加】事件============================
-	  $(document).on('click','#add_b',function(){
-		  var index = layui.layer.open({
-				title : "【添加信息】",
-				icon: 2,
-				type : 2,
-				area: ['800px', '600px'],
-				content : "OpenGroupAdd",
-				success : function(layero, index){
-					setTimeout(function(){
-						layui.layer.tips('点击此处返回列表', '.layui-layer-setwin .layui-layer-close', {
-							tips: 3
-						});
-					},500)
-				}
-			})
-		});
+//=============绑定【添加】事件============================
+  $(document).on('click','#add_b',function(){
+	  var index = layui.layer.open({
+			title : "【添加信息】",
+			icon: 2,
+			type : 2,
+			area: ['800px', '600px'],
+			content : "openFaceAdd",
+			success : function(layero, index){
+				setTimeout(function(){
+					layui.layer.tips('点击此处返回列表', '.layui-layer-setwin .layui-layer-close', {
+						tips: 3
+					});
+				},500)
+			}
+		})
+	});
+  
 //=======================监听工具条====================================
 	table.on('tool(test)', function(obj){ //注：tool是工具条事件名，test是table原始容器的属性 lay-filter="对应的值"
 	  var data = obj.data; //获得当前行数据
@@ -118,7 +124,7 @@ layui.config({
 				var msgid;
 				//向服务端发送删除指令
 		 		 $.ajax({//异步请求返回给后台
-			    	  url:'groupDel',
+			    	  url:'faceDel',
 			    	  type:'POST',
 			    	  data:{"id":data.id},
 			    	  dataType:'json',
@@ -153,7 +159,7 @@ layui.config({
 		  var index = layui.layer.open({
               title : "修改信息",
               type : 2,
-              content : "openRoleEdit?id="+data.id,
+              content : "openFaceEdit?id="+data.id,
               success : function(layero, index){
                   setTimeout(function(){
                       layui.layer.tips('点击此处返回列表', '.layui-layer-setwin .layui-layer-close', {

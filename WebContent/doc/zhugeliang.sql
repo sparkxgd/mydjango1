@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50725
 File Encoding         : 65001
 
-Date: 2019-05-17 17:39:06
+Date: 2019-05-18 00:47:57
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -34,6 +34,22 @@ CREATE TABLE `arrange_subject` (
 -- ----------------------------
 INSERT INTO `arrange_subject` VALUES ('1558011692496', '-1', '计算机', '8:20-9:55', null, null);
 INSERT INTO `arrange_subject` VALUES ('1558015889020', '-1', '大地方', '多舒服啊阿斯蒂芬', null, null);
+
+-- ----------------------------
+-- Table structure for `baidugroup`
+-- ----------------------------
+DROP TABLE IF EXISTS `baidugroup`;
+CREATE TABLE `baidugroup` (
+  `id` varchar(255) NOT NULL,
+  `name` varchar(255) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+-- Records of baidugroup
+-- ----------------------------
+INSERT INTO `baidugroup` VALUES ('1558107329739', '总管');
+INSERT INTO `baidugroup` VALUES ('test', '测试组');
 
 -- ----------------------------
 -- Table structure for `classinfo`
@@ -73,7 +89,7 @@ CREATE TABLE `classroom` (
 -- Records of classroom
 -- ----------------------------
 INSERT INTO `classroom` VALUES ('1557999382305', '17计本2', '32206', '1', '上课');
-INSERT INTO `classroom` VALUES ('1557999456228', '17计本', '3220.3', '2', '桌椅损坏');
+INSERT INTO `classroom` VALUES ('1557999456228', '17计本二班', '32205', '2', '无');
 INSERT INTO `classroom` VALUES ('1557999814317', '17数媒', '32504', '0', '正常');
 
 -- ----------------------------
@@ -221,10 +237,6 @@ CREATE TABLE `stu_pare` (
 INSERT INTO `stu_pare` VALUES ('1557729784915', '-1', '-1', '卡拉');
 INSERT INTO `stu_pare` VALUES ('1557980425493', '1557658708847', '1557672446342', '地方');
 INSERT INTO `stu_pare` VALUES ('1557980439818', '1557832612148', '1557672446342', '的思考啦啦啦');
-INSERT INTO `stu_pare` VALUES ('1558055804546', null, null, null);
-INSERT INTO `stu_pare` VALUES ('1558055892784', null, null, null);
-INSERT INTO `stu_pare` VALUES ('1558056173646', null, null, null);
-INSERT INTO `stu_pare` VALUES ('1558056208551', null, null, null);
 
 -- ----------------------------
 -- Table structure for `stu_register`
@@ -359,8 +371,25 @@ CREATE TABLE `user` (
 -- ----------------------------
 -- Records of user
 -- ----------------------------
-INSERT INTO `user` VALUES ('1557625207943', 'admin', '0', 'admin', '20001010', '1', '0', '1555138505019', null);
 INSERT INTO `user` VALUES ('1557747536071', 'skk', '0', 'das', 'df', '2', '0', '1555138505019', null);
 INSERT INTO `user` VALUES ('1557756391317', '李颖鹏', '0', '123456', '20001105', '2', '0', '1555138505019', null);
 INSERT INTO `user` VALUES ('1557757131854', '罗兴峰', '0', '123456', '2000/08/05', '3', '0', '1555138505019', null);
 INSERT INTO `user` VALUES ('1557759452707', 'lyp', '1', '123456', '20140202', '2', '0', '1555148650901', null);
+INSERT INTO `user` VALUES ('admin', 'admin', '0', 'admin', '20001010', '1', '0', '1555138505019', null);
+
+-- ----------------------------
+-- Table structure for `userface`
+-- ----------------------------
+DROP TABLE IF EXISTS `userface`;
+CREATE TABLE `userface` (
+  `id` varchar(255) NOT NULL,
+  `group_id` varchar(255) DEFAULT NULL,
+  `user_info` varchar(255) DEFAULT NULL,
+  `img` varchar(255) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+-- Records of userface
+-- ----------------------------
+INSERT INTO `userface` VALUES ('xgd', 'test', null, null);

@@ -17,10 +17,23 @@
 <body class="childrenBody">
 	<form class="layui-form layui-form-pane" name="addform">
 		<div class="layui-form-item">
-			<label class="layui-form-label">组别名称</label>
+			<label class="layui-form-label">学号</label>
 			<div class="layui-input-inline">
-				<input type="text" class="layui-input" name="name"  lay-verify="required" placeholder="请输入名称"  autocomplete="off">
+				<input type="text" class="layui-input" name="no"  lay-verify="required" placeholder="请输入学号"  autocomplete="off">
 			</div>
+		</div>
+		<div class="layui-form-item">
+			<label class="layui-form-label">班级</label>
+			<div class="layui-input-inline">
+				<input type="text" class="layui-input" name="clas"  lay-verify="required" placeholder="请输入班级"  autocomplete="off">
+			</div>
+		</div>
+		<div class="layui-form-item">
+			<label class="layui-form-label">类型</label>
+			<div class="layui-input-inline">
+		      <input type="radio" name="type" value="1" title="班干"  checked>
+		      <input type="radio" name="type" value="0" title="普通学生">
+		    </div>
 		</div>
 		<div class="layui-form-item">
 			<div class="layui-input-block">
@@ -30,6 +43,6 @@
 		</div>
 	</form>
 	<script type="text/javascript" src="../../layui/layui.js"></script>
-	<script type="text/javascript" src="../js/group/groupAdd.js"></script>
+	<script type="text/javascript" src="../js/userface/userfaceAdd.js"></script>
 </body>
 </html>

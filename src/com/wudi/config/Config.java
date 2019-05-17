@@ -13,6 +13,7 @@ import com.wudi.controller.AdminController;
 import com.wudi.controller.WeixinController;
 import com.wudi.model.ClassinfoModel;
 import com.wudi.model.ConfigModel;
+import com.wudi.model.GroupModel;
 import com.wudi.model.MajorModel;
 import com.wudi.model.NewsModel;
 import com.wudi.model.ParentsModel;
@@ -20,11 +21,8 @@ import com.wudi.model.RoleModel;
 import com.wudi.model.Stu_pareModel;
 import com.wudi.model.StudentModel;
 import com.wudi.model.TeacherModel;
-import com.wudi.model.TeamModel;
-import com.wudi.model.TeamersModel;
-import com.wudi.model.UserIntegralModel;
+import com.wudi.model.UserFaceModel;
 import com.wudi.model.UserModel;
-import com.wudi.model.UserintegralDetailModel;
 import com.wudi.plugin.BaiduPlugin;
 
 public class Config extends JFinalConfig {
@@ -82,6 +80,8 @@ public class Config extends JFinalConfig {
 			arpMysql.addMapping("major", MajorModel.class);//专业表
 			arpMysql.addMapping("stu_pare", Stu_pareModel.class);//学生家长关联表
 			arpMysql.addMapping("classinfo", ClassinfoModel.class);//班级表
+			arpMysql.addMapping("baidugroup", GroupModel.class);//
+			arpMysql.addMapping("userface", UserFaceModel.class);//
 		//添加插件
 		me.add(dsMysql);
 		me.add(arpMysql);
