@@ -5,6 +5,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.json.JSONObject;
+
 import com.jfinal.aop.Before;
 import com.jfinal.aop.Clear;
 import com.jfinal.core.Controller;
@@ -22,7 +24,9 @@ import com.wudi.model.TeacherModel;
 import com.wudi.model.TeamModel;
 import com.wudi.model.TeamersModel;
 import com.wudi.model.UserModel;
+import com.wudi.plugin.BaiduPlugin;
 import com.wudi.util.StringUtil;
+import com.wudi.util.Util;
 /**
  * 
  * @author ljp
@@ -721,4 +725,65 @@ public class AdminController extends Controller {
 		setAttr("data", c.getList());
 		renderJson();
 	}
+	//=====================这里是对人脸库进行管理页面===============================//
+	/**
+	 * 注册人脸
+	 */
+	public void faceAdd() {
+		
+	}
+	/**
+	 * 更新人脸
+	 */
+	public void faceUpdate() {
+		
+	}
+	/**
+	 * 删除人脸
+	 */
+	public void faceDel() {
+		
+	}
+	
+	/**
+	 * 获取用户人脸列表
+	 */
+	public void getFaceList() {
+		
+	}
+	/**
+	 * 查询组
+	 */
+	public void getGroupList() {
+		int limit = getParaToInt("limit");
+		int page = getParaToInt("page");
+		
+	    HashMap<String, String> options = new HashMap<String, String>();
+	    
+	    options.put("start", limit+"");
+	    options.put("length", page*limit+"");
+	    // 搜索
+	    JSONObject res = BaiduPlugin.face.getGroupList(options);
+		
+		
+//		setAttr("code", 0);
+//		setAttr("msg", "你好！");
+//		setAttr("count", c.getTotalRow());
+//		setAttr("data", c.getList());
+		renderJson();
+	}
+	/**
+	 * 添加组
+	 */
+	public void groupAdd() {
+		
+	}
+	/**
+	 * 删除组
+	 */
+	public void groupDel() {
+		
+	}
+	//======================这里是对人脸库进行管理页面end==============================//
+	
 }
