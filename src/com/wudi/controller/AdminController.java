@@ -391,7 +391,9 @@ public class AdminController extends Controller {
 		render("student/studentAdd.html");
 	}
 	public void openStudentEdit() {
-		render("student/studentEdit.html");
+		String id = getPara("id");
+		setAttr("id", id);
+		renderFreeMarker("student/studentEdit.html");
 	}
 	public void getStudentModel() {
 		String id = getPara("id");
@@ -512,7 +514,9 @@ public class AdminController extends Controller {
 		render("parent/parentAdd.html");
 	}
 	public void openParentEdit() {
-		render("parent/parentEdit.html");
+		String id = getPara("id");
+		setAttr("id", id);
+		renderFreeMarker("parent/parentEdit.html");
 	}
 	public void getParentModel() {
 		String id=getPara("id");
@@ -571,7 +575,9 @@ public class AdminController extends Controller {
 		render("major/majorAdd.html");
 	}
 	public void openMajorEdit() {
-		render("major/majorEdit.html");
+		String id = getPara("id");
+		setAttr("id", id);
+		renderFreeMarker("major/majorEdit.html");
 	}
 	public void getMajorModel() {
 		String id=getPara("id");
@@ -630,7 +636,9 @@ public class AdminController extends Controller {
 		render("stu_pare/stu_pareAdd.html");
 	}
 	public void openStu_pareEdit() {
-		render("stu_pare/stu_pareEdit.html");
+		String id = getPara("id");
+		setAttr("id", id);
+		renderFreeMarker("stu_pare/stu_pareEdit.html");
 	}
 	public void getStu_preModel() {
 		 String id=getPara("id");
@@ -684,7 +692,9 @@ public class AdminController extends Controller {
 		render("classinfo/classinfoAdd.html");
 	}
 	public void openClassinfoEdit() {
-		render("classinfo/classinfoEdit.html");
+		String id = getPara("id");
+		setAttr("id", id);
+		renderFreeMarker("classinfo/classinfoEdit.html");
 	}
 	public void getClassinfoModel() {
 		 String id=getPara("id");
@@ -743,7 +753,9 @@ public class AdminController extends Controller {
 		render("department/departmentAdd.html");
 	}
 	public void openDepartmentEdit() {
-		render("department/departmentEdit.html");
+		String id = getPara("id");
+		setAttr("id", id);
+		renderFreeMarker("department/departmentEdit.html");
 	}
 	public void getDepartmentModel() {
 		 String id=getPara("id");
@@ -797,7 +809,9 @@ public class AdminController extends Controller {
 		render("school/schoolAdd.html");
 	}
 	public void openSchoolEdit() {
-		render("school/schoolEdit.html");
+		String id = getPara("id");
+		setAttr("id", id);
+		renderFreeMarker("school/schoolEdit.html");
 	}
 	public void getSchoolModel() {
 		 String id=getPara("id");
@@ -858,7 +872,9 @@ public class AdminController extends Controller {
 		render("classroom/classroomAdd.html");
 	}
 	public void openClassroomEdit() {
-		render("classroom/classroomEdit.html");
+		String id = getPara("id");
+		setAttr("id", id);
+		renderFreeMarker("classroom/classroomEdit.html");
 	}
 	public void getClassroomModel() {
 		 String id=getPara("id");
@@ -914,7 +930,9 @@ public class AdminController extends Controller {
 		render("subject/subjectAdd.html");
 	}
 	public void openSubjectEdit() {
-		render("subject/subjectEdit.html");
+		String id = getPara("id");
+		setAttr("id", id);
+		renderFreeMarker("subject/subjectEdit.html");
 	}
 	public void getSubjectModel() {
 		 String id=getPara("id");
