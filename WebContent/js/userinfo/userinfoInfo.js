@@ -127,7 +127,7 @@ layui.config({
 				title : "【添加信息】",
 				icon: 2,
 				type : 2,
-				area: ['800px', '600px'],
+				area: ['1024px', '600px'],
 				content : "openUserinfoAdd",
 				success : function(layero, index){
 					setTimeout(function(){
