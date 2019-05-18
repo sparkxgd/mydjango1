@@ -27,7 +27,7 @@ layui.config({
 //	    			}
 //	    			form.render();//必须要再次渲染，要不然option显示不出来
 //	        });
-			
+//			
 //			$.get("getParentlist", function(data){
 //				var dp=data.dp;
 //				var id=dp[0].id;

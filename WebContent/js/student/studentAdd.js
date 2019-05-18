@@ -17,6 +17,14 @@ layui.config({
         $("#permission").append(arr.join("\n"));
 		form.render();//必须要再次渲染，要不然option显示不出来
 		
+		//加载页面选择框数据
+		$.get("getClassinfolist", function(data){
+			var list=data.list;
+			for(var i=0;i<list.length;i++){
+        		$("#clas").append("<option value='"+list[i].id+"'>"+list[i].id+"</option>");
+			}
+			form.render();//必须要再次渲染，要不然option显示不出来
+		});
 		
 	//===========================================
 		

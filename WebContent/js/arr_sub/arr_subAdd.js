@@ -17,20 +17,29 @@ layui.config({
         $("#permission").append(arr.join("\n"));
 		form.render();//必须要再次渲染，要不然option显示不出来
 		
-	//===========================================
-		//学校的下拉框
-//		$.get("getSchoolModels",
-//				function(data){
-//					var list=data.ml;
-//					var arr=new Array();
-//					for(var j=0;j<list.length;j++){
-//						arr.push("<option value='"+list[j].id+"'>"+list[j].nickname+"</option>")
-//					}
-//					var select = arr.join('')
-//					$("#school").append(select);
-//					form.render();//必须要再次渲染，要不然option显示不出来
-//				}
-//			);	
+		$.get("getTeacherlist", function(data){
+			var list=data.list;
+			for(var i=0;i<list.length;i++){
+        		$("#teacher").append("<option value='"+list[i].id+"'>"+list[i].id+"</option>");
+			}
+			form.render();//必须要再次渲染，要不然option显示不出来
+		});
+		$.get("getClassinfolist", function(data){
+			var list=data.dp;
+			for(var i=0;i<list.length;i++){
+        		$("#classid").append("<option value='"+list[i].id+"'>"+list[i].nickname+"</option>");
+			}
+			form.render();//必须要再次渲染，要不然option显示不出来
+		});
+		$.get("getClassroomlist", function(data){
+			var list=data.dp;
+			for(var i=0;i<list.length;i++){
+        		$("#classroom").append("<option value='"+list[i].id+"'>"+list[i].addr+"</option>");
+			}
+			form.render();//必须要再次渲染，要不然option显示不出来
+		});
+		
+	
  	form.on("submit(add)",function(data){
  		var index;
  		 $.ajax({//异步请求返回给后台

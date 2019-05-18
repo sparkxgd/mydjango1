@@ -8,13 +8,17 @@ layui.config({
 		$ = layui.jquery;
 		var id=$("input[name='id']").val();
 		//加载页面数据
-		$.get("getDepartmentModel?id="+id, function(data){
+		$.get("getNewsModel?id="+id, function(data){
 			var m=data.m;
 //			var obj = $.parseJSON(m.permission);
 	        //执行加载数据的方法
-			$("input[name='nickname']").val(m.nickname);
-			$("input[name='school']").val(m.school);
-			$("input[name='remark']").val(m.remark);
+			$("input[name='title']").val(m.title);
+			$("input[name='content']").val(m.content);
+			$("input[name='user_id']").val(m.user_id);
+			$("input[name='create_time']").val(m.create_time);
+			$("input[name='release_time']").val(m.release_time);
+			$("input[name='status']").val(m.status);
+			$("input[name='reading']").val(m.reading);
 			$.get("getSchoollist", function(data){
 				var list=data.list;
 				var id=list[0].id;
@@ -47,7 +51,7 @@ layui.config({
  	form.on("submit(update)",function(data){
  		var index;
  		 $.ajax({//异步请求返回给后台
-	    	  url:'updateDepartment',
+	    	  url:'updateNews',
 	    	  type:'POST',
 	    	  data:data.field,
 	    	  dataType:'json',

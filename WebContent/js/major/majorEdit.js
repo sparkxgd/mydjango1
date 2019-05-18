@@ -8,20 +8,20 @@ layui.config({
 		$ = layui.jquery;
 		var id=$("input[name='id']").val();
 		//加载页面数据
-		$.get("getMajor?id="+id, function(data){
-			var d=data.m;
+		$.get("getMajorModel?id="+id, function(data){
+			var m=data.m;
 			//执行加载数据的方法
-        	$("input[name='name']").val(d.name);
-        	$("input[name='dep_no']").val(d.dep_no);
-	        $("textarea[name='remark']").val(d.remark);
-	        $.get("getDepartmentse", function(data){
+        	$("input[name='nickname']").val(m.nickname);
+        	$("input[name='department']").val(m.department);
+	        $("textarea[name='remark']").val(m.remark);
+	        $.get("getDepartmentlist", function(data){
 				var dp=data.dp;
 				var id=dp[0].id;
 	    		for(var i=0;i<dp.length;i++){
-	    			if(dp[i].id==d.dep_no){
-	    				$("#selectId").append("<option selected='true' value='"+dp[i].id+"'>"+dp[i].name+"</option>");
+	    			if(dp[i].id==m.department){
+	    				$("#department").append("<option selected='true' value='"+dp[i].id+"'>"+dp[i].nickname+"</option>");
 	    			}else{
-	    				$("#selectId").append("<option value='"+dp[i].id+"'>"+dp[i].name+"</option>");
+	    				$("#department").append("<option value='"+dp[i].id+"'>"+dp[i].nickname+"</option>");
 	    			}
 	    			}
 	    			form.render();//必须要再次渲染，要不然option显示不出来

@@ -46,6 +46,18 @@
 			"spread" : false
 		},
 		{
+			"title" : "学生签到表",
+			"icon" : "&#xe613;",
+			"href" : "admin/openStu_registerInfo",
+			"spread" : false
+		},
+		{
+			"title" : "消息表",
+			"icon" : "&#xe613;",
+			"href" : "admin/openNewsInfo",
+			"spread" : false
+		},
+		{
 			"title" : "班级表管理",
 			"icon" : "&#xe613;",
 			"href" : "admin/openClassinfoInfo",

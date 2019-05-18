@@ -14,6 +14,18 @@ layui.config({
 			$("input[name='no']").val(m.no);
 			$("input[name='clas']").val(m.clas);
 			$("input[name='type']").val(m.type);
+			$.get("getClassinfolist", function(data){
+				var list=data.list;
+				var id=list[0].id;
+	    		for(var i=0;i<list.length;i++){
+	    			if(list[i].id==m.clas){
+	    				$("#clas").append("<option selected='true' value='"+list[i].id+"'>"+list[i].id+"</option>");
+	    			}else{
+	    				$("#clas").append("<option value='"+list[i].id+"'>"+list[i].id+"</option>");
+	    			}
+	    			}
+				form.render();//必须要再次渲染，要不然option显示不出来
+			});
 		})
 
  	form.on("submit(update)",function(data){

@@ -16,32 +16,21 @@ layui.config({
         }	        
         $("#permission").append(arr.join("\n"));
 		form.render();//必须要再次渲染，要不然option显示不出来
-		
 		//加载页面选择框数据
-		$.get("getStudentlist", function(data){
-			var list=data.list;
+		$.get("getStudylist", function(data){
+			var list=data.pd;
 			for(var i=0;i<list.length;i++){
-        		$("#pare_id").append("<option value='"+list[i].id+"'>"+list[i].id+"</option>");
+        		$("#studey_id").append("<option value='"+list[i].id+"'>"+list[i].id+"</option>");
 			}
 			form.render();//必须要再次渲染，要不然option显示不出来
 		});
-		
-		$.get("getParentlist", function(data){
-				var list=data.list;
-				for(var i=0;i<list.length;i++){
-	        		$("#stu_id").append("<option value='"+list[i].id+"'>"+list[i].id+"</option>");
-				}
-				form.render();//必须要再次渲染，要不然option显示不出来
-		});
-		
-		
 		
 	//===========================================
 		
  	form.on("submit(add)",function(data){
  		var index;
   		 $.ajax({//异步请求返回给后台
-	    	  url:'saveStu_pare',
+	    	  url:'saveStu_register',
 	    	  type:'POST',
 	    	  data:data.field,
 	    	  dataType:'json',
@@ -55,7 +44,6 @@ layui.config({
 			   		layer.closeAll("iframe");
 			  	 		//刷新父页面
 			  	 	parent.location.reload();
-		    		
 	    	  },
 	    	  error:function(XMLHttpRequest, textStatus, errorThrown){
 	    		  top.layer.msg('保存失败！！！服务器有问题！！！！<br>请检测服务器是否启动？', {

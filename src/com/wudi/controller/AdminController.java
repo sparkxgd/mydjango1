@@ -17,6 +17,7 @@ import com.wudi.model.ClassinfoModel;
 import com.wudi.model.ClassroomModel;
 import com.wudi.model.DepartmentModel;
 import com.wudi.model.MajorModel;
+import com.wudi.model.NewsModel;
 import com.wudi.model.ParentsModel;
 import com.wudi.model.RoleModel;
 import com.wudi.model.SchoolModel;
@@ -438,7 +439,7 @@ public class AdminController extends Controller {
 	}
 	public void getStudentlist() {
 		List<StudentModel> list = StudentModel.getListAll();
-		setAttr("dp", list);
+		setAttr("list", list);
 		renderJson();
 	}
 	
@@ -499,7 +500,7 @@ public class AdminController extends Controller {
 	}
 	public void getTeacherlist() {
 		List<TeacherModel> list = TeacherModel.getListAll();
-		setAttr("dp", list);
+		setAttr("list", list);
 		renderJson();
 	}
 	
@@ -561,7 +562,7 @@ public class AdminController extends Controller {
 	}
 	public void getParentlist() {
 		List<ParentsModel> list = ParentsModel.getListAll();
-		setAttr("dp", list);
+		setAttr("list", list);
 		renderJson();
 	}
 	
@@ -581,7 +582,7 @@ public class AdminController extends Controller {
 	}
 	public void getMajorModel() {
 		String id=getPara("id");
-		ParentsModel m=ParentsModel.getById(id);
+		MajorModel m=MajorModel.getById(id);
 		setAttr("m", m);
 		renderJson();
 	}
@@ -642,8 +643,8 @@ public class AdminController extends Controller {
 	}
 	public void getStu_preModel() {
 		 String id=getPara("id");
-		 Stu_pareModel result = Stu_pareModel.getById(id);
-		 setAttr("result", result);
+		 Stu_pareModel m = Stu_pareModel.getById(id);
+		 setAttr("m", m);
 		 renderJson();
 	}
 	public void saveStu_pare() {
@@ -699,7 +700,7 @@ public class AdminController extends Controller {
 	public void getClassinfoModel() {
 		 String id=getPara("id");
 		 ClassinfoModel result = ClassinfoModel.getById(id);
-		 setAttr("result", result);
+		 setAttr("m", result);
 		 renderJson();
 	}
 	public void saveClassinfo() {
@@ -742,6 +743,12 @@ public class AdminController extends Controller {
 		renderJson();
 	}
 	
+	public void getClassinfolist() {
+		List<ClassinfoModel> list = ClassinfoModel.getListAll();
+		setAttr("dp", list);
+		renderJson();
+	}
+	
 	
 	/**
 	 * 分院表
@@ -760,7 +767,7 @@ public class AdminController extends Controller {
 	public void getDepartmentModel() {
 		 String id=getPara("id");
 		 DepartmentModel result = DepartmentModel.getById(id);
-		 setAttr("result", result);
+		 setAttr("m", result);
 		 renderJson();
 	}
 	public void saveDepartment() {
@@ -796,6 +803,11 @@ public class AdminController extends Controller {
 		setAttr("msg", "你好！");
 		setAttr("count", c.getTotalRow());
 		setAttr("data", c.getList());
+		renderJson();
+	}
+	public void getDepartmentlist() {
+		List<DepartmentModel> list = DepartmentModel.getListAll();
+		setAttr("dp", list);
 		renderJson();
 	}
 	
@@ -855,9 +867,9 @@ public class AdminController extends Controller {
 		renderJson();
 	}
 
-	public void getSchoolModels() {
+	public void getSchoollist() {
 		List<SchoolModel> list = SchoolModel.getListAll();
-		setAttr("ml", list);
+		setAttr("list", list);
 		renderJson();
 	}
 	
@@ -917,6 +929,11 @@ public class AdminController extends Controller {
 		setAttr("msg", "你好！");
 		setAttr("count", c.getTotalRow());
 		setAttr("data", c.getList());
+		renderJson();
+	}
+	public void getClassroomlist() {
+		List<ClassroomModel> list = ClassroomModel.getListAll();
+		setAttr("dp", list);
 		renderJson();
 	}
 	
@@ -991,7 +1008,7 @@ public class AdminController extends Controller {
 	public void getArr_SubjectModel() {
 		 String id=getPara("id");
 		 Arrange_subjectModel result = Arrange_subjectModel.getById(id);
-		 setAttr("result", result);
+		 setAttr("m", result);
 		 renderJson();
 	}
 	public void saveArr_Subject() {
@@ -1097,6 +1114,12 @@ public class AdminController extends Controller {
 		setAttr("data", c.getList());
 		renderJson();
 	}
+	public void getStudylist() {
+		List<StudyModel> list = StudyModel.getListAll();
+		setAttr("dp", list);
+		renderJson();
+	}
+	
 	/**
 	 * 学生上课记录表
 	 */
@@ -1206,6 +1229,64 @@ public class AdminController extends Controller {
 		int limit = getParaToInt("limit");
 		int page = getParaToInt("page");
 		Page<Stu_registerModel> c = Stu_registerModel.getList(page, limit, key);
+		setAttr("infos", c);
+		setAttr("code", 0);
+		setAttr("msg", "你好！");
+		setAttr("count", c.getTotalRow());
+		setAttr("data", c.getList());
+		renderJson();
+	}
+	/**
+	 * 消息表表
+	 */
+	public void openNewsInfo() {
+		render("news/newsinfo.html");
+	}
+	public void openNewsrAdd() {
+		render("news/newsAdd.html");
+	}
+	public void openNewsEdit() {
+		String id = getPara("id");
+		setAttr("id", id);
+		renderFreeMarker("news/newsEdit.html");
+	}
+	public void getNewsModel() {
+		 String id=getPara("id");
+		 NewsModel result = NewsModel.getById(id);
+		 setAttr("m", result);
+		 renderJson();
+	}
+	public void saveNews() {
+		String title = getPara("title");
+		String content = getPara("content");
+		String user_id = getPara("user_id");
+		String reading = getPara("reading");
+		boolean result = NewsModel.saveNews(title, content, user_id, reading);
+		setAttr("result", result);
+		renderJson();
+	}
+
+	public void updateNews() {
+		String id = getPara("id");
+		String title = getPara("title");
+		String content = getPara("content");
+		String user_id = getPara("user_id");
+		String reading = getPara("reading");
+		boolean result = NewsModel.update(id, title, content, user_id, reading);
+		setAttr("result", result);
+		renderJson();
+	}
+	public void delNews() {
+		String id = getPara("id");
+		boolean result = NewsModel.delNews(id);
+		setAttr("result", result);
+		renderJson();
+	}
+	public void queryNews() {
+		String key = getPara("key");
+		int limit = getParaToInt("limit");
+		int page = getParaToInt("page");
+		Page<NewsModel> c = NewsModel.getList(page, limit, key);
 		setAttr("infos", c);
 		setAttr("code", 0);
 		setAttr("msg", "你好！");

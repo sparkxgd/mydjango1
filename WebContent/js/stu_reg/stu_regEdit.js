@@ -8,46 +8,32 @@ layui.config({
 		$ = layui.jquery;
 		var id=$("input[name='id']").val();
 		//加载页面数据
-		$.get("getDepartmentModel?id="+id, function(data){
+		$.get("getTeacherModel?id="+id, function(data){
 			var m=data.m;
-//			var obj = $.parseJSON(m.permission);
 	        //执行加载数据的方法
-			$("input[name='nickname']").val(m.nickname);
-			$("input[name='school']").val(m.school);
+			$("input[name='reg_time']").val(m.reg_time);
+			$("input[name='addr']").val(m.addr);
+			$("input[name='type']").val(m.type);
 			$("input[name='remark']").val(m.remark);
-			$.get("getSchoollist", function(data){
-				var list=data.list;
+			$("input[name='studey_id']").val(m.studey_id);
+			$.get("getStudylist", function(data){
+				var list=data.dp;
 				var id=list[0].id;
 	    		for(var i=0;i<list.length;i++){
-	    			if(list[i].id==m.school){
-	    				$("#school").append("<option selected='true' value='"+list[i].id+"'>"+list[i].nickname+"</option>");
+	    			if(list[i].id==m.studey_id){
+	    				$("#studey_id").append("<option selected='true' value='"+list[i].id+"'>"+list[i].id+"</option>");
 	    			}else{
-	    				$("#school").append("<option value='"+list[i].id+"'>"+list[i].nickname+"</option>");
+	    				$("#studey_id").append("<option value='"+list[i].id+"'>"+list[i].id+"</option>");
 	    			}
 	    			}
-				form.render();//必须要再次渲染，要不然option显示不出来
-			});
-	        
-//	        var arr=new Array();
-//	        
-//	        for(var i=100;i<105;i++){
-//	        	var c="c"+i;
-//	        	var v=obj[c];
-//	        	if(v==1){
-//		        	arr.push("<input type='checkbox' name='"+c+"' lay-skin='primary' checked=''  title='"+c+"'>");
-//	        	}else{
-//		        	arr.push("<input type='checkbox' name='"+c+"' lay-skin='primary' title='"+c+"'>");
-//	        	}
-//	        	
-//	        }	        
-//	        $("#permission").append(arr.join("\n"));
-//			form.render();//必须要再次渲染，要不然option显示不出来
+	    			form.render();//必须要再次渲染，要不然option显示不出来
+	        });
 		})
 
  	form.on("submit(update)",function(data){
  		var index;
  		 $.ajax({//异步请求返回给后台
-	    	  url:'updateDepartment',
+	    	  url:'updateStu_register',
 	    	  type:'POST',
 	    	  data:data.field,
 	    	  dataType:'json',

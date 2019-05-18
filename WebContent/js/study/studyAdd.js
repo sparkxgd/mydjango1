@@ -18,6 +18,14 @@ layui.config({
 		form.render();//必须要再次渲染，要不然option显示不出来
 		
 		
+		$.get("getTeacherlist", function(data){
+			var list=data.list;
+			for(var i=0;i<list.length;i++){
+        		$("#teacher").append("<option value='"+list[i].id+"'>"+list[i].id+"</option>");
+			}
+			form.render();//必须要再次渲染，要不然option显示不出来
+		});
+		
 	//===========================================
 		
  	form.on("submit(add)",function(data){

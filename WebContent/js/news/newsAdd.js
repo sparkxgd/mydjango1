@@ -7,7 +7,7 @@ layui.config({
 		laypage = layui.laypage;
 		$ = layui.jquery;
 		
-        var arr=new Array();
+		var arr=new Array();
         
         for(var i=100;i<105;i++){
         	var c="c"+i;
@@ -17,31 +17,21 @@ layui.config({
         $("#permission").append(arr.join("\n"));
 		form.render();//必须要再次渲染，要不然option显示不出来
 		
-		//加载页面选择框数据
-		$.get("getStudentlist", function(data){
+	//===========================================
+		//学校的下拉框
+		$.get("getSchoollist", function(data){
 			var list=data.list;
 			for(var i=0;i<list.length;i++){
-        		$("#pare_id").append("<option value='"+list[i].id+"'>"+list[i].id+"</option>");
+        		$("#shool").append("<option value='"+list[i].id+"'>"+list[i].nickname+"</option>");
 			}
 			form.render();//必须要再次渲染，要不然option显示不出来
 		});
 		
-		$.get("getParentlist", function(data){
-				var list=data.list;
-				for(var i=0;i<list.length;i++){
-	        		$("#stu_id").append("<option value='"+list[i].id+"'>"+list[i].id+"</option>");
-				}
-				form.render();//必须要再次渲染，要不然option显示不出来
-		});
-		
-		
-		
-	//===========================================
 		
  	form.on("submit(add)",function(data){
  		var index;
-  		 $.ajax({//异步请求返回给后台
-	    	  url:'saveStu_pare',
+ 		 $.ajax({//异步请求返回给后台
+	    	  url:'saveNews',
 	    	  type:'POST',
 	    	  data:data.field,
 	    	  dataType:'json',

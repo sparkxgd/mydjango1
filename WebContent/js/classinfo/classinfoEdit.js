@@ -10,7 +10,7 @@ layui.config({
 		//加载页面数据
 		$.get("getClassinfoModel?id="+id, function(data){
 			var m=data.m;
-			var obj = $.parseJSON(m.permission);
+//			var obj = $.parseJSON(m.permission);
 	        //执行加载数据的方法
 			$("input[name='nickname']").val(m.nickname);
 			$("input[name='grade']").val(m.grade);
@@ -21,7 +21,7 @@ layui.config({
 				var dp=data.dp;
 				var id=dp[0].id;
 	    		for(var i=0;i<dp.length;i++){
-	    			if(dp[i].id==d.stu_id){
+	    			if(dp[i].id==m.headmaster){
 	    				$("#headmaster").append("<option selected='true' value='"+dp[i].id+"'>"+dp[i].id+"</option>");
 	    			}else{
 	    				$("#headmaster").append("<option value='"+dp[i].id+"'>"+dp[i].id+"</option>");
@@ -34,7 +34,7 @@ layui.config({
 				var dp=data.dp;
 				var id=dp[0].id;
 	    		for(var i=0;i<dp.length;i++){
-	    			if(dp[i].id==d.pare_id){
+	    			if(dp[i].id==m.major_id){
 	    				$("#major_id").append("<option selected='true' value='"+dp[i].id+"'>"+dp[i].id+"</option>");
 	    			}else{
 	    				$("#major_id").append("<option value='"+dp[i].id+"'>"+dp[i].id+"</option>");

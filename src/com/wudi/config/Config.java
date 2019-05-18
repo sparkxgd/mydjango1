@@ -22,6 +22,7 @@ import com.wudi.model.ParentsModel;
 import com.wudi.model.RoleModel;
 import com.wudi.model.SchoolModel;
 import com.wudi.model.Stu_pareModel;
+import com.wudi.model.Stu_registerModel;
 import com.wudi.model.Stu_studyModel;
 import com.wudi.model.StudentModel;
 import com.wudi.model.StudyModel;
@@ -96,6 +97,7 @@ public class Config extends JFinalConfig {
 			arpMysql.addMapping("arrange_subject", Arrange_subjectModel.class);//教师课表
 			arpMysql.addMapping("study", StudyModel.class);//上课记录表
 			arpMysql.addMapping("stu_study", Stu_studyModel.class);//学生上课记录表
+			arpMysql.addMapping("stu_register", Stu_registerModel.class);//上课签到表
 		//添加插件
 		me.add(dsMysql);
 		me.add(arpMysql);

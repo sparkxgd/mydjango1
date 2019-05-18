@@ -1,5 +1,7 @@
 package com.wudi.model;
 
+import java.util.List;
+
 import com.jfinal.plugin.activerecord.Db;
 import com.jfinal.plugin.activerecord.Model;
 import com.jfinal.plugin.activerecord.Page;
@@ -85,5 +87,10 @@ public class ClassroomModel extends Model<ClassroomModel> {
 			e.printStackTrace();
 			return false;
 		}
+	}
+	public static List<ClassroomModel> getListAll() {
+		StringBuffer sql=new StringBuffer();
+		sql.append("select *  from ").append(tableName);
+		return dao.find(sql.toString());
 	}
 }

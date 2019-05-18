@@ -3,6 +3,7 @@ package com.wudi.model;
 import java.util.Date;
 import java.util.List;
 
+import com.jfinal.plugin.activerecord.Db;
 import com.jfinal.plugin.activerecord.Model;
 import com.jfinal.plugin.activerecord.Page;
 import com.wudi.util.StringUtil;
@@ -89,22 +90,11 @@ public class NewsModel extends Model<NewsModel>{
 		return dao.paginate(pageNumber, pageSize, sele_sql, from_sql.toString());
 	}
 	
+	
 	/**
 	 * 保存消息
 	 */
-	public static boolean saveNews(String user_id) {
-		NewsModel m = new NewsModel();
-		m.setId(StringUtil.getId());
-		m.setCeate_time(new Date());
-		m.setContent("你已于"+Util.getCurrentTime()+"加入了团队");
-		m.setStatus(0);
-		m.setUser_id(user_id);
-		return m.save();
-	}
-	/**
-	 * 保存消息
-	 */
-	public static boolean createNews(String title,String content,String user_id,String reading) {
+	public static boolean saveNews(String title,String content,String user_id,String reading) {
 		NewsModel m = new NewsModel();
 		m.setId(StringUtil.getId());
 		m.setCeate_time(new Date());
@@ -114,6 +104,31 @@ public class NewsModel extends Model<NewsModel>{
 		m.setUser_id(user_id);
 		m.setReading(reading);
 		return m.save();
+	}
+	public static boolean update(String id,String title,String content,String user_id,String reading) {
+		NewsModel m = NewsModel.getById(user_id);
+		m.setCeate_time(new Date());
+		m.setTitle(title);
+		m.setContent(content);
+		m.setStatus(0);
+		m.setUser_id(user_id);
+		m.setReading(reading);
+		return m.update();
+	}
+	public static boolean delNews(String id) {
+		try {
+			String delsql = "delete from " + tableName + " where id=?";
+			int iRet = Db.update(delsql, id);
+			if(iRet > 0) {
+				return true;
+			}
+			else {
+				return false;
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			return false;
+		}
 	}
 	public static List<NewsModel> getByReading(String reading) {
 		return dao.find("select * from " + tableName + " where reading like '%"+reading+"%' ");
