@@ -745,7 +745,10 @@ public class AdminController extends Controller {
 	 * 注册人脸
 	 */
 	public void faceAdd() {
-		
+		String name = getPara("name");
+		boolean result = GroupModel.save(name);
+		setAttr("result", result);
+		renderJson();
 	}
 	/**
 	 * 更新人脸
