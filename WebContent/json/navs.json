@@ -64,6 +64,25 @@
 			"spread" : false
 		}]
 	},{
+		"title" : "百度数据管理",
+		"icon" : "&#xe614;",
+		"href" : "",
+		"spread" : true,
+		"children" : [
+		{
+			"title" : "组别管理",
+			"icon" : "&#x1006;",
+			"href" : "admin/openGroupList",
+			"spread" : false
+		},		
+		{
+			"title" : "人脸信息管理",
+			"icon" : "&#x1006;",
+			"href" : "admin/openFaceList",
+			"spread" : false
+		}]
+		},
+	{
 		"title" : "系统设置",
 		"icon" : "&#xe614;",
 		"href" : "",

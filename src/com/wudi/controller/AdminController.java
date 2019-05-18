@@ -1,6 +1,5 @@
 package com.wudi.controller;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -10,12 +9,12 @@ import com.jfinal.aop.Clear;
 import com.jfinal.core.Controller;
 import com.jfinal.kit.JsonKit;
 import com.jfinal.plugin.activerecord.Page;
-import com.wudi.bean.TubiaoBean;
 import com.wudi.interceptor.AdminInterceptor;
 import com.wudi.model.Arrange_subjectModel;
 import com.wudi.model.ClassinfoModel;
 import com.wudi.model.ClassroomModel;
 import com.wudi.model.DepartmentModel;
+import com.wudi.model.GroupModel;
 import com.wudi.model.MajorModel;
 import com.wudi.model.NewsModel;
 import com.wudi.model.ParentsModel;
@@ -28,10 +27,8 @@ import com.wudi.model.StudentModel;
 import com.wudi.model.StudyModel;
 import com.wudi.model.SubjectModel;
 import com.wudi.model.TeacherModel;
-import com.wudi.model.TeamModel;
-import com.wudi.model.TeamersModel;
+import com.wudi.model.UserFaceModel;
 import com.wudi.model.UserModel;
-import com.wudi.util.StringUtil;
 /**
  * 
  * @author ljp
@@ -52,11 +49,8 @@ public class AdminController extends Controller {
 		// 如果不正确，就提示什么不正确？
 		// 如果正确，就正常显示系统页面
 		UserModel m = UserModel.findByLogin(username);
-//		String check = m.getRole_id();
-//		RoleModel pp = RoleModel.getModelById(check);
-//		String right = pp.getName();
 		// 判断用户名和密码是否正确
-		if (m != null/* && (right.equals("超级管理员")||right.equals("客服人员"))*/) {
+		if (m != null) {
 			if (m.getPassword().equals(password)) {
 				setAttr("result", 0);// 可以登录
 				setCookie("cname",m.getUsername(), 36000);
@@ -735,7 +729,6 @@ public class AdminController extends Controller {
 		int limit = getParaToInt("limit");
 		int page = getParaToInt("page");
 		Page<ClassinfoModel> c = ClassinfoModel.getList(page, limit, key);
-		setAttr("infos", c);
 		setAttr("code", 0);
 		setAttr("msg", "你好！");
 		setAttr("count", c.getTotalRow());
@@ -1294,4 +1287,106 @@ public class AdminController extends Controller {
 		setAttr("data", c.getList());
 		renderJson();
 	}
+	//=====================这里是对人脸库进行管理页面===============================//
+	/**
+	 * 打开人脸列表页面
+	 */
+	public void openFaceList() {
+		render("userface/userfaceInfo.html");
+	}
+	/**
+	 * 获取用户人脸列表
+	 */
+	public void getFaceList() {
+		String key = getPara("key");
+		int limit = getParaToInt("limit");
+		int page = getParaToInt("page");
+		Page<UserFaceModel> c = UserFaceModel.getList(page, limit, key);
+		setAttr("code", 0);
+		setAttr("msg", "你好！");
+		setAttr("count", c.getTotalRow());
+		setAttr("data", c.getList());
+		renderJson();
+	}
+	/**
+	 * 打开注册人脸页面
+	 */
+	public void openFaceAdd() {
+		render("userface/userfaceAdd.html");
+	}
+	/**
+	 * 注册人脸
+	 */
+	public void faceAdd() {
+		String name = getPara("name");
+		boolean result = GroupModel.save(name);
+		setAttr("result", result);
+		renderJson();
+	}
+	/**
+	 * 更新人脸
+	 */
+	public void openFaceEdit() {
+		String id=getPara("id");
+		setAttr("id", id);
+		renderFreeMarker("userface/userfaceEdit.html");
+	}
+	/**
+	 * 更新人脸
+	 */
+	public void faceUpdate() {
+		
+	}
+	/**
+	 * 删除人脸
+	 */
+	public void faceDel() {
+		
+	}
+
+	/**
+	 * 打开组列表页面
+	 */
+	public void openGroupList() {
+		render("group/groupinfo.html");
+	}
+	/**
+	 * 查询组
+	 */
+	public void getGroupList() {
+		String key = getPara("key");
+		int limit = getParaToInt("limit");
+		int page = getParaToInt("page");
+		Page<GroupModel> c = GroupModel.getList(page, limit, key);
+		setAttr("code", 0);
+		setAttr("msg", "你好！");
+		setAttr("count", c.getTotalRow());
+		setAttr("data", c.getList());
+		renderJson();
+	}
+	/**
+	 * 打开添加组页面
+	 */
+	public void OpenGroupAdd() {
+		render("group/groupAdd.html");
+	}
+	/**
+	 * 添加组
+	 */
+	public void groupAdd() {
+		String name = getPara("name");
+		boolean result = GroupModel.save(name);
+		setAttr("result", result);
+		renderJson();
+	}
+	/**
+	 * 删除组
+	 */
+	public void groupDel() {
+		String id = getPara("id");
+		boolean result = GroupModel.del(id);
+		setAttr("result", result);
+		renderJson();
+	}
+	//======================这里是对人脸库进行管理页面end==============================//
 }

@@ -501,10 +501,12 @@ public class WeixinController extends Controller{
 	    renderJson(res.toString(2));
 	}
 	/**
+	 * xiao
 	 * 人脸登录
 	 */
-//	public void faceLogin() {
 	public void faceLogin() {
+		int code = -1;
+		
 		UploadFile upFile = getFile();//单个上传文件一句搞定  默认路径是 upload
 		File file = upFile.getFile();
         String extName = StringUtil.getFileExt(file.getName());
@@ -534,7 +536,23 @@ public class WeixinController extends Controller{
 	    	m.setScore(jo.getDouble("score"));
 	    	flist.add(m);
 	    }
-	    setAttr("flist", flist);
+	    //找到匹配度最高的脸
+	    double max=0;
+	    String user_id="";
+	    for(FaceSeachModel k:flist) {
+	    	if(k.getScore()>max) {
+	    		max=k.getScore();
+	    		user_id=k.getUser_id();
+	    	}
+	    }
+	    
+	  //到数据库查找一下是否有这个人
+	    UserModel data =UserModel.findByLogin(user_id);
+	    if(data!=null) {
+	    	code = 0;//0成功
+	    }
+	    setAttr("data", data);
+		setAttr("code", code);
 	    renderJson();
 	}
 	/**
@@ -545,20 +563,12 @@ public class WeixinController extends Controller{
 		String id = getPara("username");
 		String password = getPara("password");	
 		int code = -1;
-		UserModel data =new UserModel();
-		data.setUsername(id);
-		data.setSex(1);
-		data.setStatus(1);
-		data.setPassword(password);
+		UserModel data =UserModel.findByLogin(id);
 		if(data!=null) {
-			if(data.getStatus()==0) {
-				code = -1;//-1未审核
+			if(password.equals(data.getPassword())) {
+				code = 0;//0成功
 			}else {
-				if(password.equals(data.getPassword())) {
-					code = 0;//0成功
-				}else {
-					code = 2;//2密码错
-				}
+				code = 2;//2密码错
 			}
 		}else {
 			code = 1;//1用户不存在
