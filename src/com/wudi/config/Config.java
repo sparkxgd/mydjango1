@@ -12,15 +12,23 @@ import com.jfinal.template.Engine;
 import com.wudi.controller.AdminController;
 import com.wudi.controller.FileController;
 import com.wudi.controller.WeixinController;
+import com.wudi.model.Arrange_subjectModel;
 import com.wudi.model.ClassinfoModel;
+import com.wudi.model.ClassroomModel;
 import com.wudi.model.ConfigModel;
+import com.wudi.model.DepartmentModel;
 import com.wudi.model.GroupModel;
 import com.wudi.model.MajorModel;
 import com.wudi.model.NewsModel;
 import com.wudi.model.ParentsModel;
 import com.wudi.model.RoleModel;
+import com.wudi.model.SchoolModel;
 import com.wudi.model.Stu_pareModel;
+import com.wudi.model.Stu_registerModel;
+import com.wudi.model.Stu_studyModel;
 import com.wudi.model.StudentModel;
+import com.wudi.model.StudyModel;
+import com.wudi.model.SubjectModel;
 import com.wudi.model.TeacherModel;
 import com.wudi.model.UserFaceModel;
 import com.wudi.model.UserModel;
@@ -71,16 +79,24 @@ public class Config extends JFinalConfig {
 		arpMysql.setShowSql(showSql);
 		{
 			//将数据库表，绑定到这来来，注意，表名和类要相对应
-			arpMysql.addMapping("config", ConfigModel.class);
-			arpMysql.addMapping("user", UserModel.class);
-			arpMysql.addMapping("role", RoleModel.class);
-			arpMysql.addMapping("news", NewsModel.class);
+			arpMysql.addMapping("config", ConfigModel.class);//系统配置表
+			arpMysql.addMapping("user", UserModel.class);//用户表
+			arpMysql.addMapping("role", RoleModel.class);//角色表
+			arpMysql.addMapping("news", NewsModel.class);//新闻表
 			arpMysql.addMapping("student", StudentModel.class);//学生表
 			arpMysql.addMapping("teacher", TeacherModel.class);//教师表
 			arpMysql.addMapping("parents", ParentsModel.class);//家长表
 			arpMysql.addMapping("major", MajorModel.class);//专业表
 			arpMysql.addMapping("stu_pare", Stu_pareModel.class);//学生家长关联表
 			arpMysql.addMapping("classinfo", ClassinfoModel.class);//班级表
+			arpMysql.addMapping("department", DepartmentModel.class);//分院表
+			arpMysql.addMapping("school", SchoolModel.class);//学校表
+			arpMysql.addMapping("classroom", ClassroomModel.class);//教室表
+			arpMysql.addMapping("subject", SubjectModel.class);//科目表
+			arpMysql.addMapping("arrange_subject", Arrange_subjectModel.class);//教师课表
+			arpMysql.addMapping("study", StudyModel.class);//上课记录表
+			arpMysql.addMapping("stu_study", Stu_studyModel.class);//学生上课记录表
+			arpMysql.addMapping("stu_register", Stu_registerModel.class);//上课签到表
 			arpMysql.addMapping("baidugroup", GroupModel.class);//
 			arpMysql.addMapping("userface", UserFaceModel.class);//
 		//添加插件

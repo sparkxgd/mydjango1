@@ -47,8 +47,8 @@ layui.config({
 		      ,{fixed: 'right', align:'center',title:'操作', templet:function(d){
 		    	  var arr=new Array();
 		    	  if(per==1){
-			    	  arr.push("<a class='layui-btn layui-btn-xs layui-btn-warm' lay-event='detail'><i class='layui-icon'>&#xe615;</i>查看</a>");
 			    	  arr.push("<a class='layui-btn layui-btn-xs' lay-event='edit'><i class='layui-icon'>&#xe642;</i>编辑</a>");
+			    	  arr.push("<a class='layui-btn layui-btn-xs layui-btn-danger' lay-event='del'><i class='layui-icon'></i>删除</a>");
 		    	  }
 		    	  return arr.join("\n");
 		      	}
@@ -90,22 +90,24 @@ layui.config({
   
 //=============绑定【添加】事件============================
 	//$(window).one("resize",function(){
-		$(".add_btn").click(function(){
-			var index = layui.layer.open({
-				title : "【添加信息】",
-				icon: 2,
-				type : 2,
-				content : "openStudentAdd",
-				success : function(layero, index){
-					setTimeout(function(){
-						layui.layer.tips('点击此处返回列表', '.layui-layer-setwin .layui-layer-close', {
-							tips: 3
-						});
-					},500)
-				}
-			})			
-			layui.layer.full(index);
-		});
+  $(".add_btn").click(function(){
+		var index = layui.layer.open({
+			title : "【添加信息】",
+			icon: 2,
+			type : 2,
+			skin: 'layui-layer-lan',
+			area: ['800px', '600px'],
+			content : "openStudentAdd",
+			success : function(layero, index){
+				setTimeout(function(){
+					layui.layer.tips('点击此处返回列表', '.layui-layer-setwin .layui-layer-close', {
+						tips: 3
+					});
+				},500)
+			}
+		})			
+		layui.layer.full(index);
+	});
 //	}).resize();
   
 //=======================监听工具条====================================
@@ -156,7 +158,7 @@ layui.config({
 		  var index = layui.layer.open({
               title : "修改信息",
               type : 2,
-              content : "openTeacherEdit?id="+data.id,
+              content : "openStudentEdit?id="+data.id,
               success : function(layero, index){
                   setTimeout(function(){
                       layui.layer.tips('点击此处返回列表', '.layui-layer-setwin .layui-layer-close', {

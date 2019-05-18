@@ -8,10 +8,10 @@ layui.config({
 		$ = layui.jquery;
 		
 		//加载页面选择框数据
-		$.get("getDepartmentse", function(data){
+		$.get("getDepartmentlist", function(data){
 				var dp=data.dp;
 				for(var i=0;i<dp.length;i++){
-	        		$("#selectId").append("<option value='"+dp[i].id+"'>"+dp[i].name+"</option>");
+	        		$("#department").append("<option value='"+dp[i].id+"'>"+dp[i].nickname+"</option>");
 				}
 				form.render();//必须要再次渲染，要不然option显示不出来
 		});

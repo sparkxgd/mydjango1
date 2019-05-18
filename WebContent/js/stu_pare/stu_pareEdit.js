@@ -10,32 +10,32 @@ layui.config({
 		//加载页面数据
 		$.get("getStu_preModel?id="+id, function(data){
 			var m=data.m;
-			var obj = $.parseJSON(m.permission);
+//			var obj = $.parseJSON(m.permission);
 	        //执行加载数据的方法
 			$("input[name='stu_id']").val(m.stu_id);
 			$("input[name='pare_id']").val(m.pare_id);
 			$("input[name='relation']").val(m.relation);
 			$.get("getStudentlist", function(data){
-				var dp=data.dp;
-				var id=dp[0].id;
-	    		for(var i=0;i<dp.length;i++){
-	    			if(dp[i].id==d.stu_id){
-	    				$("#stu_id").append("<option selected='true' value='"+dp[i].id+"'>"+dp[i].id+"</option>");
+				var list=data.list;
+				var id=list[0].id;
+	    		for(var i=0;i<list.length;i++){
+	    			if(list[i].id==m.stu_id){
+	    				$("#stu_id").append("<option selected='true' value='"+list[i].id+"'>"+list[i].id+"</option>");
 	    			}else{
-	    				$("#stu_id").append("<option value='"+dp[i].id+"'>"+dp[i].id+"</option>");
+	    				$("#stu_id").append("<option value='"+list[i].id+"'>"+list[i].id+"</option>");
 	    			}
 	    			}
 	    			form.render();//必须要再次渲染，要不然option显示不出来
 	        });
 			
 			$.get("getParentlist", function(data){
-				var dp=data.dp;
-				var id=dp[0].id;
-	    		for(var i=0;i<dp.length;i++){
-	    			if(dp[i].id==d.pare_id){
-	    				$("#pare_id").append("<option selected='true' value='"+dp[i].id+"'>"+dp[i].id+"</option>");
+				var list=data.list;
+				var id=list[0].id;
+	    		for(var i=0;i<list.length;i++){
+	    			if(list[i].id==m.pare_id){
+	    				$("#pare_id").append("<option selected='true' value='"+list[i].id+"'>"+list[i].id+"</option>");
 	    			}else{
-	    				$("#pare_id").append("<option value='"+dp[i].id+"'>"+dp[i].id+"</option>");
+	    				$("#pare_id").append("<option value='"+list[i].id+"'>"+list[i].id+"</option>");
 	    			}
 	    			}
 	    			form.render();//必须要再次渲染，要不然option显示不出来

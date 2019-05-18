@@ -39,8 +39,8 @@ layui.config({
 		      ,{fixed: 'right', align:'center',title:'操作', templet:function(d){
 		    	  var arr=new Array();
 		    	  if(per==1){
-			    	  arr.push("<a class='layui-btn layui-btn-xs layui-btn-warm' lay-event='detail'><i class='layui-icon'>&#xe615;</i>查看</a>");
 			    	  arr.push("<a class='layui-btn layui-btn-xs' lay-event='edit'><i class='layui-icon'>&#xe642;</i>编辑</a>");
+			    	  arr.push("<a class='layui-btn layui-btn-xs layui-btn-danger' lay-event='del'><i class='layui-icon'></i>删除</a>");
 		    	  }
 		    	  return arr.join("\n");
 		      	}
@@ -87,6 +87,8 @@ layui.config({
 				title : "【添加信息】",
 				icon: 2,
 				type : 2,
+				skin: 'layui-layer-lan',
+				area: ['800px', '600px'],
 				content : "openTeacherAdd",
 				success : function(layero, index){
 					setTimeout(function(){

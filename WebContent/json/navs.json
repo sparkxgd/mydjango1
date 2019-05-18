@@ -46,6 +46,18 @@
 			"spread" : false
 		},
 		{
+			"title" : "学生签到表",
+			"icon" : "&#xe613;",
+			"href" : "admin/openStu_registerInfo",
+			"spread" : false
+		},
+		{
+			"title" : "消息表",
+			"icon" : "&#xe613;",
+			"href" : "admin/openNewsInfo",
+			"spread" : false
+		},
+		{
 			"title" : "班级表管理",
 			"icon" : "&#xe613;",
 			"href" : "admin/openClassinfoInfo",
@@ -80,6 +92,48 @@
 			"title" : "角色管理",
 			"icon" : "&#x1006;",
 			"href" : "admin/openRoles",
+			"spread" : false
+		},
+		{
+			"title" : "分院表",
+			"icon" : "&#xe613;",
+			"href" : "admin/openDepartmentInfo",
+			"spread" : false
+		},
+		{
+			"title" : "学校表",
+			"icon" : "&#xe613;",
+			"href" : "admin/openSchoolInfo",
+			"spread" : false
+		},
+		{
+			"title" : "教室表",
+			"icon" : "&#xe613;",
+			"href" : "admin/openClassroomInfo",
+			"spread" : false
+		},
+		{
+			"title" : "科目表",
+			"icon" : "&#xe613;",
+			"href" : "admin/openSubjectInfo",
+			"spread" : false
+		},
+		{
+			"title" : "教师课表",
+			"icon" : "&#xe613;",
+			"href" : "admin/openArr_SubjectInfo",
+			"spread" : false
+		},
+		{
+			"title" : "上课记录表",
+			"icon" : "&#xe613;",
+			"href" : "admin/openStudyInfo",
+			"spread" : false
+		},
+		{
+			"title" : "学生上课记录表",
+			"icon" : "&#xe613;",
+			"href" : "admin/openStu_studyInfo",
 			"spread" : false
 		},		
 		{
