@@ -11,82 +11,93 @@
 	<meta name="format-detection" content="telephone=no">
 	<link rel="stylesheet" href="../../layui/css/layui.css" media="all" />
 	<style type="text/css">
-		.layui-form { width:60%; float:left; margin-left:5%; margin-top: 3%}
+		.layui-form { width:90%; float:left; margin-left:5%; margin-top: 3%}
+		.myhead{
+			margin-left:10%; 
+			margin-top: 5%;
+			width: 300px;
+			height: 300px;
+			border-radius: 5px;
+			border:1px solid greed;
+			box-shadow:-10px 0px 10px red,   /*左边阴影*/ 
+                       0px -10px 10px #000,  /*上边阴影*/ 
+                       10px 0px 10px green,  /*右边阴影*/ 
+                       0px 10px 10px blue;" /*下边阴影*/ 
+		}
+		.myinfo{
+			margin-left:10%; 
+			margin-top: 5%;
+			width: 300px;
+			height: 100px;
+			border-radius: 5px;
+			border:3px solid black;
+		}
 	</style>
 </head>
 <body class="childrenBody">
-	<form class="layui-form layui-form-pane" name="addform">
-		<div class="layui-form-item">
-			<label class="layui-form-label">用户名</label>
-			<div class="layui-input-inline">
-				<input type="text" class="layui-input" name="username"  lay-verify="required" placeholder="请输入用户名"  autocomplete="off">
+  <div class="layui-row">
+    <div class="layui-col-md6">
+      	<form class="layui-form layui-form-pane" name="addform">
+			<div class="layui-form-item">
+				<label class="layui-form-label">姓名</label>
+				<div class="layui-input-block">
+					<input type="text" class="layui-input" name="username"  lay-verify="required" placeholder="请输入用户名"  autocomplete="off">
+				</div>
 			</div>
-		</div>
-		<div class="layui-form-item">
-			<label class="layui-form-label">出生年月</label>
-			<div class="layui-input-inline">
-				<input type="text" class="layui-input" name="birth"  placeholder="请输入出生年月"  autocomplete="off">
+			<div class="layui-form-item" pane="">
+				<label class="layui-form-label">性别</label>
+				<div class="layui-input-block">
+		      		<input type="radio" name="sex" value="1" title="男">
+		      		<input type="radio" name="sex" value="0" title="女" checked="">
+	   			</div>
 			</div>
-		</div>
-		<div class="layui-form-item">
-			<label class="layui-form-label">密码</label>
-			<div class="layui-input-inline">
-				<input type="text" class="layui-input" name="password"  lay-verify="required" placeholder="请输入密码"  autocomplete="off">
+			<div class="layui-form-item">
+				<label class="layui-form-label">出生年月</label>
+				<div class="layui-input-block">
+				 	<input type="text" name="birth" id="date" lay-verify="date" placeholder="请输入出生年月" autocomplete="off" class="layui-input">
+				</div>
 			</div>
-		</div>
-		<div class="layui-form-item">
-			<label class="layui-form-label">性别</label>
-			<div class="layui-input-inline">
-			      	<select name="sex"  id="selectId" lay-filter="state">
-			      	<option value="0">请选择性别</option>
-			      	<option value="0">男</option>
-			      	<option value="1">女</option>
-      				</select>
+			<div class="layui-form-item" pane="">
+				<label class="layui-form-label">类型</label>
+				<div class="layui-input-block">
+		      		<input type="radio" name="type" value="1" title="学生" checked="">
+		      		<input type="radio" name="type" value="2" title="老师">
+		      		<input type="radio" name="type" value="3" title="家长">
+	   			</div>
 			</div>
-		</div>
-		<div class="layui-form-item">
-			<label class="layui-form-label">类型</label>
-			<div class="layui-input-inline">
-			      	<select name="type"  id="selectId" lay-filter="state">
-			      	<option value="0">请选择类型</option>
-			      	<option value="1">学生</option>
-			      	<option value="2">老师</option>
-			      	<option value="3">家长</option>
-      				</select>
+			<div class="layui-form-item" pane="">
+				<label class="layui-form-label">头像</label>
+				<div class="layui-input-block">
+					<div class="layui-upload-list">
+	    			<p id="demoText"></p>
+	  				<button type="button" class="layui-btn" id="upschool">上传图片</button>
+	  				<input type="hidden" id="img" name="img" value=""/>
+	  				</div>
+				</div> 
 			</div>
-		</div>
-		<div class="layui-form-item">
-			<label class="layui-form-label">头像</label>
-			<button type="button" class="layui-btn" id="test1">
-			  <i class="layui-icon">&#xe67c;</i>上传图片
-			</button>
-		</div>
-		<div class="layui-form-item">
-			<div class="layui-input-block">
-				<button class="layui-btn" lay-submit="" lay-filter="add">保存</button>
-				<button type="reset" class="layui-btn layui-btn-primary">重置</button>
-		    </div>
-		</div>
-	</form>
+			<div class="layui-form-item">
+				<div class="layui-input-block">
+					<button class="layui-btn" lay-submit="" lay-filter="add">保存</button>
+					<button type="reset" class="layui-btn layui-btn-primary">重置</button>
+			    </div>
+			</div>
+		</form>
+      
+    </div>
+    <div class="layui-col-md6">
+    	<div class="layui-row">
+    		<img class="myhead" id="demo1"/>
+    	</div>
+    	<div class="layui-row">
+    		<div class="myinfo">
+				性别：<label id="type">女</label><br>
+				年龄：<label id="age">21</label><br>
+				颜值：<label id="beauty">89</label>
+			</div>
+    	</div>
+    </div>
+  </div>
 	<script type="text/javascript" src="../../layui/layui.js"></script>
 	<script type="text/javascript" src="../js/userinfo/userinfoAdd.js"></script>
-	<script>
-		layui.use('upload', function(){
-		  var upload = layui.upload;
-		   
-		  //执行实例
-		  var uploadInst = upload.render({
-		    elem: '#test1' //绑定元素
-		    ,url: 'uploadImg' //上传接口
-		    ,done: function(res){
-		      //上传完毕回调
-		    }
-		    ,error: function(){
-		      //请求异常回调
-		    }
-		  });
-		});
-	</script>
-	</script>
 </body>
 </html>
