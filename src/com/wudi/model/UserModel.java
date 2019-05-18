@@ -1,12 +1,19 @@
 package com.wudi.model;
 
+import java.sql.SQLException;
+import java.util.HashMap;
 import java.util.List;
 
+import com.jfinal.aop.Before;
 import com.jfinal.plugin.activerecord.Db;
+import com.jfinal.plugin.activerecord.IAtom;
 import com.jfinal.plugin.activerecord.Model;
 import com.jfinal.plugin.activerecord.Page;
+import com.jfinal.plugin.activerecord.tx.Tx;
 import com.jfinal.render.Render;
+import com.wudi.plugin.BaiduPlugin;
 import com.wudi.util.StringUtil;
+import com.wudi.util.Util;
 /**
  * 
  * @author ljp
@@ -117,10 +124,42 @@ public class UserModel extends Model<UserModel>{
 		m.setStatus(0);
 		m.setRole_id("1555148650901");
 		m.setImg(img);
-		return m.save();
+		
+		return save(m);
 	}
 	
-
+	@Before(Tx.class)
+	private static boolean save(final UserModel m){
+		boolean succeed = Db.tx(new IAtom() {
+					
+					@Override
+					public boolean run() throws SQLException {
+						boolean re=false;
+						boolean ree=false;
+						HashMap<String, String> options = new HashMap<String, String>();
+						String u=System.getProperty("user.dir");
+						String url=u+"\\WebContent\\upload\\"+m.getImg();
+					    String image =Util.GetImageStr(url);
+						BaiduPlugin.face.addUser(image, "BASE64", "test", m.getId(), options);
+						ree=m.save();
+						if(m.getType()==1) {
+							StudentModel s=new StudentModel();
+							s.setId(m.getId());
+							re=s.save();
+						}else if(m.getType()==2) {
+							TeacherModel s=new TeacherModel();
+							s.setId(m.getId());
+							re=s.save();
+						}else if(m.getType()==3) {
+							ParentsModel s=new ParentsModel();
+							s.setId(m.getId());
+							re=s.save();
+						}
+						return ree&&re;
+					}
+					});
+				return succeed;
+	}
 	
 	/**
 	 * @author ljp

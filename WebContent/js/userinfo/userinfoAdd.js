@@ -22,7 +22,7 @@ layui.config({
 		    ,before: function(obj){
 		      //预读本地文件示例，不支持ie8
 		      obj.preview(function(index, file, result){
-		        $('#demo1').attr('src', result); //图片链接（base64）
+		    	  $('#demo1').attr('src', result); //图片链接（base64）
 		      });
 		    }
 		    ,done: function(res){
@@ -30,6 +30,7 @@ layui.config({
 		      if(res.code > 0){
 		        return layer.msg('上传失败:'+res.msg);
 		      }else{
+		    	  $('#img').val(res.src);
 		    	  $('#age').text(res.age);
 		    	  $('#beauty').text(res.beauty);
 		    	  $('#type').text(res.type);

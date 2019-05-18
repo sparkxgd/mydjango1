@@ -138,7 +138,6 @@ public class AdminController extends Controller {
 		String password = getPara("password");
 		String birth = getPara("birth");
 		int type = getParaToInt("type");
-		String role_id = getPara("role_id");
 		String img = getPara("img");
 		boolean result = UserModel.saveUserinfo(username, sex, password, birth, type, img);
 		setAttr("result", result);

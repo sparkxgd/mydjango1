@@ -32,10 +32,10 @@ layui.config({
 	    where: {key: ''},//给后台传的参数
 	    page: true, //开启分页
 	    limit: 10,//每页显示信息条数
-	    toolbar: '#toolbarDemo',
 	    id: 'testReload',
 	    cols: [[ //表头
-	    	  {field: 'id', title: 'ID', width:150,  align:'left'}
+	    	{field: 'id', title: 'ID', sort: true, width:150,  align:'center'}
+	    	,{field: 'img',title:'头像',width:190,  align:'center'}
 		      ,{field: 'username', title: '用户名',width:150, align:'center'}
 		      ,{field: 'sex', title: '性别',width:80,  align:'center', templet:function(d){
 		    	  if(d.sex==1){
@@ -62,7 +62,6 @@ layui.config({
 		    		  return '<span class="layui-badge layui-bg-blue">已审核</span>'
 		    	  }
 		      }}
-		      ,{fixed: 'img',  align:'center',title: '头像', width:150}
 		      ,{fixed: 'right', align:'center',title:'操作', templet:function(d){
 		    	  var arr=new Array();
 		    	  if(per==1){
