@@ -460,23 +460,38 @@ public class WeixinController extends Controller{
 	 * 人脸识别搜索
 	 */
 	public void faceSearchT() {
-	    // 传入可选参数调用接口
+		String u=System.getProperty("user.dir");
+		String url=u+"\\WebContent\\upload\\1557462025819.jpg";
+	    String image =Util.GetImageStr(url);
+
 	    HashMap<String, String> options = new HashMap<String, String>();
-	    options.put("quality_control", "HIGH");
-	    options.put("max_user_num", "2");
-	    String image =Util.GetImageStr("../baiduface/WebContent/upload/1557462025819.jpg");
+	    options.put("detect_top_num", "10");
+	    options.put("user_top_num", "10");
 	    String imageType = "BASE64";
 	    String groupIdList = "test";
+	    // 多人脸识别搜索
+	    JSONObject res = BaiduPlugin.face.multiSearch(image, imageType, groupIdList, options);
+	    List<FaceSeachModel> flist=new ArrayList<FaceSeachModel>();
+	    Iterator<Object> it=res.getJSONObject("result").getJSONArray("face_list").getJSONObject(0).getJSONArray("user_list").iterator();
+	    while(it.hasNext()) {
+	    	JSONObject jo=(JSONObject)it.next();
+	    	FaceSeachModel m=new FaceSeachModel();
+	    	m.setGroup_id(jo.getString("group_id"));
+	    	m.setUser_id(jo.getString("user_id"));
+	    	m.setUser_info(jo.getString("user_info"));
+	    	m.setScore(jo.getDouble("score"));
+	    	flist.add(m);
+	    }
 	    
-	    // 人脸搜索
-	    JSONObject res = BaiduPlugin.face.search(image, imageType, groupIdList, options);
-	    
-	    renderJson(res.toString(2));
+	    setAttr("data", flist);
+		setAttr("code", 0);
+	    renderJson();
+	
 	}
 	/**
-	 * 人脸识别搜索
+	 * 任课老师拍照签到
 	 */
-	public void faceSearch2() {
+	public void faceSignIn() {
 		
 		UploadFile upFile = getFile();//单个上传文件一句搞定  默认路径是 upload
 		File file = upFile.getFile();
@@ -484,21 +499,35 @@ public class WeixinController extends Controller{
         String filePath = upFile.getUploadPath();
         String fileName = System.currentTimeMillis() + extName;
         file.renameTo(new File(filePath+"\\"+fileName));
-        
 		
+	    String url=filePath+"\\"+fileName;
+	    String image =Util.GetImageStr(url);
+	    file.delete();//文件删除        
 	    // 传入可选参数调用接口
 	    HashMap<String, String> options = new HashMap<String, String>();
 //	    options.put("quality_control", "NORMAL");
-//	    options.put("liveness_control", "LOW");
-	    String url=filePath+"\\"+fileName;
-	    String image =Util.GetImageStr(url);
+	    options.put("max_user_num", "20");
 	    String imageType = "BASE64";
 	    String groupIdList = "test";
 	    
 	    // 人脸搜索
 	    JSONObject res = BaiduPlugin.face.search(image, imageType, groupIdList, options);
 	    
-	    renderJson(res.toString(2));
+	    List<FaceSeachModel> flist=new ArrayList<FaceSeachModel>();
+	    Iterator<Object> it=res.getJSONObject("result").getJSONArray("face_list").getJSONObject(0).getJSONArray("user_list").iterator();
+	    while(it.hasNext()) {
+	    	JSONObject jo=(JSONObject)it.next();
+	    	FaceSeachModel m=new FaceSeachModel();
+	    	m.setGroup_id(jo.getString("group_id"));
+	    	m.setUser_id(jo.getString("user_id"));
+	    	m.setUser_info(jo.getString("user_info"));
+	    	m.setScore(jo.getDouble("score"));
+	    	flist.add(m);
+	    }
+	    
+	    setAttr("data", flist);
+		setAttr("code", 0);
+	    renderJson();
 	}
 	/**
 	 * xiao
@@ -514,12 +543,15 @@ public class WeixinController extends Controller{
         String fileName = System.currentTimeMillis() + extName;
         file.renameTo(new File(filePath+"\\"+fileName));        
 		
+        String url=filePath+"\\"+fileName;
+	    String image =Util.GetImageStr(url);
+	    file.delete();//文件删除   
+        
 	    // 传入可选参数调用接口
 	    HashMap<String, String> options = new HashMap<String, String>();
 //	    options.put("quality_control", "NORMAL");
 //	    options.put("liveness_control", "LOW");
-	    String url=filePath+"\\"+fileName;
-	    String image =Util.GetImageStr(url);
+	    
 	    String imageType = "BASE64";
 	    String groupIdList = "test";
 	    
