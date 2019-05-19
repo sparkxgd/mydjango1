@@ -14,6 +14,7 @@ layui.config({
 			$("input[name='no']").val(m.no);
 			$("input[name='clas']").val(m.clas);
 			$("input[name='type']").val(m.type);
+			$("input[name='userid']").val(m.userid);
 			$.get("getClassinfolist", function(data){
 				var list=data.list;
 				var id=list[0].id;
@@ -22,6 +23,18 @@ layui.config({
 	    				$("#clas").append("<option selected='true' value='"+list[i].id+"'>"+list[i].id+"</option>");
 	    			}else{
 	    				$("#clas").append("<option value='"+list[i].id+"'>"+list[i].id+"</option>");
+	    			}
+	    			}
+				form.render();//必须要再次渲染，要不然option显示不出来
+			});
+			$.get("getUserlist", function(data){
+				var list=data.list;
+				var id=list[0].id;
+	    		for(var i=0;i<list.length;i++){
+	    			if(list[i].id==m.userid){
+	    				$("#userid").append("<option selected='true' value='"+list[i].id+"'>"+list[i].username+"</option>");
+	    			}else{
+	    				$("#userid").append("<option value='"+list[i].id+"'>"+list[i].username+"</option>");
 	    			}
 	    			}
 				form.render();//必须要再次渲染，要不然option显示不出来

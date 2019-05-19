@@ -170,20 +170,11 @@ public class UserModel extends Model<UserModel>{
 				return succeed;
 	}
 	
-	/**
-	 * @author ljp
-	 * @param phone
-	 * @return
-	 */
 	public static UserModel loginById(String id) {
 		String sql = "select a.*,b.name as rolename,b.permission from "+tableName+" a LEFT JOIN "+RoleModel.tableName+" b ON a.role_id=b.id where a.id = ?";
 		return dao.findFirst(sql,id);
 	}
-	/**
-	 * ���ݺ�����ҿͻ�������Ϣ
-	 * @param phone_no
-	 * @return
-	 */
+	
 	public List<UserModel> getUserAllInfo(String id) {
 		UserModel m=new UserModel();
 		String selectsql = "SELECT * FROM user WHERE id=?";

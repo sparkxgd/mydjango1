@@ -408,7 +408,8 @@ public class AdminController extends Controller {
 		String no = getPara("no");
 		String clas = getPara("clas");
 		int type = getParaToInt("type");
-		boolean result = StudentModel.updateStudent(id, no, clas, type);
+		String userid = getPara("userid");
+		boolean result = StudentModel.updateStudent(id, no, clas, type, userid);
 		setAttr("result", result);
 		renderJson();
 	}
@@ -470,7 +471,8 @@ public class AdminController extends Controller {
 		String no = getPara("no");
 		String remark = getPara("remark");
 		String contact = getPara("contact");
-		boolean result = TeacherModel.updateTeacher(id, no, remark, contact);
+		String userid = getPara("userid");
+		boolean result = TeacherModel.updateTeacher(id, no, remark, contact, userid);
 		setAttr("result", result);
 		renderJson();
 	}
@@ -531,7 +533,8 @@ public class AdminController extends Controller {
 		String home_addr = getPara("home_addr");
 		String remark = getPara("remark");
 		String contact = getPara("contact");
-		boolean result = ParentsModel.update(id, home_addr, remark, contact);
+		String userid = getPara("userid");
+		boolean result = ParentsModel.update(id, home_addr, remark, contact, userid);
 		setAttr("result", result);
 		renderJson();
 	}
@@ -1198,10 +1201,11 @@ public class AdminController extends Controller {
 		String title = getPara("title");
 		String content = getPara("content");
 		String user_id = getPara("user_id");
+		int status = getParaToInt("status");
 		String create_time = getPara("create_time");
 		String release_time = getPara("release_time");
 		String reading = getPara("reading");
-		boolean result = NewsModel.saveNews(title, content, user_id, reading);
+		boolean result = NewsModel.saveNews(title, content, status, user_id, reading);
 		setAttr("result", result);
 		renderJson();
 	}
@@ -1211,10 +1215,11 @@ public class AdminController extends Controller {
 		String title = getPara("title");
 		String content = getPara("content");
 		String user_id = getPara("user_id");
+		int status = getParaToInt("status");
 		String create_time = getPara("create_time");
 		String release_time = getPara("release_time");
 		String reading = getPara("reading");
-		boolean result = NewsModel.update(id, title, content, user_id, reading);
+		boolean result = NewsModel.update(id, title, content, status, user_id, reading);
 		setAttr("result", result);
 		renderJson();
 	}

@@ -94,23 +94,23 @@ public class NewsModel extends Model<NewsModel>{
 	/**
 	 * 保存消息
 	 */
-	public static boolean saveNews(String title,String content,String user_id,String reading) {
+	public static boolean saveNews(String title,String content,int status,String user_id,String reading) {
 		NewsModel m = new NewsModel();
 		m.setId(StringUtil.getId());
 		m.setCeate_time(new Date());
 		m.setTitle(title);
 		m.setContent(content);
-		m.setStatus(0);
+		m.setStatus(status);
 		m.setUser_id(user_id);
 		m.setReading(reading);
 		return m.save();
 	}
-	public static boolean update(String id,String title,String content,String user_id,String reading) {
+	public static boolean update(String id,String title,String content, int status, String user_id,String reading) {
 		NewsModel m = NewsModel.getById(id);
 		m.setCeate_time(new Date());;
 		m.setTitle(title);
 		m.setContent(content);
-		m.setStatus(0);
+		m.setStatus(status);;
 		m.setUser_id(user_id);
 		m.setReading(reading);
 		return m.update();

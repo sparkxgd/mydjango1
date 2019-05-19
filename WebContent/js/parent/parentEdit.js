@@ -15,8 +15,20 @@ layui.config({
 			$("input[name='contact']").val(m.contact);
 			$("input[name='home_addr']").val(m.home_addr);
 			$("input[name='remark']").val(m.remark);
-//			$("input[name='userid']").val(m.userid);
-	        
+			$("input[name='userid']").val(m.userid);
+			$.get("getUserlist", function(data){
+				var list=data.list;
+				var id=list[0].id;
+	    		for(var i=0;i<list.length;i++){
+	    			if(list[i].id==m.userid){
+	    				$("#userid").append("<option selected='true' value='"+list[i].id+"'>"+list[i].username+"</option>");
+	    			}else{
+	    				$("#userid").append("<option value='"+list[i].id+"'>"+list[i].username+"</option>");
+	    			}
+	    			}
+				form.render();//必须要再次渲染，要不然option显示不出来
+			});
+			
 	        var arr=new Array();
 	        
 	        for(var i=100;i<105;i++){

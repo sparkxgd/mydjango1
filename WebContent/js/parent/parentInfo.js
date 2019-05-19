@@ -34,6 +34,7 @@ layui.config({
 		      ,{field: 'contact', title: '联系方式',width:150}
 		      ,{field: 'home_addr' ,title:'家庭地址', width:150}
 		      ,{field: 'remark' ,title:'备注信息', width:150}
+		      ,{field: 'userid' ,title:'用户ID', width:150}
 		      ,{fixed: 'right', align:'center',title:'操作', templet:function(d){
 		    	  var arr=new Array();
 		    	  if(per==1){

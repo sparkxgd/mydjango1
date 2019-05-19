@@ -49,9 +49,10 @@ public class ParentsModel extends Model<ParentsModel> {
 	}
 	
 	public static Page<ParentsModel> getList(int pageNumber, int pageSize, String key) {
-		String sele_sql = "select * ";
+		String sele_sql = "select a.*,b.username as userid ";
 		StringBuffer from_sql = new StringBuffer();
-		from_sql.append("from ").append(tableName);
+		from_sql.append("from ").append(tableName).append(" as a left join ").append(UserModel.tableName).append(" as b");
+		from_sql.append(" on a.userid=b.id ");
 		if(!StringUtil.isBlankOrEmpty(key)) {
 			from_sql.append("where home_addr like '%"+key+"%'");
 		}
@@ -67,11 +68,12 @@ public class ParentsModel extends Model<ParentsModel> {
 		return m.save();
 	}
 	
-	public static boolean update(String id, String home_addr, String remark, String contact) {
+	public static boolean update(String id, String home_addr, String remark, String contact, String userid) {
 		ParentsModel m = dao.getById(id);
 		m.setRemark(remark);
 		m.setHome_addr(home_addr);
 		m.setContact(contact);
+		m.setUserid(userid);
 		return m.update();
 	}
 	

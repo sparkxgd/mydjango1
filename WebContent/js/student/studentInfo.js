@@ -39,6 +39,7 @@ layui.config({
 			    	  }
 			      } 
 		      }
+		      ,{field: 'userid' ,title:'用户id', width:150}
 		      ,{fixed: 'right', align:'center',title:'操作', templet:function(d){
 		    	  var arr=new Array();
 		    	  if(per==1){

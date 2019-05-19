@@ -51,9 +51,10 @@ public class StudentModel extends Model<StudentModel> {
 	}
 	
 	public static Page<StudentModel> getList(int pageNumber, int pageSize,String key) {
-		String sele_sql = "select * ";
+		String sele_sql = "select a.*,b.username as userid ";
 		StringBuffer from_sql = new StringBuffer();
-		from_sql.append("from ").append(tableName);
+		from_sql.append("from ").append(tableName).append(" as a left join ").append(UserModel.tableName).append(" as b");
+		from_sql.append(" on a.userid=b.id ");
 		if(!StringUtil.isBlankOrEmpty(key)) {
 			from_sql.append(" where name like '%"+key+"%'");
 		}
@@ -70,7 +71,7 @@ public class StudentModel extends Model<StudentModel> {
 		return m.save();
 	}
 	
-	public static boolean updateStudent(String id, String no, String clas, int type) {
+	public static boolean updateStudent(String id, String no, String clas, int type,String userid) {
 		StudentModel m = StudentModel.getById(id);
 		if(m==null){
 			return false;
@@ -79,6 +80,7 @@ public class StudentModel extends Model<StudentModel> {
 		m.setNo(no);
 		m.setClas(clas);
 		m.setType(type);
+		m.setUserid(userid);
 		try {
 			m.update();
 		} catch (Exception e) {
