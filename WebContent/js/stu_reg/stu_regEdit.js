@@ -8,7 +8,7 @@ layui.config({
 		$ = layui.jquery;
 		var id=$("input[name='id']").val();
 		//加载页面数据
-		$.get("getTeacherModel?id="+id, function(data){
+		$.get("getStu_registerModel?id="+id, function(data){
 			var m=data.m;
 	        //执行加载数据的方法
 			$("input[name='reg_time']").val(m.reg_time);

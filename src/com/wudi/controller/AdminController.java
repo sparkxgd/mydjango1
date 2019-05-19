@@ -877,7 +877,7 @@ public class AdminController extends Controller {
 	public void getClassroomModel() {
 		 String id=getPara("id");
 		 ClassroomModel result = ClassroomModel.getById(id);
-		 setAttr("result", result);
+		 setAttr("m", result);
 		 renderJson();
 	}
 	public void saveClassroom() {
@@ -940,7 +940,7 @@ public class AdminController extends Controller {
 	public void getSubjectModel() {
 		 String id=getPara("id");
 		 SubjectModel result = SubjectModel.getById(id);
-		 setAttr("result", result);
+		 setAttr("m", result);
 		 renderJson();
 	}
 	public void saveSubject() {
@@ -1123,7 +1123,7 @@ public class AdminController extends Controller {
 	public void getStu_studyModel() {
 		 String id=getPara("id");
 		 Stu_studyModel result = Stu_studyModel.getById(id);
-		 setAttr("result", result);
+		 setAttr("m", result);
 		 renderJson();
 	}
 	public void saveStu_study() {
@@ -1179,7 +1179,7 @@ public class AdminController extends Controller {
 	public void getStu_registerModel() {
 		 String id=getPara("id");
 		 Stu_registerModel result = Stu_registerModel.getById(id);
-		 setAttr("result", result);
+		 setAttr("m", result);
 		 renderJson();
 	}
 	public void saveStu_register() {

@@ -10,9 +10,12 @@ layui.config({
 		//加载页面数据
 		$.get("getParentModel?id="+id, function(data){
 			var m=data.m;
-			var obj = $.parseJSON(m.permission);
+//			var obj = $.parseJSON(m.permission);
 	        //执行加载数据的方法
-			$("input[name='name']").val(m.name);
+			$("input[name='contact']").val(m.contact);
+			$("input[name='home_addr']").val(m.home_addr);
+			$("input[name='remark']").val(m.remark);
+//			$("input[name='userid']").val(m.userid);
 	        
 	        var arr=new Array();
 	        
