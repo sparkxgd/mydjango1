@@ -1,5 +1,6 @@
 package com.wudi.model;
 
+import java.io.File;
 import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.List;
@@ -153,6 +154,12 @@ public class UserModel extends Model<UserModel>{
 							ParentsModel s=new ParentsModel();
 							s.setUserid(m.getId());
 							re=s.save();
+						}
+						if(ree&&re) {
+							File f=new File(url);
+							if(f.exists()) {
+								f.delete();
+							}
 						}
 						return ree&&re;
 					}
