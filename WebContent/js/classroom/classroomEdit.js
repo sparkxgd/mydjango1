@@ -10,7 +10,7 @@ layui.config({
 		//加载页面数据
 		$.get("getClassroomModel?id="+id, function(data){
 			var m=data.m;
-			var obj = $.parseJSON(m.permission);
+//			var obj = $.parseJSON(m.permission);
 	        //执行加载数据的方法
 			$("input[name='nickname']").val(m.nickname);
 			$("input[name='addr']").val(m.addr);

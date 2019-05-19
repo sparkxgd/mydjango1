@@ -18,22 +18,13 @@ layui.config({
 		form.render();//必须要再次渲染，要不然option显示不出来
 		
 		//加载页面选择框数据
-//		$.get("getStudentlist", function(data){
-//			var dp=data.dp;
-//			for(var i=0;i<dp.length;i++){
-//        		$("#pare_id").append("<option value='"+dp[i].id+"'>"+dp[i].id+"</option>");
-//			}
-//			form.render();//必须要再次渲染，要不然option显示不出来
-//		});
-//		
-//		$.get("getParentlist", function(data){
-//				var dp=data.dp;
-//				for(var i=0;i<dp.length;i++){
-//	        		$("#stu_id").append("<option value='"+dp[i].id+"'>"+dp[i].id+"</option>");
-//				}
-//				form.render();//必须要再次渲染，要不然option显示不出来
-//		});
-		
+		$.get("getStudylist", function(data){
+			var dp=data.dp;
+			for(var i=0;i<dp.length;i++){
+        		$("#studey_id").append("<option value='"+dp[i].id+"'>"+dp[i].id+"</option>");
+			}
+			form.render();//必须要再次渲染，要不然option显示不出来
+	});
 		
 		
 	//===========================================
