@@ -42,11 +42,11 @@ public class Stu_registerModel extends Model<Stu_registerModel> {
 	public void setRemark(String remark) {
 		set("remark", remark);
 	}
-	public String getStudey_id() {
+	public String getStustudyid() {
 		return get("studey_id");
 	}
-	public void setStudey_id(String studey_id) {
-		set("studey_id", studey_id);
+	public void setStustudyid(String stu_study_id) {
+		set("stu_study_id", stu_study_id);
 	}
 	
 	public static Stu_registerModel getById(String id) {
@@ -61,26 +61,6 @@ public class Stu_registerModel extends Model<Stu_registerModel> {
 			from_sql.append("where name like '%"+key+"%'");
 		}
 		return dao.paginate(pageNumber, pageSize, sele_sql, from_sql.toString());
-	}
-	public static boolean save(String reg_time, String addr, int type, String remark, String studey_id) {
-		Stu_registerModel m = new Stu_registerModel();
-		m.setId(StringUtil.getId());
-		m.setReg_time(reg_time);
-		m.setAddr(addr);
-		m.setType(type);
-		m.setRemark(remark);
-		m.setStudey_id(studey_id);
-		return m.save();
-	}
-	public static boolean update(String id, String reg_time, String addr, int type, String remark, String studey_id) {
-		Stu_registerModel m = Stu_registerModel.getById(id);
-		m.setId(id);
-		m.setReg_time(reg_time);
-		m.setAddr(addr);
-		m.setType(type);
-		m.setRemark(remark);
-		m.setStudey_id(studey_id);
-		return m.update();
 	}
 	public static boolean delStu_register(String id) {
 		try {

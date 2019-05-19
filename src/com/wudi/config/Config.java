@@ -23,6 +23,7 @@ import com.wudi.model.NewsModel;
 import com.wudi.model.ParentsModel;
 import com.wudi.model.RoleModel;
 import com.wudi.model.SchoolModel;
+import com.wudi.model.StuRegisterNewModel;
 import com.wudi.model.Stu_pareModel;
 import com.wudi.model.Stu_registerModel;
 import com.wudi.model.Stu_studyModel;
@@ -99,6 +100,7 @@ public class Config extends JFinalConfig {
 			arpMysql.addMapping("stu_register", Stu_registerModel.class);//上课签到表
 			arpMysql.addMapping("baidugroup", GroupModel.class);//
 			arpMysql.addMapping("userface", UserFaceModel.class);//
+			arpMysql.addMapping("stu_registernew", StuRegisterNewModel.class);//
 		//添加插件
 		me.add(dsMysql);
 		me.add(arpMysql);

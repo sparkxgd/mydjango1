@@ -1156,28 +1156,6 @@ public class AdminController extends Controller {
 		 setAttr("m", result);
 		 renderJson();
 	}
-	public void saveStu_register() {
-		String reg_time = getPara("reg_time");
-		String addr = getPara("addr");
-		int type = getParaToInt("type");
-		String remark = getPara("remark");
-		String studey_id = getPara("studey_id");
-		boolean result = Stu_registerModel.save(reg_time, addr, type, remark, studey_id);
-		setAttr("result", result);
-		renderJson();
-	}
-
-	public void updateStu_register() {
-		String id = getPara("id");
-		String reg_time = getPara("reg_time");
-		String addr = getPara("addr");
-		int type = getParaToInt("type");
-		String remark = getPara("remark");
-		String studey_id = getPara("studey_id");
-		boolean result = Stu_registerModel.update(id, reg_time, addr, type, remark, studey_id);
-		setAttr("result", result);
-		renderJson();
-	}
 	public void delStu_register() {
 		String id = getPara("id");
 		boolean result = Stu_registerModel.delStu_register(id);
