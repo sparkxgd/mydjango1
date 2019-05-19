@@ -106,8 +106,8 @@ public class NewsModel extends Model<NewsModel>{
 		return m.save();
 	}
 	public static boolean update(String id,String title,String content,String user_id,String reading) {
-		NewsModel m = NewsModel.getById(user_id);
-		m.setCeate_time(new Date());
+		NewsModel m = NewsModel.getById(id);
+		m.setCeate_time(new Date());;
 		m.setTitle(title);
 		m.setContent(content);
 		m.setStatus(0);

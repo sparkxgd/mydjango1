@@ -1,12 +1,22 @@
 var $;
 layui.config({
 	base : "js/"
-}).use(['form','layer','jquery'],function(){
+}).use(['form','layer','jquery', 'laydate'],function(){
 	var form = layui.form,
 		layer = parent.layer === undefined ? layui.layer : parent.layer,
 		laypage = layui.laypage;
-		$ = layui.jquery;
-		
+		$ = layui.jquery
+		,laydate = layui.laydate;
+	  
+	  //日期
+	  laydate.render({
+	    elem: '#date'
+	  });
+	  
+	  laydate.render({
+		    elem: '#data'
+		  });
+		  
 		var arr=new Array();
         
         for(var i=100;i<105;i++){
@@ -19,10 +29,10 @@ layui.config({
 		
 	//===========================================
 		//学校的下拉框
-		$.get("getSchoollist", function(data){
+		$.get("getUserlist", function(data){
 			var list=data.list;
 			for(var i=0;i<list.length;i++){
-        		$("#shool").append("<option value='"+list[i].id+"'>"+list[i].nickname+"</option>");
+        		$("#user_id").append("<option value='"+list[i].id+"'>"+list[i].username+"</option>");
 			}
 			form.render();//必须要再次渲染，要不然option显示不出来
 		});

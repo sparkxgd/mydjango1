@@ -16,8 +16,6 @@ layui.config({
 		per=v;
 		if(v==1){
 			var arr=new Array();
-			arr.push("<a class='layui-btn layui-btn-normal add_btn' id='add_b'> <i class='layui-icon'>&#xe608;</i>添加</a>");
-			$("#add_xiao").append(arr.join("\n"));
 		}
 	});
 	
@@ -40,7 +38,6 @@ layui.config({
 		    	  var arr=new Array();
 		    	  if(per==1){
 			    	  arr.push("<a class='layui-btn layui-btn-xs' lay-event='edit'><i class='layui-icon'>&#xe642;</i>编辑</a>");
-			    	  arr.push("<a class='layui-btn layui-btn-xs layui-btn-danger' lay-event='del'><i class='layui-icon'></i>删除</a>");
 		    	  }
 		    	  return arr.join("\n");
 		      	}

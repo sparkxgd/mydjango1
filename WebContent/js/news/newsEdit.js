@@ -6,6 +6,7 @@ layui.config({
 		layer = parent.layer === undefined ? layui.layer : parent.layer,
 		laypage = layui.laypage;
 		$ = layui.jquery;
+		
 		var id=$("input[name='id']").val();
 		//加载页面数据
 		$.get("getNewsModel?id="+id, function(data){
@@ -19,14 +20,14 @@ layui.config({
 			$("input[name='release_time']").val(m.release_time);
 			$("input[name='status']").val(m.status);
 			$("input[name='reading']").val(m.reading);
-			$.get("getSchoollist", function(data){
+			$.get("getUserlist", function(data){
 				var list=data.list;
 				var id=list[0].id;
 	    		for(var i=0;i<list.length;i++){
-	    			if(list[i].id==m.school){
-	    				$("#school").append("<option selected='true' value='"+list[i].id+"'>"+list[i].nickname+"</option>");
+	    			if(list[i].id==m.user_id){
+	    				$("#user_id").append("<option selected='true' value='"+list[i].id+"'>"+list[i].username+"</option>");
 	    			}else{
-	    				$("#school").append("<option value='"+list[i].id+"'>"+list[i].nickname+"</option>");
+	    				$("#user_id").append("<option value='"+list[i].id+"'>"+list[i].username+"</option>");
 	    			}
 	    			}
 				form.render();//必须要再次渲染，要不然option显示不出来

@@ -16,8 +16,6 @@ layui.config({
 		per=v;
 		if(v==1){
 			var arr=new Array();
-			arr.push("<a class='layui-btn layui-btn-normal add_btn' id='add_b'> <i class='layui-icon'>&#xe608;</i>添加</a>");
-			$("#add_xiao").append(arr.join("\n"));
 		}
 	});
 	
@@ -32,9 +30,9 @@ layui.config({
 	    toolbar: '#toolbarDemo',
 	    id: 'testReload',
 	    cols: [[ //表头
-		      {field: 'id', title: 'ID', sort: true, fixed: 'left',width:150}
-		      ,{field: 'studey_id', title: '上课记录ID',width:150}
-		      ,{field: 'status' ,title:'状态',width:150,
+		      {field: 'id', title: 'ID', sort: true, fixed: 'left'}
+		      ,{field: 'studey_id', title: '上课记录ID', fixed: 'center'}
+		      ,{field: 'status' ,title:'状态', fixed: 'center',
 		    	  templet:function(d){
 			    	  if(d.status==0){
 			    		  return '<span style="color: blue">正常</span>'
@@ -53,16 +51,7 @@ layui.config({
 			    	  }
 			      } 
 		      }
-		      ,{field: 'remark' ,title:'备注',width:150}
-		      ,{fixed: 'right', align:'center',title:'操作', templet:function(d){
-		    	  var arr=new Array();
-		    	  if(per==1){
-			    	  arr.push("<a class='layui-btn layui-btn-xs' lay-event='edit'><i class='layui-icon'>&#xe642;</i>编辑</a>");
-			    	  arr.push("<a class='layui-btn layui-btn-xs layui-btn-danger' lay-event='del'><i class='layui-icon'></i>删除</a>");
-		    	  }
-		    	  return arr.join("\n");
-		      	}
-		      } //这里的toolbar值是模板元素的选择器
+		      ,{field: 'remark' ,title:'备注', fixed: 'center'} //这里的toolbar值是模板元素的选择器
 		    ]]
 
 	  });

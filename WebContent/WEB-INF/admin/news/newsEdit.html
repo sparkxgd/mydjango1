@@ -37,7 +37,6 @@
 		<div class="layui-form-item">
 			<label class="layui-form-label">作者</label>
 			<div class="layui-input-inline">
-				<div class="layui-input-inline">
 				<select name="user_id"  id="user_id" lay-filter="state">
 			      <option value="-1">请选择学生ID</option>
       		</select>
@@ -46,23 +45,23 @@
 		<div class="layui-form-item">
 			<label class="layui-form-label">编写时间</label>
 			<div class="layui-input-inline">
-				<input type="text" class="layui-input" name="create_time" lay-verify="required" placeholder="请输入编写时间"  autocomplete="off">
+				<input type="text" name="create_time" id="date" lay-verify="date" placeholder="请输入编写时间" autocomplete="off" class="layui-input">
 			</div>
 		</div>
 		<div class="layui-form-item">
 			<label class="layui-form-label">发布时间</label>
 			<div class="layui-input-inline">
-				<input type="text" class="layui-input" name="release_time" lay-verify="required" placeholder="请输入发布时间"  autocomplete="off">
+				<input type="text" name="release_time" id="data" lay-verify="date" placeholder="请输入编写时间" autocomplete="off" class="layui-input">
 			</div>
 		</div>
 		<div class="layui-form-item">
 			<label class="layui-form-label">状态</label>
 			<div class="layui-input-inline">
-				<div class="layui-input-inline">
-				<select name="status"  id="user_id" lay-filter="state">
-			      <option value="0">编辑</option>
-			      <option value="1">发布</option>
-      		</select>
+				<select name="status" lay-filter="state">
+					<option value="-1">请选择状态</option>
+				      <option value="0">编辑</option>
+				      <option value="1">发布</option>
+      			</select>
 			</div>
 		</div>
 		<div class="layui-form-item">

@@ -1,5 +1,6 @@
 package com.wudi.controller;
 
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -150,6 +151,12 @@ public class AdminController extends Controller {
 		String img = getPara("img");
 		boolean result = UserModel.saveUserinfo(username, sex, password, birth, type, img);
 		setAttr("result", result);
+		renderJson();
+	}
+	
+	public void getUserlist() {
+		List<UserModel> list = UserModel.getListAll();
+		setAttr("list", list);
 		renderJson();
 	}
 	
@@ -1111,43 +1118,11 @@ public class AdminController extends Controller {
 	public void openStu_studyInfo() {
 		render("stu_study/stu_studyinfo.html");
 	}
-	public void openStu_studyAdd() {
-		render("stu_study/stu_studyAdd.html");
-	}
-	public void openStu_studyEdit() {
-		String id = getPara("id");
-		setAttr("id", id);
-		renderFreeMarker("stu_study/stu_studyEdit.html");
-	}
 	public void getStu_studyModel() {
 		 String id=getPara("id");
 		 Stu_studyModel result = Stu_studyModel.getById(id);
 		 setAttr("m", result);
 		 renderJson();
-	}
-	public void saveStu_study() {
-		String studey_id = getPara("studey_id");
-		int status = getParaToInt("status");
-		String remark = getPara("remark");
-		boolean result = Stu_studyModel.save(studey_id, status, remark);
-		setAttr("result", result);
-		renderJson();
-	}
-
-	public void updateStu_study() {
-		String id = getPara("id");
-		String studey_id = getPara("studey_id");
-		int status = getParaToInt("status");
-		String remark = getPara("remark");
-		boolean result = Stu_studyModel.update(id, studey_id, status, remark);
-		setAttr("result", result);
-		renderJson();
-	}
-	public void delStu_study() {
-		String id = getPara("id");
-		boolean result = Stu_studyModel.delStu_study(id);
-		setAttr("result", result);
-		renderJson();
 	}
 	public void queryStu_study() {
 		String key = getPara("key");
@@ -1245,6 +1220,8 @@ public class AdminController extends Controller {
 		String title = getPara("title");
 		String content = getPara("content");
 		String user_id = getPara("user_id");
+		String create_time = getPara("create_time");
+		String release_time = getPara("release_time");
 		String reading = getPara("reading");
 		boolean result = NewsModel.saveNews(title, content, user_id, reading);
 		setAttr("result", result);
@@ -1256,6 +1233,8 @@ public class AdminController extends Controller {
 		String title = getPara("title");
 		String content = getPara("content");
 		String user_id = getPara("user_id");
+		String create_time = getPara("create_time");
+		String release_time = getPara("release_time");
 		String reading = getPara("reading");
 		boolean result = NewsModel.update(id, title, content, user_id, reading);
 		setAttr("result", result);

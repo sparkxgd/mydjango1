@@ -265,4 +265,10 @@ public class UserModel extends Model<UserModel>{
 		}
 	}
 	
+	public static List<UserModel> getListAll() {
+		StringBuffer sql=new StringBuffer();
+		sql.append("select *  from ").append(tableName);
+		return dao.find(sql.toString());
+	}
+	
 }
