@@ -11,9 +11,7 @@ import org.json.JSONObject;
 import com.jfinal.core.Controller;
 import com.jfinal.upload.UploadFile;
 import com.wudi.bean.FaceSeachModel;
-import com.wudi.model.NewsModel;
-import com.wudi.model.TeamModel;
-import com.wudi.model.TeamersModel;
+import com.wudi.model.StuRegisterNewModel;
 import com.wudi.model.UserModel;
 import com.wudi.plugin.BaiduPlugin;
 import com.wudi.util.StringUtil;
@@ -505,13 +503,13 @@ public class WeixinController extends Controller{
 	    file.delete();//文件删除        
 	    // 传入可选参数调用接口
 	    HashMap<String, String> options = new HashMap<String, String>();
-//	    options.put("quality_control", "NORMAL");
-	    options.put("max_user_num", "20");
+	    options.put("detect_top_num", "10");
+	    options.put("user_top_num", "10");
 	    String imageType = "BASE64";
 	    String groupIdList = "test";
 	    
 	    // 人脸搜索
-	    JSONObject res = BaiduPlugin.face.search(image, imageType, groupIdList, options);
+	    JSONObject res = BaiduPlugin.face.multiSearch(image, imageType, groupIdList, options);
 	    
 	    List<FaceSeachModel> flist=new ArrayList<FaceSeachModel>();
 	    Iterator<Object> it=res.getJSONObject("result").getJSONArray("face_list").getJSONObject(0).getJSONArray("user_list").iterator();
@@ -525,7 +523,14 @@ public class WeixinController extends Controller{
 	    	flist.add(m);
 	    }
 	    
-	    setAttr("data", flist);
+	    String classid=getPara("classid");
+	    String tcsuid=getPara("tcsuid");
+	    int week=getParaToInt("week");
+	    //将信息添加到数据库
+	    
+	    List<StuRegisterNewModel> list=StuRegisterNewModel.signIn(flist,tcsuid,classid,week);
+	    
+	    setAttr("data", list);
 		setAttr("code", 0);
 	    renderJson();
 	}

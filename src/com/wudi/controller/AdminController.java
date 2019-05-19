@@ -1125,24 +1125,6 @@ public class AdminController extends Controller {
 		 setAttr("m", result);
 		 renderJson();
 	}
-	public void saveStu_study() {
-		String studey_id = getPara("studey_id");
-		int status = getParaToInt("status");
-		String remark = getPara("remark");
-		boolean result = Stu_studyModel.save(studey_id, status, remark);
-		setAttr("result", result);
-		renderJson();
-	}
-
-	public void updateStu_study() {
-		String id = getPara("id");
-		String studey_id = getPara("studey_id");
-		int status = getParaToInt("status");
-		String remark = getPara("remark");
-		boolean result = Stu_studyModel.update(id, studey_id, status, remark);
-		setAttr("result", result);
-		renderJson();
-	}
 	public void delStu_study() {
 		String id = getPara("id");
 		boolean result = Stu_studyModel.delStu_study(id);
@@ -1180,28 +1162,6 @@ public class AdminController extends Controller {
 		 Stu_registerModel result = Stu_registerModel.getById(id);
 		 setAttr("m", result);
 		 renderJson();
-	}
-	public void saveStu_register() {
-		String reg_time = getPara("reg_time");
-		String addr = getPara("addr");
-		int type = getParaToInt("type");
-		String remark = getPara("remark");
-		String studey_id = getPara("studey_id");
-		boolean result = Stu_registerModel.save(reg_time, addr, type, remark, studey_id);
-		setAttr("result", result);
-		renderJson();
-	}
-
-	public void updateStu_register() {
-		String id = getPara("id");
-		String reg_time = getPara("reg_time");
-		String addr = getPara("addr");
-		int type = getParaToInt("type");
-		String remark = getPara("remark");
-		String studey_id = getPara("studey_id");
-		boolean result = Stu_registerModel.update(id, reg_time, addr, type, remark, studey_id);
-		setAttr("result", result);
-		renderJson();
 	}
 	public void delStu_register() {
 		String id = getPara("id");

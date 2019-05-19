@@ -22,6 +22,12 @@ public class Stu_studyModel extends Model<Stu_studyModel> {
 	public void setStudey_id(String studey_id) {
 		set("studey_id", studey_id);
 	}
+	public String getStuid() {
+		return get("stu_id");
+	}
+	public void setStuid(String stu_id) {
+		set("stu_id", stu_id);
+	}
 	public int getStatus() {
 		return get("status");
 	}
@@ -48,22 +54,6 @@ public class Stu_studyModel extends Model<Stu_studyModel> {
 			from_sql.append(" where studey_id like '%"+key+"%' ");
 		}
 		return dao.paginate(pageNumber, pageSize, sele_sql, from_sql.toString());
-	}
-	public static boolean save(String studey_id, int status, String remark) {
-		Stu_studyModel m = new Stu_studyModel();
-		m.setId(StringUtil.getId());
-		m.setStudey_id(studey_id);
-		m.setStatus(status);
-		m.setRemark(remark);
-		return m.save();
-	}
-	public static boolean update(String id, String studey_id, int status, String remark) {
-		Stu_studyModel m = Stu_studyModel.getById(id);
-		m.setId(StringUtil.getId());
-		m.setStudey_id(studey_id);
-		m.setStatus(status);
-		m.setRemark(remark);
-		return m.update();
 	}
 	public static boolean delStu_study(String id) {
 		try {

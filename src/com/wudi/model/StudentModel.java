@@ -108,4 +108,9 @@ public class StudentModel extends Model<StudentModel> {
 		sql.append("select *  from ").append(tableName);
 		return dao.find(sql.toString());
 	}
+	public static List<StudentModel> getListbyClassid(String clid) {
+		StringBuffer sql=new StringBuffer();
+		sql.append("select *  from ").append(tableName).append(" where clas=?");
+		return dao.find(sql.toString(),clid);
+	}
 }

@@ -144,14 +144,17 @@ public class UserModel extends Model<UserModel>{
 						ree=m.save();
 						if(m.getType()==1) {
 							StudentModel s=new StudentModel();
+							s.setId(StringUtil.getId());
 							s.setUserid(m.getId());
 							re=s.save();
 						}else if(m.getType()==2) {
 							TeacherModel s=new TeacherModel();
+							s.setId(StringUtil.getId());
 							s.setUserid(m.getId());
 							re=s.save();
 						}else if(m.getType()==3) {
 							ParentsModel s=new ParentsModel();
+							s.setId(StringUtil.getId());
 							s.setUserid(m.getId());
 							re=s.save();
 						}
