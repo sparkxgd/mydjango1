@@ -29,7 +29,6 @@ layui.config({
 	    where: {key: ''},//给后台传的参数
 	    page: true, //开启分页
 	    limit: 10,//每页显示信息条数
-	    toolbar: '#toolbarDemo',
 	    id: 'testReload',
 	    cols: [[ //表头
 		      {field: 'id', title: 'ID', sort: true, fixed: 'left',width:150}
@@ -87,14 +86,9 @@ layui.config({
 	  active[type] ? active[type].call(this) : '';
 	  });
   
-  
-  
-  
-  
 //=============绑定【添加】事件============================
-	//$(window).one("resize",function(){
-  $(".add_btn").click(function(){
-		var index = layui.layer.open({
+  $(document).on('click','#add_b',function(){
+	  var index = layui.layer.open({
 			title : "【添加信息】",
 			icon: 2,
 			type : 2,
@@ -108,10 +102,8 @@ layui.config({
 					});
 				},500)
 			}
-		})			
-		layui.layer.full(index);
+		})
 	});
-//	}).resize();
   
 //=======================监听工具条====================================
 	table.on('tool(test)', function(obj){ //注：tool是工具条事件名，test是table原始容器的属性 lay-filter="对应的值"

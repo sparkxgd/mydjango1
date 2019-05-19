@@ -13,12 +13,7 @@ layui.config({
 		var p=data.user.permission;
 		var obj = $.parseJSON(p);
 		var v=obj['c101'];
-		per=v;
-		if(v==1){
-			var arr=new Array();
-			arr.push("<a class='layui-btn layui-btn-normal add_btn' id='add_b'> <i class='layui-icon'>&#xe608;</i>添加</a>");
-			$("#add_xiao").append(arr.join("\n"));
-		}
+		per=v;		
 	});
 	
 //==================一个table实例================================

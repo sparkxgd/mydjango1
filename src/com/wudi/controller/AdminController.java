@@ -396,14 +396,7 @@ public class AdminController extends Controller {
 		setAttr("m", m);
 		renderJson();
 	}
-	public void saveStudent() {
-		String no = getPara("no");
-		String clas = getPara("clas");
-		int type = getParaToInt("type");
-		boolean result = StudentModel.save(no, clas, type);
-		setAttr("result", result);
-		renderJson();
-	}
+
 	public void updateStudent() {
 		String id = getPara("id");
 		String no = getPara("no");

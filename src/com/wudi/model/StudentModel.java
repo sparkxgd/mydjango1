@@ -18,6 +18,12 @@ public class StudentModel extends Model<StudentModel> {
 	public void setId(String id) {
 		set("id", id);
 	}
+	public String getUserid() {
+		return get("userid");
+	}
+	public void setUserid(String userid) {
+		set("userid", userid);
+	}
 	public String getNo() {
 		return get("no");
 	}
@@ -54,12 +60,13 @@ public class StudentModel extends Model<StudentModel> {
 		return dao.paginate(pageNumber,pageSize,sele_sql,from_sql.toString());
 	}
 	
-	public static boolean save(String no, String clas, int type) {
+	public static boolean save(String no, String userid,String clas, int type) {
 		StudentModel m = new StudentModel();
 		m.setId(StringUtil.getId());
 		m.setNo(no);
 		m.setClas(clas);
 		m.setType(type);
+		m.setUserid(userid);
 		return m.save();
 	}
 	
