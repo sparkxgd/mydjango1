@@ -51,12 +51,10 @@ public class DepartmentModel extends Model<DepartmentModel> {
 			 * @return
 			 */
 			public static Page<DepartmentModel> getList(int pageNumber, int pageSize,String key) {
-				String sele_sql="select * ";
-				//String sele_sql="select a.* ,b.schoolname ";
+				String sele_sql="select a.*,b.nickname as school ";
 				StringBuffer from_sql=new StringBuffer();
-				from_sql.append(" from ").append(tableName);
-//				from_sql.append(" from ").append(tableName).append(" a left join ").append(SchoolModel.tableName).append(" b ");
-				//from_sql.append(" on a.school_id=b.id ");
+				from_sql.append(" from ").append(tableName).append(" as a left join ").append(SchoolModel.tableName).append(" as b ");
+				from_sql.append(" on a.school=b.id ");
 				if(!StringUtil.isBlankOrEmpty(key)) {
 					from_sql.append(" where a.name like '%"+key+"%'");
 				}

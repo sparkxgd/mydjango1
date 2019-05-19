@@ -39,10 +39,10 @@ public class MajorModel extends Model<MajorModel> {
 	
 	
 	public static Page<MajorModel> getList(int pageNumber, int pageSize,String key) {
-		String sele_sql="select * ";//a.*,b.name as dep_name ";
+		String sele_sql="select a.*,b.nickname as department ";
 		StringBuffer from_sql=new StringBuffer();
-		from_sql.append("from ").append(tableName);//.append(" as a left join ").append(DepartmentModel.tableName).append(" as b ");
-		//from_sql.append(" on a.dep_no=b.id ");
+		from_sql.append("from ").append(tableName).append(" as a left join ").append(DepartmentModel.tableName).append(" as b ");
+		from_sql.append(" on a.department=b.id ");
 		if(!StringUtil.isBlankOrEmpty(key)) {
 			from_sql.append(" where name like '%"+key+"%'");
 		}

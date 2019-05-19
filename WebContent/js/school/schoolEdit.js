@@ -8,12 +8,12 @@ layui.config({
 		$ = layui.jquery;
 		var id=$("input[name='id']").val();
 		//加载页面数据
-		$.get("getSchool?id="+id, function(data){
-			var d=data.m;
+		$.get("getSchoolModel?id="+id, function(data){
+			var m=data.m;
 			//执行加载数据的方法
-        	$("input[name='nickname']").val(d.nickname);
-        	$("input[name='school']").val(d.school);
-	        $("textarea[name='remark']").val(d.remark);
+        	$("input[name='nickname']").val(m.nickname);
+        	$("input[name='school']").val(m.school);
+	        $("textarea[name='remark']").val(m.remark);
 		})
 
  	form.on("submit(update)",function(data){

@@ -85,17 +85,12 @@ layui.config({
 	  });
   
   
-  
-  
-  
 //=============绑定【添加】事件============================
-	//$(window).one("resize",function(){
-  $(".add_btn").click(function(){
-		var index = layui.layer.open({
+  $(document).on('click','#add_b',function(){
+	  var index = layui.layer.open({
 			title : "【添加信息】",
 			icon: 2,
 			type : 2,
-			skin: 'layui-layer-lan',
 			area: ['800px', '600px'],
 			content : "openStudentAdd",
 			success : function(layero, index){
@@ -105,10 +100,10 @@ layui.config({
 					});
 				},500)
 			}
-		})			
-		layui.layer.full(index);
+		})
 	});
-//	}).resize();
+  
+  
   
 //=======================监听工具条====================================
 	table.on('tool(test)', function(obj){ //注：tool是工具条事件名，test是table原始容器的属性 lay-filter="对应的值"

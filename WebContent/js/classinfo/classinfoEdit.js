@@ -18,7 +18,7 @@ layui.config({
 			$("input[name='headmaster']").val(m.headmaster);
 			$("input[name='remark']").val(m.remark);
 			$.get("getTeacherlist", function(data){
-				var dp=data.dp;
+				var dp=data.list;
 				var id=dp[0].id;
 	    		for(var i=0;i<dp.length;i++){
 	    			if(dp[i].id==m.headmaster){
@@ -35,9 +35,9 @@ layui.config({
 				var id=dp[0].id;
 	    		for(var i=0;i<dp.length;i++){
 	    			if(dp[i].id==m.major_id){
-	    				$("#major_id").append("<option selected='true' value='"+dp[i].id+"'>"+dp[i].id+"</option>");
+	    				$("#major_id").append("<option selected='true' value='"+dp[i].id+"'>"+dp[i].nickname+"</option>");
 	    			}else{
-	    				$("#major_id").append("<option value='"+dp[i].id+"'>"+dp[i].id+"</option>");
+	    				$("#major_id").append("<option value='"+dp[i].id+"'>"+dp[i].nickname+"</option>");
 	    			}
 	    			}
 	    			form.render();//必须要再次渲染，要不然option显示不出来

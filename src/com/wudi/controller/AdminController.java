@@ -147,6 +147,7 @@ public class AdminController extends Controller {
 		String password = getPara("password");
 		String birth = getPara("birth");
 		int type = getParaToInt("type");
+		String role_id = getPara("role_id");
 		String img = getPara("img");
 		boolean result = UserModel.saveUserinfo(username, sex, password, birth, type, img);
 		setAttr("result", result);
@@ -820,7 +821,7 @@ public class AdminController extends Controller {
 	public void getSchoolModel() {
 		 String id=getPara("id");
 		 SchoolModel result = SchoolModel.getById(id);
-		 setAttr("result", result);
+		 setAttr("m", result);
 		 renderJson();
 	}
 	public void saveSchool() {

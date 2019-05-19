@@ -46,9 +46,10 @@ public class Stu_pareModel extends Model<Stu_pareModel> {
 		return dao.findFirst(sql, id);
 	}
 	public static Page<Stu_pareModel> getList(int pageNumber, int pageSize,String key) {
-		String sele_sql = "select * ";
+		String sele_sql = "select a.*,b.no as stu_id ";
 		StringBuffer from_sql = new StringBuffer();
-		from_sql.append("from ").append(tableName);
+		from_sql.append("from ").append(tableName).append(" as a left join ").append(StudentModel.tableName).append(" as b ");
+		from_sql.append(" on a.stu_id=b.id ");
 		if(!StringUtil.isBlankOrEmpty(key)) {
 			from_sql.append(" where name like '%"+key+"%'");
 		}

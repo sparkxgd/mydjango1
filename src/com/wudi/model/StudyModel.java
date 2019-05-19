@@ -61,9 +61,10 @@ public class StudyModel extends Model<StudyModel> {
 		return dao.findFirst(sql, id);
 	}
 	public static Page<StudyModel> getList(int pageNumber, int pageSize, String key) {
-		String sele_sql = "select * ";
+		String sele_sql = "select a.*,b*nickname as subject ";
 		StringBuffer from_sql = new StringBuffer();
-		from_sql.append("from ").append(tableName);
+		from_sql.append("from ").append(tableName).append(" as a left join ").append(SubjectModel.tableName).append(" as b ");
+		from_sql.append(" on a.subject=b.id ");
 		if(!StringUtil.isBlankOrEmpty(key)) {
 			from_sql.append("where teacher like '%"+key+"%'");
 		}

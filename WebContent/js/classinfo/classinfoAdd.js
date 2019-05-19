@@ -19,7 +19,7 @@ layui.config({
 		
 		//加载页面选择框数据
 		$.get("getTeacherlist", function(data){
-			var dp=data.dp;
+			var dp=data.list;
 			for(var i=0;i<dp.length;i++){
         		$("#headmaster").append("<option value='"+dp[i].id+"'>"+dp[i].id+"</option>");
 			}
@@ -29,7 +29,7 @@ layui.config({
 		$.get("getMajorlist", function(data){
 				var dp=data.dp;
 				for(var i=0;i<dp.length;i++){
-	        		$("#major_id").append("<option value='"+dp[i].id+"'>"+dp[i].id+"</option>");
+	        		$("#major_id").append("<option value='"+dp[i].id+"'>"+dp[i].nickname+"</option>");
 				}
 				form.render();//必须要再次渲染，要不然option显示不出来
 		});

@@ -52,9 +52,10 @@ public class Arrange_subjectModel extends Model<Arrange_subjectModel> {
 		return dao.findFirst(sql, id);
 	}
 	public static Page<Arrange_subjectModel> getList(int pageNumber, int pageSize, String key) {
-		String sele_sql = "select * ";
+		String sele_sql = "select a.*,b.nickname as classid,c.nickname as classroom ";
 		StringBuffer from_sql = new StringBuffer();
-		from_sql.append("from ").append(tableName);
+		from_sql.append("from ").append(ClassinfoModel.tableName).append(" as b right join ").append(tableName).append(" as a ").append(" on a.classid=b.id ");
+		from_sql.append("left join ").append(ClassroomModel.tableName).append(" as c ").append(" on a.classroom=c.id ");
 		if(!StringUtil.isBlankOrEmpty(key)) {
 			from_sql.append("where teacher like '%"+key+"%'");
 		}
