@@ -10,7 +10,6 @@ import com.jfinal.plugin.activerecord.IAtom;
 import com.jfinal.plugin.activerecord.Model;
 import com.jfinal.plugin.activerecord.Page;
 import com.jfinal.plugin.activerecord.tx.Tx;
-import com.jfinal.render.Render;
 import com.wudi.plugin.BaiduPlugin;
 import com.wudi.util.StringUtil;
 import com.wudi.util.Util;
@@ -144,15 +143,15 @@ public class UserModel extends Model<UserModel>{
 						ree=m.save();
 						if(m.getType()==1) {
 							StudentModel s=new StudentModel();
-							s.setId(m.getId());
+							s.setUserid(m.getId());
 							re=s.save();
 						}else if(m.getType()==2) {
 							TeacherModel s=new TeacherModel();
-							s.setId(m.getId());
+							s.setUserid(m.getId());
 							re=s.save();
 						}else if(m.getType()==3) {
 							ParentsModel s=new ParentsModel();
-							s.setId(m.getId());
+							s.setUserid(m.getId());
 							re=s.save();
 						}
 						return ree&&re;

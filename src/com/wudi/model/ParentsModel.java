@@ -18,6 +18,12 @@ public class ParentsModel extends Model<ParentsModel> {
 	public void setId(String id) {
 		set("id", id);
 	}
+	public String getUserid() {
+		return get("userid");
+	}
+	public void setUserid(String userid) {
+		set("userid", userid);
+	}
 	public String getContact() {
 		return get("contact");
 	}
