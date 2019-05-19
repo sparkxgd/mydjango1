@@ -1054,7 +1054,7 @@ public class AdminController extends Controller {
 	public void getStudyModel() {
 		 String id=getPara("id");
 		 StudyModel result = StudyModel.getById(id);
-		 setAttr("result", result);
+		 setAttr("m", result);
 		 renderJson();
 	}
 	public void saveStudy() {
