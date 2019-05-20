@@ -100,7 +100,7 @@ public class Config extends JFinalConfig {
 			arpMysql.addMapping("stu_register", Stu_registerModel.class);//上课签到表
 			arpMysql.addMapping("baidugroup", GroupModel.class);//
 			arpMysql.addMapping("userface", UserFaceModel.class);//
-			arpMysql.addMapping("stu_registernew", StuRegisterNewModel.class);//
+			arpMysql.addMapping("stu_registernews", StuRegisterNewModel.class);//
 		//添加插件
 		me.add(dsMysql);
 		me.add(arpMysql);

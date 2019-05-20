@@ -8,11 +8,12 @@ import com.jfinal.plugin.activerecord.Db;
 import com.jfinal.plugin.activerecord.Model;
 import com.jfinal.plugin.activerecord.Page;
 import com.wudi.bean.FaceSeachModel;
+import com.wudi.controller.WeixinController;
 import com.wudi.util.StringUtil;
 
 public class StuRegisterNewModel extends Model<StuRegisterNewModel> {
 	private static final long serialVersionUID = 1L;
-	public static final String tableName = "stu_registernew";
+	public static final String tableName = "stu_registernews";
 	public static final StuRegisterNewModel dao = new StuRegisterNewModel();
 	
 	public String getId() {
@@ -72,13 +73,20 @@ public class StuRegisterNewModel extends Model<StuRegisterNewModel> {
 	public String getUserid() {
 		return get("userid");
 	}
+	public String getClassid() {
+		return get("classid");
+	}
+	public void setClassid(String classid) {
+		set("classid", classid);
+	}
+	
 	public static StuRegisterNewModel getById(String id) {
 		String sql = "select * from " + tableName +" where id = ?";
 		return dao.findFirst(sql, id);
 	}
-	public static StuRegisterNewModel getBys(String tcsuid,int week) {
-		String sql = "select * from " + tableName +" where week = ? and tcsuid=?";
-		return dao.findFirst(sql, week,tcsuid);
+	public static StuRegisterNewModel getBys(String tcsuid,int week, String classid) {
+		String sql = "select * from " + tableName +" where week =? and tcsuid=? and classid = ?";
+		return dao.findFirst(sql, week,tcsuid,classid);
 	}
 	public static StuRegisterNewModel getByStuid(String id) {
 		String sql = "select a.*,b.userid from " + tableName +" as a left join "+StudentModel.tableName+" as b on a.stuid=b.id where stuid = ?";
@@ -99,11 +107,11 @@ public class StuRegisterNewModel extends Model<StuRegisterNewModel> {
 	 * @param claid
 	 * @return
 	 */
-	public static boolean addStuRegByClass(String claid,String tcsuid,int week) {
+	public static boolean addStuRegByClass(String classid,String tcsuid,int week) {
 		boolean result=true;
-		ClassinfoModel c=ClassinfoModel.getById(claid);
+		ClassinfoModel c=ClassinfoModel.getById(classid);
 		if(c!=null) {
-			List<StudentModel> li=StudentModel.getListbyClassid(claid);
+			List<StudentModel> li=StudentModel.getListbyClassid(classid);
 			for( StudentModel m:li) {
 				StuRegisterNewModel s=new StuRegisterNewModel();
 				s.setId(StringUtil.getId());
@@ -111,6 +119,7 @@ public class StuRegisterNewModel extends Model<StuRegisterNewModel> {
 				s.setstuid(m.getId());
 				s.settcsuid(tcsuid);
 				s.setWeek(week);
+				s.setClassid(classid);
 				s.save();
 			}
 		}else {
@@ -121,9 +130,10 @@ public class StuRegisterNewModel extends Model<StuRegisterNewModel> {
 	
 	public static List<StuRegisterNewModel> signIn(List<FaceSeachModel> list,String tcsuid,String classid,int week) {
 		
-		StuRegisterNewModel mm=StuRegisterNewModel.getBys(classid,week);
+		StuRegisterNewModel mm=StuRegisterNewModel.getBys(tcsuid,week,classid);
 		if(mm==null) {
 			addStuRegByClass(classid,tcsuid,week);
+//			StuRegisterNewModel.signIn(list,tcsuid,classid,week);
 		}else {
 			for(FaceSeachModel m:list) {
 				StuRegisterNewModel s=getByStuid(m.getUser_id());
@@ -135,6 +145,7 @@ public class StuRegisterNewModel extends Model<StuRegisterNewModel> {
 		}
 		return getListN();
 	}
+	
 	
 	public static boolean delStu_register(String id) {
 		try {
@@ -152,7 +163,7 @@ public class StuRegisterNewModel extends Model<StuRegisterNewModel> {
 		}
 	}
 	public static List<StuRegisterNewModel> getListN() {
-		String sql = "select * from " + tableName +" status =0";
+		String sql = "SELECT c.username ,b.`no`,a.`status` from stu_registernews as a LEFT JOIN student as b on a.stuid=b.id LEFT JOIN `user` as c on b.userid=c.id";
 		return dao.find(sql);
 	}
 }

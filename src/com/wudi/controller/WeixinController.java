@@ -115,7 +115,7 @@ public class WeixinController extends Controller{
 	    	flist.add(m);
 	    }
 	    
-	    String classid=getPara("classid");
+ 	    String classid=getPara("classid");
 	    String tcsuid=getPara("tcsuid");
 	    int week=getParaToInt("week");
 	    //将信息添加到数据库
