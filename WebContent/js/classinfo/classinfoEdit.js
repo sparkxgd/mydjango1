@@ -14,17 +14,14 @@ layui.config({
 	        //执行加载数据的方法
 			$("input[name='nickname']").val(m.nickname);
 			$("input[name='grade']").val(m.grade);
-			$("input[name='major_id']").val(m.major_id);
-			$("input[name='headmaster']").val(m.headmaster);
 			$("input[name='remark']").val(m.remark);
 			$.get("getTeacherlist", function(data){
 				var dp=data.list;
-				var id=dp[0].id;
 	    		for(var i=0;i<dp.length;i++){
 	    			if(dp[i].id==m.headmaster){
-	    				$("#headmaster").append("<option selected='true' value='"+dp[i].id+"'>"+dp[i].id+"</option>");
+	    				$("#headmaster").append("<option selected='true' value='"+dp[i].id+"'>"+dp[i].username+"</option>");
 	    			}else{
-	    				$("#headmaster").append("<option value='"+dp[i].id+"'>"+dp[i].id+"</option>");
+	    				$("#headmaster").append("<option value='"+dp[i].id+"'>"+dp[i].username+"</option>");
 	    			}
 	    			}
 	    			form.render();//必须要再次渲染，要不然option显示不出来
@@ -32,7 +29,6 @@ layui.config({
 			
 			$.get("getMajorlist", function(data){
 				var dp=data.dp;
-				var id=dp[0].id;
 	    		for(var i=0;i<dp.length;i++){
 	    			if(dp[i].id==m.major_id){
 	    				$("#major_id").append("<option selected='true' value='"+dp[i].id+"'>"+dp[i].nickname+"</option>");
@@ -42,20 +38,6 @@ layui.config({
 	    			}
 	    			form.render();//必须要再次渲染，要不然option显示不出来
 	        });
-	        var arr=new Array();
-	        
-	        for(var i=100;i<105;i++){
-	        	var c="c"+i;
-	        	var v=obj[c];
-	        	if(v==1){
-		        	arr.push("<input type='checkbox' name='"+c+"' lay-skin='primary' checked=''  title='"+c+"'>");
-	        	}else{
-		        	arr.push("<input type='checkbox' name='"+c+"' lay-skin='primary' title='"+c+"'>");
-	        	}
-	        	
-	        }	        
-	        $("#permission").append(arr.join("\n"));
-			form.render();//必须要再次渲染，要不然option显示不出来
 		})
 
  	form.on("submit(update)",function(data){

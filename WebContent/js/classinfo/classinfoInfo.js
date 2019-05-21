@@ -35,8 +35,8 @@ layui.config({
 		      {field: 'id', title: 'ID', sort: true, fixed: 'left',width:150}
 		      ,{field: 'nickname', title: '班级名称',width:150}
 		      ,{field: 'grade' ,title:'年级',width:150}
-		      ,{field: 'major_id' ,title:'专业',width:150}
-		      ,{field: 'headmaster' ,title:'班主任',width:150}
+		      ,{field: 'majorname' ,title:'专业',width:150}
+		      ,{field: 'username' ,title:'班主任',width:150}
 		      ,{field: 'remark' ,title:'备注',width:150}
 		      ,{fixed: 'right', align:'center',title:'操作', templet:function(d){
 		    	  var arr=new Array();

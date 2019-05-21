@@ -12,33 +12,28 @@ layui.config({
 			var m=data.m;
 	        //执行加载数据的方法 
 			$("input[name='no']").val(m.no);
-			$("input[name='clas']").val(m.clas);
-			$("input[name='type']").val(m.type);
-			$("input[name='userid']").val(m.userid);
+	        var arr=new Array();
+	        	if(m.sex==1){
+		        	arr.push("<input type='radio' name='type' lay-skin='primary' value='1' checked=''  title='班干'>");
+		        	arr.push("<input type='radio' name='type' lay-skin='primary' value='0' title='学生'>");
+	        	}else{
+	        		arr.push("<input type='radio' name='type' lay-skin='primary' value='0' checked=''  title='学生'>");
+		        	arr.push("<input type='radio' name='type' lay-skin='primary' value='1' title='班干'>");
+	        }
+	        $("#mytype").append(arr.join("\n"));
+	        form.render();//必须要再次渲染，要不然option显示不出来
 			$.get("getClassinfolist", function(data){
 				var list=data.list;
-				var id=list[0].id;
 	    		for(var i=0;i<list.length;i++){
 	    			if(list[i].id==m.clas){
-	    				$("#clas").append("<option selected='true' value='"+list[i].id+"'>"+list[i].id+"</option>");
+	    				$("#clas").append("<option selected='true' value='"+list[i].id+"'>"+list[i].nickname+"</option>");
 	    			}else{
-	    				$("#clas").append("<option value='"+list[i].id+"'>"+list[i].id+"</option>");
+	    				$("#clas").append("<option value='"+list[i].id+"'>"+list[i].nickname+"</option>");
 	    			}
 	    			}
-				form.render();//必须要再次渲染，要不然option显示不出来
+	    		form.render();//必须要再次渲染，要不然option显示不出来
 			});
-			$.get("getUserlist", function(data){
-				var list=data.list;
-				var id=list[0].id;
-	    		for(var i=0;i<list.length;i++){
-	    			if(list[i].id==m.userid){
-	    				$("#userid").append("<option selected='true' value='"+list[i].id+"'>"+list[i].username+"</option>");
-	    			}else{
-	    				$("#userid").append("<option value='"+list[i].id+"'>"+list[i].username+"</option>");
-	    			}
-	    			}
-				form.render();//必须要再次渲染，要不然option显示不出来
-			});
+			
 		})
 
  	form.on("submit(update)",function(data){

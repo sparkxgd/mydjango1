@@ -51,12 +51,12 @@ public class StudentModel extends Model<StudentModel> {
 	}
 	
 	public static Page<StudentModel> getList(int pageNumber, int pageSize,String key) {
-		String sele_sql = "select a.*,b.username as userid ";
+		String sele_sql = "select a.*,b.username,b.sex,c.nickname";
 		StringBuffer from_sql = new StringBuffer();
 		from_sql.append("from ").append(tableName).append(" as a left join ").append(UserModel.tableName).append(" as b");
-		from_sql.append(" on a.userid=b.id ");
+		from_sql.append(" on a.userid=b.id ").append(" left join ").append(ClassinfoModel.tableName).append(" c on a.clas=c.id ");
 		if(!StringUtil.isBlankOrEmpty(key)) {
-			from_sql.append(" where name like '%"+key+"%'");
+			from_sql.append(" where b.username like '%"+key+"%'");
 		}
 		return dao.paginate(pageNumber,pageSize,sele_sql,from_sql.toString());
 	}
@@ -71,7 +71,7 @@ public class StudentModel extends Model<StudentModel> {
 		return m.save();
 	}
 	
-	public static boolean updateStudent(String id, String no, String clas, int type,String userid) {
+	public static boolean updateStudent(String id, String no, String clas, int type) {
 		StudentModel m = StudentModel.getById(id);
 		if(m==null){
 			return false;
@@ -80,7 +80,6 @@ public class StudentModel extends Model<StudentModel> {
 		m.setNo(no);
 		m.setClas(clas);
 		m.setType(type);
-		m.setUserid(userid);
 		try {
 			m.update();
 		} catch (Exception e) {

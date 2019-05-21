@@ -8,7 +8,6 @@ import com.jfinal.plugin.activerecord.Db;
 import com.jfinal.plugin.activerecord.Model;
 import com.jfinal.plugin.activerecord.Page;
 import com.wudi.bean.FaceSeachModel;
-import com.wudi.controller.WeixinController;
 import com.wudi.util.StringUtil;
 
 public class StuRegisterNewModel extends Model<StuRegisterNewModel> {
@@ -84,9 +83,9 @@ public class StuRegisterNewModel extends Model<StuRegisterNewModel> {
 		String sql = "select * from " + tableName +" where id = ?";
 		return dao.findFirst(sql, id);
 	}
-	public static StuRegisterNewModel getBys(String tcsuid,int week, String classid) {
-		String sql = "select * from " + tableName +" where week =? and tcsuid=? and classid = ?";
-		return dao.findFirst(sql, week,tcsuid,classid);
+	public static List<StuRegisterNewModel> getBys(String tcsuid,int week, String classid) {
+		String sql = "select a.*,b.userid from " + tableName +" as a left join "+StudentModel.tableName+" as b on a.stuid=b.id where a.week =? and a.tcsuid=? and a.classid = ?";
+		return dao.find(sql, week,tcsuid,classid);
 	}
 	public static StuRegisterNewModel getByStuid(String id) {
 		String sql = "select a.*,b.userid from " + tableName +" as a left join "+StudentModel.tableName+" as b on a.stuid=b.id where stuid = ?";
@@ -107,21 +106,29 @@ public class StuRegisterNewModel extends Model<StuRegisterNewModel> {
 	 * @param claid
 	 * @return
 	 */
-	public static boolean addStuRegByClass(String classid,String tcsuid,int week) {
+	public static boolean addStuRegByClass(List<FaceSeachModel> list,String classid,String tcsuid,int week) {
 		boolean result=true;
-		ClassinfoModel c=ClassinfoModel.getById(classid);
-		if(c!=null) {
-			List<StudentModel> li=StudentModel.getListbyClassid(classid);
+		ClassinfoModel c=ClassinfoModel.getById(classid);//找一下这个班级是否存在？
+		if(c!=null) {//存在，就开始添加数据
+			List<StudentModel> li=StudentModel.getListbyClassid(classid);//把班级的学生都找出来
+			List<StuRegisterNewModel> srli=new ArrayList<StuRegisterNewModel>();
 			for( StudentModel m:li) {
 				StuRegisterNewModel s=new StuRegisterNewModel();
 				s.setId(StringUtil.getId());
 				s.setstatus(0);//0未签到，1已签到，-1其他，2旷课，3事假，4病假
+				for(FaceSeachModel f:list) {
+					if(f.getUser_id().equals(m.getUserid())) {
+						s.setstatus(1);//0未签到，1已签到，-1其他，2旷课，3事假，4病假
+						break;
+					}					
+				}
 				s.setstuid(m.getId());
 				s.settcsuid(tcsuid);
 				s.setWeek(week);
 				s.setClassid(classid);
-				s.save();
+				srli.add(s);
 			}
+			 Db.batchSave(srli, 10);//批量保存数据
 		}else {
 			 result=false;
 		}
@@ -130,18 +137,21 @@ public class StuRegisterNewModel extends Model<StuRegisterNewModel> {
 	
 	public static List<StuRegisterNewModel> signIn(List<FaceSeachModel> list,String tcsuid,String classid,int week) {
 		
-		StuRegisterNewModel mm=StuRegisterNewModel.getBys(tcsuid,week,classid);
-		if(mm==null) {
-			addStuRegByClass(classid,tcsuid,week);
-//			StuRegisterNewModel.signIn(list,tcsuid,classid,week);
+		List<StuRegisterNewModel> stulist=StuRegisterNewModel.getBys(tcsuid,week,classid);
+		if(stulist.size()<1) {//说明第一次拍照签到，要先把学生信息签到初始化
+			addStuRegByClass(list,classid,tcsuid,week);
 		}else {
-			for(FaceSeachModel m:list) {
-				StuRegisterNewModel s=getByStuid(m.getUser_id());
-				s.setstatus(1);//0未签到，1已签到，-1其他，2旷课，3事假，4病假
-				s.setType(0);//0上课，1下课
-				s.setReg_time(new Date());
-				s.update();
+			for(StuRegisterNewModel st:stulist) {
+				for(FaceSeachModel m:list) {
+					if(st.getUserid().equals(m.getUser_id())) {
+						st.setstatus(1);//0未签到，1已签到，-1其他，2旷课，3事假，4病假
+						st.setType(0);//0上课，1下课
+						st.setReg_time(new Date());
+						break;
+					}
+				}
 			}
+			Db.batchUpdate(stulist, 10);//批量保存数据
 		}
 		return getListN();
 	}
