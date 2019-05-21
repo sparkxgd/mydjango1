@@ -1,5 +1,7 @@
 package com.wudi.model;
 
+import java.util.List;
+
 import com.jfinal.plugin.activerecord.Db;
 import com.jfinal.plugin.activerecord.Model;
 import com.jfinal.plugin.activerecord.Page;
@@ -70,5 +72,11 @@ public class SubjectModel extends Model<SubjectModel> {
 			e.printStackTrace();
 			return false;
 		}
+	}
+	
+	public static List<SubjectModel> getSubId() {
+		StringBuffer sql=new StringBuffer();
+		sql.append("select id  from ").append(tableName);
+		return dao.find(sql.toString());
 	}
 }

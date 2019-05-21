@@ -1,5 +1,7 @@
 package com.wudi.model;
 
+import java.util.List;
+
 import com.jfinal.plugin.activerecord.Db;
 import com.jfinal.plugin.activerecord.Model;
 import com.jfinal.plugin.activerecord.Page;
@@ -51,11 +53,17 @@ public class Arrange_subjectModel extends Model<Arrange_subjectModel> {
 		String sql = "select * from " + tableName + " where id = ?";
 		return dao.findFirst(sql, id);
 	}
-	public static Page<Arrange_subjectModel> getList(int pageNumber, int pageSize, String key) {
-		String sele_sql = "select a.*,b.nickname as classid,c.nickname as classroom ";
+	public static List<Arrange_subjectModel> getArrSub(String teacher) {
+		String sql = "select a.*,b.id as teacher,c.id as userid from arrange_subject as a LEFT JOIN teacher as b on b.id=a.teacher LEFT JOIN `user` as c on c.id=b.userid where c.id= ?";
 		StringBuffer from_sql = new StringBuffer();
-		from_sql.append("from ").append(ClassinfoModel.tableName).append(" as b right join ").append(tableName).append(" as a ").append(" on a.classid=b.id ");
+		return dao.find(sql, teacher);
+	} 
+	public static Page<Arrange_subjectModel> getList(int pageNumber, int pageSize, String key) {
+		String sele_sql = "select a.*,b.nickname as classid,c.nickname as classroom,d.userid as teacher ";
+		StringBuffer from_sql = new StringBuffer();
+		from_sql.append("from ").append(tableName).append(" as a left join ").append(ClassinfoModel.tableName).append(" as b ").append(" on a.classid=b.id ");
 		from_sql.append("left join ").append(ClassroomModel.tableName).append(" as c ").append(" on a.classroom=c.id ");
+		from_sql.append(" left join ").append(TeacherModel.tableName).append(" as d on a.teacher=d.id ");
 		if(!StringUtil.isBlankOrEmpty(key)) {
 			from_sql.append("where teacher like '%"+key+"%'");
 		}

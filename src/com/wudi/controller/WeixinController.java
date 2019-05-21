@@ -2,16 +2,21 @@ package com.wudi.controller;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.ListIterator;
 
 import org.json.JSONObject;
 
 import com.jfinal.core.Controller;
 import com.jfinal.upload.UploadFile;
 import com.wudi.bean.FaceSeachModel;
+import com.wudi.model.Arrange_subjectModel;
+import com.wudi.model.ClassinfoModel;
 import com.wudi.model.StuRegisterNewModel;
+import com.wudi.model.SubjectModel;
 import com.wudi.model.UserModel;
 import com.wudi.plugin.BaiduPlugin;
 import com.wudi.util.StringUtil;
@@ -230,5 +235,20 @@ public class WeixinController extends Controller{
 		setAttr("data", data);
 		setAttr("code", code);
 		renderJson();
-}
+	}
+	//课表接口
+	public void ArrSub() {
+		String teacher = getPara("id");
+		List<Arrange_subjectModel> data = Arrange_subjectModel.getArrSub(teacher);
+		setAttr("data", data);
+		renderJson();
+	}
+	//课程id、班级id接口
+	public void SubClass() {
+		List<ClassinfoModel> data = ClassinfoModel.getClassId();
+		List<SubjectModel> dp = SubjectModel.getSubId();
+		setAttr("date", data);
+		setAttr("dp", dp);
+		renderJson();
+	}
 }

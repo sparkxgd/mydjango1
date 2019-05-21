@@ -23,15 +23,15 @@ layui.config({
 				var id=list[0].id;
 	    		for(var i=0;i<list.length;i++){
 	    			if(list[i].id==m.teacher){
-	    				$("#teacher").append("<option selected='true' value='"+list[i].id+"'>"+list[i].id+"</option>");
+	    				$("#teacher").append("<option selected='true' value='"+list[i].id+"'>"+list[i].username+"</option>");
 	    			}else{
-	    				$("#teacher").append("<option value='"+list[i].id+"'>"+list[i].id+"</option>");
+	    				$("#teacher").append("<option value='"+list[i].id+"'>"+list[i].username+"</option>");
 	    			}
 	    			}
 				form.render();//必须要再次渲染，要不然option显示不出来
 			});
 			$.get("getClassinfolist", function(data){
-				var list=data.dp;
+				var list=data.list;
 				var id=list[0].id;
 	    		for(var i=0;i<list.length;i++){
 	    			if(list[i].id==m.classid){
@@ -47,9 +47,9 @@ layui.config({
 				var id=list[0].id;
 	    		for(var i=0;i<list.length;i++){
 	    			if(list[i].id==m.classroom){
-	    				$("#classroom").append("<option selected='true' value='"+list[i].addr+"'>"+list[i].id+"</option>");
+	    				$("#classroom").append("<option selected='true' value='"+list[i].id+"'>"+list[i].nickname+"</option>");
 	    			}else{
-	    				$("#classroom").append("<option value='"+list[i].id+"'>"+list[i].addr+"</option>");
+	    				$("#classroom").append("<option value='"+list[i].id+"'>"+list[i].nickname+"</option>");
 	    			}
 	    			}
 				form.render();//必须要再次渲染，要不然option显示不出来

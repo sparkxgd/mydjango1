@@ -105,4 +105,10 @@ public class ClassinfoModel extends Model<ClassinfoModel> {
 		sql.append("select *  from ").append(tableName);
 		return dao.find(sql.toString());
 	}
+	
+	public static List<ClassinfoModel> getClassId() {
+		StringBuffer sql=new StringBuffer();
+		sql.append("select id  from ").append(tableName);
+		return dao.find(sql.toString());
+	}
 }
