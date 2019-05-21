@@ -9,7 +9,8 @@ public class StringUtil{
 	}
 	public static String getId() {
 		Long t=new Date().getTime();
-		return t.toString();
+		int a=(int)(1+Math.random()*10);
+		return t.toString()+a;
 	}
 	  /**
      * 获取文件后缀

@@ -101,7 +101,7 @@ public class TeacherModel extends Model<TeacherModel> {
 	}
 	public static List<TeacherModel> getListAll() {
 		StringBuffer sql=new StringBuffer();
-		sql.append("select *  from ").append(tableName);
+		sql.append("select a.*,b.username  from ").append(tableName).append(" as a left join ").append(UserModel.tableName).append(" as b on a.userid=b.id");
 		return dao.find(sql.toString());
 	}
 }

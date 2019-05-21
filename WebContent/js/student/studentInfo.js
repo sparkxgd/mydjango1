@@ -1,11 +1,10 @@
 layui.config({
 	base : "js/"
-}).use(['form','layer','jquery','laypage','table','laytpl'],function(){//组件，使用组件完成功能：from:表单；
+}).use(['form','layer','jquery','laypage','table'],function(){//组件，使用组件完成功能：from:表单；
 	var form = layui.form,
 		layer = parent.layer === undefined ? layui.layer : parent.layer,
 		laypage = layui.laypage,
 		table = layui.table,
-		laytpl = layui.laytpl,
 		$ = layui.$;//以上只是将所需要的文件拿出来，以便于后面使用。
 	var per;
 	//设置权限
@@ -29,7 +28,16 @@ layui.config({
 	    cols: [[ //表头
 		      {field: 'id', title: 'ID', sort: true, fixed: 'left',width:150}
 		      ,{field: 'no', title: '学号',width:150}
-		      ,{field: 'clas' ,title:'班级', width:150}
+		      ,{field: 'username' ,title:'姓名', width:150}
+		      ,{field: 'sex' ,title:'性别', width:150,
+		    	  templet:function(d){
+			    	  if(d.sex==1){
+			    		  return '<span style="color: blue">男</span>'
+			    	  }else{
+			    		  return '<span style="color: red" >女</span>'
+			    	  }
+			      } 
+		      }
 		      ,{field: 'type' ,title:'类型', width:150,
 		    	  templet:function(d){
 			    	  if(d.type==1){
@@ -39,7 +47,7 @@ layui.config({
 			    	  }
 			      } 
 		      }
-		      ,{field: 'userid' ,title:'用户id', width:150}
+		      ,{field: 'nickname' ,title:'班级', width:150}
 		      ,{fixed: 'right', align:'center',title:'操作', templet:function(d){
 		    	  var arr=new Array();
 		    	  if(per==1){
@@ -73,33 +81,20 @@ layui.config({
 					  });
 			  }
   };
-//绑定搜索事件
-  $('.layui-btn').on('click', function() {
-	  var type = $(this).data('type');
-	  active[type] ? active[type].call(this) : '';
-	  });
-  
-  
-//=============绑定【添加】事件============================
-  $(document).on('click','#add_b',function(){
-	  var index = layui.layer.open({
-			title : "【添加信息】",
-			icon: 2,
-			type : 2,
-			area: ['800px', '600px'],
-			content : "openStudentAdd",
-			success : function(layero, index){
-				setTimeout(function(){
-					layui.layer.tips('点击此处返回列表', '.layui-layer-setwin .layui-layer-close', {
-						tips: 3
-					});
-				},500)
-			}
-		})
-	});
-  
-  
-  
+  /**
+   * 点击操作后刷新数据
+   */
+  var active_op = {
+		  reload : function() {
+			  var demoReload = $('#demoReload');
+							// 执行重载
+			  table.reload('testReload', {//reload重新加载
+					  where : {//要查询的字段
+						  key : demoReload.val(),
+						  }
+					  });
+			  }
+  };
 //=======================监听工具条====================================
 	table.on('tool(test)', function(obj){ //注：tool是工具条事件名，test是table原始容器的属性 lay-filter="对应的值"
 	  var data = obj.data; //获得当前行数据
@@ -145,9 +140,11 @@ layui.config({
 	    });
 		  
 	  } else if(layEvent === 'edit'){ //编辑
+		  //编辑
 		  var index = layui.layer.open({
-              title : "修改信息",
+              title : "【修改信息】",
               type : 2,
+              area: ['600px', '400px'],
               content : "openStudentEdit?id="+data.id,
               success : function(layero, index){
                   setTimeout(function(){
@@ -156,9 +153,9 @@ layui.config({
                       });
                   },500)
               }
-          })          
-          layui.layer.full(index);
-	  }
+          });  
+	  
+	}
 	});
 })
 

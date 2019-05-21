@@ -34,17 +34,42 @@ public class WeixinController extends Controller{
 	 * 测试百度人脸识别
 	 */
 	public void testface() {
+		
+		String u=System.getProperty("user.dir");
+		String url=u+"\\WebContent\\upload\\liang.jpg";
+	    String image =Util.GetImageStr(url);  
 	    // 传入可选参数调用接口
 	    HashMap<String, String> options = new HashMap<String, String>();
-	    options.put("face_field", "age");
-	    options.put("max_face_num", "2");
-	    options.put("face_type", "LIVE");
-	    String image =Util.GetImageStr("../baiduface/WebContent/images/xx2.jpg");
+	    options.put("detect_top_num", "10");
+	    options.put("user_top_num", "10");
 	    String imageType = "BASE64";
+	    String groupIdList = "test";
 	    
-	    // 人脸检测
-	    JSONObject res = BaiduPlugin.face.detect(image, imageType, options);
-	    renderJson(res.toString(2));
+	    // 人脸搜索
+	    JSONObject res = BaiduPlugin.face.multiSearch(image, imageType, groupIdList, options);
+	    
+	    List<FaceSeachModel> flist=new ArrayList<FaceSeachModel>();
+	    Iterator<Object> it=res.getJSONObject("result").getJSONArray("face_list").getJSONObject(0).getJSONArray("user_list").iterator();
+	    while(it.hasNext()) {
+	    	JSONObject jo=(JSONObject)it.next();
+	    	FaceSeachModel m=new FaceSeachModel();
+	    	m.setGroup_id(jo.getString("group_id"));
+	    	m.setUser_id(jo.getString("user_id"));
+	    	m.setUser_info(jo.getString("user_info"));
+	    	m.setScore(jo.getDouble("score"));
+	    	flist.add(m);
+	    }
+	    
+ 	    String classid=getPara("classid");
+	    String tcsuid=getPara("tcsuid");
+	    int week=getParaToInt("week");
+	    //将信息添加到数据库
+	    
+	    List<StuRegisterNewModel> list=StuRegisterNewModel.signIn(flist,tcsuid,classid,week);
+	    
+	    setAttr("data", list);
+		setAttr("code", 0);
+	    renderJson();
 	}
 	/**
 	 * 人脸识别搜索

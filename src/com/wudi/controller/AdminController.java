@@ -408,8 +408,7 @@ public class AdminController extends Controller {
 		String no = getPara("no");
 		String clas = getPara("clas");
 		int type = getParaToInt("type");
-		String userid = getPara("userid");
-		boolean result = StudentModel.updateStudent(id, no, clas, type, userid);
+		boolean result = StudentModel.updateStudent(id, no, clas, type);
 		setAttr("result", result);
 		renderJson();
 	}
@@ -424,7 +423,6 @@ public class AdminController extends Controller {
 		int limit = getParaToInt("limit");
 		int page = getParaToInt("page");
 		Page<StudentModel> c = StudentModel.getList(page, limit, key);
-		setAttr("infos", c);
 		setAttr("code", 0);
 		setAttr("msg", "你好！");
 		setAttr("count", c.getTotalRow());
@@ -740,7 +738,7 @@ public class AdminController extends Controller {
 	
 	public void getClassinfolist() {
 		List<ClassinfoModel> list = ClassinfoModel.getListAll();
-		setAttr("dp", list);
+		setAttr("list", list);
 		renderJson();
 	}
 	

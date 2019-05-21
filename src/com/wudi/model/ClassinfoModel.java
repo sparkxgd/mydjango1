@@ -54,12 +54,12 @@ public class ClassinfoModel extends Model<ClassinfoModel> {
 		return dao.findFirst(sql, id);
 	}
 	public static Page<ClassinfoModel> getList(int pageNumber, int pageSize, String key) {
-		String sele_sql = "select a.*,b.nickname as major_id,c.username as headmaster ";
+		String sele_sql = "select a.*,c.nickname as majorname,b.username ";
 		StringBuffer from_sql = new StringBuffer();
-		from_sql.append("from ").append(tableName).append(" as a left join ").append(UserModel.tableName).append(" as c ").append(" on a.headmaster=c.id ").append(" left join ").append(MajorModel.tableName).append(" as b ");
-		from_sql.append(" on a.major_id=b.id ");
+		from_sql.append(" from ").append(tableName).append(" as a left join ").append(TeacherModel.tableName).append(" as d on a.headmaster=d.id left join ").append(UserModel.tableName).append(" as b ").append(" on d.userid=b.id ").append(" left join ").append(MajorModel.tableName).append(" as c ");
+		from_sql.append(" on a.major_id=c.id ");
 		if(!StringUtil.isBlankOrEmpty(key)) {
-			from_sql.append("where name like '%"+key+"%'");
+			from_sql.append("where a.nickname like '%"+key+"%'");
 		}
 		return dao.paginate(pageNumber, pageSize, sele_sql, from_sql.toString());
 	}
