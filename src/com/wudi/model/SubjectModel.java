@@ -76,7 +76,7 @@ public class SubjectModel extends Model<SubjectModel> {
 	
 	public static List<SubjectModel> getSubId() {
 		StringBuffer sql=new StringBuffer();
-		sql.append("select id  from ").append(tableName);
+		sql.append("select *  from ").append(tableName);
 		return dao.find(sql.toString());
 	}
 }

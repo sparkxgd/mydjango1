@@ -108,7 +108,7 @@ public class ClassinfoModel extends Model<ClassinfoModel> {
 	
 	public static List<ClassinfoModel> getClassId() {
 		StringBuffer sql=new StringBuffer();
-		sql.append("select id  from ").append(tableName);
+		sql.append("select *  from ").append(tableName);
 		return dao.find(sql.toString());
 	}
 }
