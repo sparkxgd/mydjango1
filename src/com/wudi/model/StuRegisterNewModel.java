@@ -8,7 +8,6 @@ import com.jfinal.plugin.activerecord.Db;
 import com.jfinal.plugin.activerecord.Model;
 import com.jfinal.plugin.activerecord.Page;
 import com.wudi.bean.FaceSeachModel;
-import com.wudi.controller.WeixinController;
 import com.wudi.util.StringUtil;
 
 public class StuRegisterNewModel extends Model<StuRegisterNewModel> {
@@ -133,7 +132,7 @@ public class StuRegisterNewModel extends Model<StuRegisterNewModel> {
 		StuRegisterNewModel mm=StuRegisterNewModel.getBys(tcsuid,week,classid);
 		if(mm==null) {
 			addStuRegByClass(classid,tcsuid,week);
-//			StuRegisterNewModel.signIn(list,tcsuid,classid,week);
+			signIn(list,tcsuid,classid,week);
 		}else {
 			for(FaceSeachModel m:list) {
 				StuRegisterNewModel s=getByStuid(m.getUser_id());
@@ -145,7 +144,6 @@ public class StuRegisterNewModel extends Model<StuRegisterNewModel> {
 		}
 		return getListN();
 	}
-	
 	
 	public static boolean delStu_register(String id) {
 		try {
