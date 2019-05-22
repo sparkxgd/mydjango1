@@ -140,8 +140,6 @@ public class StuRegisterNewModel extends Model<StuRegisterNewModel> {
 	}
 	
 	public static List<StuRegisterNewModel> signIn(List<FaceSeachModel> list,String tcsuid,String classid,int week) {
-		
-
 		List<StuRegisterNewModel> stulist=StuRegisterNewModel.getBysss(tcsuid,week,classid);
 		if(stulist.size()<1) {//说明第一次拍照签到，要先把学生信息签到初始化
 			addStuRegByClass(list,classid,tcsuid,week);
@@ -150,6 +148,7 @@ public class StuRegisterNewModel extends Model<StuRegisterNewModel> {
 				for(FaceSeachModel m:list) {
 					if(st.getUserid().equals(m.getUser_id())) {
 						st.setstatus(1);//0未签到，1已签到，-1其他，2旷课，3事假，4病假
+						st.setReg_time(new Date());
 						st.setType(0);//0上课，1下课
 						st.setReg_time(new Date());
 						break;

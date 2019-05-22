@@ -244,12 +244,6 @@ public class WeixinController extends Controller{
 		setAttr("data", data);
 		renderJson();
 	}
-	//课程id、班级id接口
-	public void SubClass() {
-		List<ClassinfoModel> data = ClassinfoModel.getClassId();
-		List<SubjectModel> dp = SubjectModel.getSubId();
-		setAttr("date", data);
-		setAttr("dp", dp);
-		renderJson();
-	}
+	
+	
 }
