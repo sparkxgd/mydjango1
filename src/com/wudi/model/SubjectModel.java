@@ -79,4 +79,9 @@ public class SubjectModel extends Model<SubjectModel> {
 		sql.append("select *  from ").append(tableName);
 		return dao.find(sql.toString());
 	}
+	public static List<SubjectModel> getListAll() {
+		StringBuffer sql=new StringBuffer();
+		sql.append("select *  from ").append(tableName);
+		return dao.find(sql.toString());
+	}
 }

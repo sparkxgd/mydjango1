@@ -13,7 +13,7 @@ import org.json.JSONObject;
 import com.jfinal.core.Controller;
 import com.jfinal.upload.UploadFile;
 import com.wudi.bean.FaceSeachModel;
-import com.wudi.model.Arrange_subjectModel;
+import com.wudi.model.ArrangeSubjectModel;
 import com.wudi.model.ClassinfoModel;
 import com.wudi.model.StuRegisterNewModel;
 import com.wudi.model.SubjectModel;
@@ -41,6 +41,7 @@ public class WeixinController extends Controller{
 	public void testface() {
 		
 		String u=System.getProperty("user.dir");
+//		String url=u+"\\WebContent\\upload\\1558260092850.jpg";
 		String url=u+"\\WebContent\\upload\\liang.jpg";
 	    String image =Util.GetImageStr(url);  
 	    // 传入可选参数调用接口
@@ -239,7 +240,7 @@ public class WeixinController extends Controller{
 	//课表接口
 	public void ArrSub() {
 		String teacher = getPara("id");
-		List<Arrange_subjectModel> data = Arrange_subjectModel.getArrSub(teacher);
+		List<ArrangeSubjectModel> data = ArrangeSubjectModel.getArrSub(teacher);
 		setAttr("data", data);
 		renderJson();
 	}

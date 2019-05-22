@@ -9,7 +9,7 @@ public class StringUtil{
 	}
 	public static String getId() {
 		Long t=new Date().getTime();
-		int a=(int)(1+Math.random()*10);
+		int a=(int)(1+Math.random()*1000);
 		return t.toString()+a;
 	}
 	  /**

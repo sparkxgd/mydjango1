@@ -7,20 +7,17 @@ layui.config({
 		laypage = layui.laypage;
 		$ = layui.jquery;
 		
-		var arr=new Array();
-        
-        for(var i=100;i<105;i++){
-        	var c="c"+i;
-	        arr.push("<input type='checkbox' name='"+c+"' lay-skin='primary'  title='"+c+"'>");
-        	
-        }	        
-        $("#permission").append(arr.join("\n"));
-		form.render();//必须要再次渲染，要不然option显示不出来
-		
 		$.get("getTeacherlist", function(data){
 			var list=data.list;
 			for(var i=0;i<list.length;i++){
-        		$("#teacher").append("<option value='"+list[i].id+"'>"+list[i].id+"</option>");
+        		$("#teacher").append("<option value='"+list[i].id+"'>"+list[i].username+"</option>");
+			}
+			form.render();//必须要再次渲染，要不然option显示不出来
+		});
+		$.get("getSubjectlist", function(data){
+			var list=data.dp;
+			for(var i=0;i<list.length;i++){
+        		$("#subject").append("<option value='"+list[i].id+"'>"+list[i].nickname+"</option>");
 			}
 			form.render();//必须要再次渲染，要不然option显示不出来
 		});

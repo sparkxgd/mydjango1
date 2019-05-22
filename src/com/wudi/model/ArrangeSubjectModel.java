@@ -7,10 +7,10 @@ import com.jfinal.plugin.activerecord.Model;
 import com.jfinal.plugin.activerecord.Page;
 import com.wudi.util.StringUtil;
 
-public class Arrange_subjectModel extends Model<Arrange_subjectModel> {
+public class ArrangeSubjectModel extends Model<ArrangeSubjectModel> {
 	private static final long serialVersionUID = 1L;
 	public static final String tableName = "arrange_subject";
-	public static final Arrange_subjectModel dao = new Arrange_subjectModel();
+	public static final ArrangeSubjectModel dao = new ArrangeSubjectModel();
 	
 	public String getId() {
 		return get("id");
@@ -49,28 +49,30 @@ public class Arrange_subjectModel extends Model<Arrange_subjectModel> {
 		set("classroom", classroom);
 	}
 	
-	public static Arrange_subjectModel getById(String id) {
+	public static ArrangeSubjectModel getById(String id) {
 		String sql = "select * from " + tableName + " where id = ?";
 		return dao.findFirst(sql, id);
 	}
-	public static List<Arrange_subjectModel> getArrSub(String teacher) {
+	public static List<ArrangeSubjectModel> getArrSub(String teacher) {
 		String sql = "select a.*,b.id as teacher,c.id as userid from arrange_subject as a LEFT JOIN teacher as b on b.id=a.teacher LEFT JOIN `user` as c on c.id=b.userid where c.id= ?";
 		StringBuffer from_sql = new StringBuffer();
 		return dao.find(sql, teacher);
 	} 
-	public static Page<Arrange_subjectModel> getList(int pageNumber, int pageSize, String key) {
-		String sele_sql = "select a.*,b.nickname as classid,c.nickname as classroom,d.userid as teacher ";
+	public static Page<ArrangeSubjectModel> getList(int pageNumber, int pageSize, String key) {
+		String sele_sql = "select a.*,b.nickname as classname,c.nickname as classroom,f.username,g.nickname as subjcname ";
 		StringBuffer from_sql = new StringBuffer();
 		from_sql.append("from ").append(tableName).append(" as a left join ").append(ClassinfoModel.tableName).append(" as b ").append(" on a.classid=b.id ");
 		from_sql.append("left join ").append(ClassroomModel.tableName).append(" as c ").append(" on a.classroom=c.id ");
 		from_sql.append(" left join ").append(TeacherModel.tableName).append(" as d on a.teacher=d.id ");
+		from_sql.append(" left join ").append(UserModel.tableName).append(" as f on d.userid=f.id ");
+		from_sql.append(" left join ").append(SubjectModel.tableName).append(" as g on a.subject=g.id ");
 		if(!StringUtil.isBlankOrEmpty(key)) {
-			from_sql.append("where teacher like '%"+key+"%'");
+			from_sql.append("where f.username like '%"+key+"%'");
 		}
 		return dao.paginate(pageNumber, pageSize, sele_sql, from_sql.toString());
 	}
 	public static boolean save(String teacher, String subject, String class_time, String classid, String classroom) {
-		Arrange_subjectModel m = new Arrange_subjectModel();
+		ArrangeSubjectModel m = new ArrangeSubjectModel();
 		m.setId(StringUtil.getId());
 		m.setTeacher(teacher);
 		m.setSubject(subject);
@@ -80,7 +82,7 @@ public class Arrange_subjectModel extends Model<Arrange_subjectModel> {
 		return m.save();
 	}
 	public static boolean updata(String id, String teacher, String subject, String class_time, String classid, String classroom) {
-		Arrange_subjectModel m = Arrange_subjectModel.getById(id);
+		ArrangeSubjectModel m = ArrangeSubjectModel.getById(id);
 		m.setId(id);
 		m.setTeacher(teacher);
 		m.setSubject(subject);

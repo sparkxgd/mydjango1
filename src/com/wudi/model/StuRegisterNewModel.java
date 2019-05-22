@@ -83,8 +83,8 @@ public class StuRegisterNewModel extends Model<StuRegisterNewModel> {
 		String sql = "select * from " + tableName +" where id = ?";
 		return dao.findFirst(sql, id);
 	}
-	public static List<StuRegisterNewModel> getBys(String tcsuid,int week, String classid) {
-		String sql = "select a.*,b.userid from " + tableName +" as a left join "+StudentModel.tableName+" as b on a.stuid=b.id where a.week =? and a.tcsuid=? and a.classid = ?";
+	public static List<StuRegisterNewModel> getBysss(String tcsuid,int week, String classid) {
+		String sql = "select a.*,b.userid from " + tableName +" a left join "+StudentModel.tableName+" b on a.stuid=b.id where a.week =? and a.tcsuid=? and a.classid = ?";
 		return dao.find(sql, week,tcsuid,classid);
 	}
 	public static StuRegisterNewModel getByStuid(String id) {
@@ -92,11 +92,15 @@ public class StuRegisterNewModel extends Model<StuRegisterNewModel> {
 		return dao.findFirst(sql, id);
 	}
 	public static Page<StuRegisterNewModel> getList(int pageNumber, int pageSize, String key) {
-		String sele_sql = "select *";
+		String sele_sql = "select a.*,b.no,c.username,d.classroom,f.nickname,g.nickname as classname ";
 		StringBuffer from_sql = new StringBuffer();
-		from_sql.append("from ").append(tableName);
+		from_sql.append("from ").append(tableName).append(" as a left join ").append(StudentModel.tableName).append(" as b on a.stuid=b.id");
+		from_sql.append(" left join ").append(UserModel.tableName).append(" as c on b.userid=c.id");
+		from_sql.append(" left join ").append(ArrangeSubjectModel.tableName).append(" as d on a.tcsuid=d.id");
+		from_sql.append(" left join ").append(SubjectModel.tableName).append(" as f on d.subject=f.id");
+		from_sql.append(" left join ").append(ClassinfoModel.tableName).append(" as g on b.clas=g.id");
 		if(!StringUtil.isBlankOrEmpty(key)) {
-			from_sql.append("where name like '%"+key+"%'");
+			from_sql.append("where c.username like '%"+key+"%'");
 		}
 		return dao.paginate(pageNumber, pageSize, sele_sql, from_sql.toString());
 	}
@@ -138,7 +142,7 @@ public class StuRegisterNewModel extends Model<StuRegisterNewModel> {
 	public static List<StuRegisterNewModel> signIn(List<FaceSeachModel> list,String tcsuid,String classid,int week) {
 		
 
-		List<StuRegisterNewModel> stulist=StuRegisterNewModel.getBys(tcsuid,week,classid);
+		List<StuRegisterNewModel> stulist=StuRegisterNewModel.getBysss(tcsuid,week,classid);
 		if(stulist.size()<1) {//说明第一次拍照签到，要先把学生信息签到初始化
 			addStuRegByClass(list,classid,tcsuid,week);
 		}else {
@@ -154,7 +158,7 @@ public class StuRegisterNewModel extends Model<StuRegisterNewModel> {
 			}
 			Db.batchUpdate(stulist, 10);//批量保存数据
 		}
-		return getListN();
+		return getListN(tcsuid,week,classid);
 	}
 	
 	public static boolean delStu_register(String id) {
@@ -172,8 +176,8 @@ public class StuRegisterNewModel extends Model<StuRegisterNewModel> {
 			return false;
 		}
 	}
-	public static List<StuRegisterNewModel> getListN() {
-		String sql = "SELECT c.username ,b.`no`,a.`status` from stu_registernews as a LEFT JOIN student as b on a.stuid=b.id LEFT JOIN `user` as c on b.userid=c.id";
-		return dao.find(sql);
+	public static List<StuRegisterNewModel> getListN(String tcsuid,int week, String classid) {
+		String sql = "SELECT c.username ,b.`no`,a.`status` from stu_registernews as a LEFT JOIN student as b on a.stuid=b.id LEFT JOIN `user` as c on b.userid=c.id where a.week =? and a.tcsuid=? and a.classid = ? ";
+		return dao.find(sql, week,tcsuid,classid);
 	}
 }

@@ -12,7 +12,7 @@ import com.jfinal.template.Engine;
 import com.wudi.controller.AdminController;
 import com.wudi.controller.FileController;
 import com.wudi.controller.WeixinController;
-import com.wudi.model.Arrange_subjectModel;
+import com.wudi.model.ArrangeSubjectModel;
 import com.wudi.model.ClassinfoModel;
 import com.wudi.model.ClassroomModel;
 import com.wudi.model.ConfigModel;
@@ -94,7 +94,7 @@ public class Config extends JFinalConfig {
 			arpMysql.addMapping("school", SchoolModel.class);//学校表
 			arpMysql.addMapping("classroom", ClassroomModel.class);//教室表
 			arpMysql.addMapping("subject", SubjectModel.class);//科目表
-			arpMysql.addMapping("arrange_subject", Arrange_subjectModel.class);//教师课表
+			arpMysql.addMapping("arrange_subject", ArrangeSubjectModel.class);//教师课表
 			arpMysql.addMapping("study", StudyModel.class);//上课记录表
 			arpMysql.addMapping("stu_study", Stu_studyModel.class);//学生上课记录表
 			arpMysql.addMapping("stu_register", Stu_registerModel.class);//上课签到表

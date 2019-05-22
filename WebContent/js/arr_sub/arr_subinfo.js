@@ -30,10 +30,10 @@ layui.config({
 	    id: 'testReload',
 	    cols: [[ //表头
 	      {field: 'id', title: 'ID', sort: true, fixed: 'left'}
-	      ,{field: 'teacher', title: '授课教师', align:'center'} 
-	      ,{field: 'subject', title: '授课科目', align:'center'} 
+	      ,{field: 'username', title: '授课教师', align:'center'} 
+	      ,{field: 'subjcname', title: '授课科目', align:'center'} 
 	      ,{field: 'class_time', title: '上课时间段',align:'center' }
-	      ,{field: 'classid', title: '排课班级',align:'center' }
+	      ,{field: 'classname', title: '排课班级',align:'center' }
 	      ,{field: 'classroom', title: '上课地点',align:'center' }
 	      ,{fixed: 'right', align:'center',title:'操作', templet:function(d){
 	    	  var arr=new Array();

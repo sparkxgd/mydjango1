@@ -1,6 +1,5 @@
 package com.wudi.controller;
 
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -11,7 +10,7 @@ import com.jfinal.core.Controller;
 import com.jfinal.kit.JsonKit;
 import com.jfinal.plugin.activerecord.Page;
 import com.wudi.interceptor.AdminInterceptor;
-import com.wudi.model.Arrange_subjectModel;
+import com.wudi.model.ArrangeSubjectModel;
 import com.wudi.model.ClassinfoModel;
 import com.wudi.model.ClassroomModel;
 import com.wudi.model.DepartmentModel;
@@ -21,6 +20,7 @@ import com.wudi.model.NewsModel;
 import com.wudi.model.ParentsModel;
 import com.wudi.model.RoleModel;
 import com.wudi.model.SchoolModel;
+import com.wudi.model.StuRegisterNewModel;
 import com.wudi.model.Stu_pareModel;
 import com.wudi.model.Stu_registerModel;
 import com.wudi.model.Stu_studyModel;
@@ -983,7 +983,11 @@ public class AdminController extends Controller {
 		setAttr("data", c.getList());
 		renderJson();
 	}
-	
+	public void getSubjectlist() {
+		List<SubjectModel> list = SubjectModel.getListAll();
+		setAttr("dp", list);
+		renderJson();
+	}
 	/**
 	 * 教师课表
 	 */
@@ -1000,7 +1004,7 @@ public class AdminController extends Controller {
 	}
 	public void getArr_SubjectModel() {
 		 String id=getPara("id");
-		 Arrange_subjectModel result = Arrange_subjectModel.getById(id);
+		 ArrangeSubjectModel result = ArrangeSubjectModel.getById(id);
 		 setAttr("m", result);
 		 renderJson();
 	}
@@ -1010,7 +1014,7 @@ public class AdminController extends Controller {
 		String class_time = getPara("class_time");
 		String classid = getPara("classid");
 		String classroom = getPara("classroom");
-		boolean result = Arrange_subjectModel.save(teacher, subject, class_time, classid, classroom);
+		boolean result = ArrangeSubjectModel.save(teacher, subject, class_time, classid, classroom);
 		setAttr("result", result);
 		renderJson();
 	}
@@ -1022,13 +1026,13 @@ public class AdminController extends Controller {
 		String class_time = getPara("class_time");
 		String classid = getPara("classid");
 		String classroom = getPara("classroom");
-		boolean result = Arrange_subjectModel.updata(id, teacher, subject, class_time, classid, classroom);
+		boolean result = ArrangeSubjectModel.updata(id, teacher, subject, class_time, classid, classroom);
 		setAttr("result", result);
 		renderJson();
 	}
 	public void delArr_Subject() {
 		String id = getPara("id");
-		boolean result = Arrange_subjectModel.delArrang_sub(id);
+		boolean result = ArrangeSubjectModel.delArrang_sub(id);
 		setAttr("result", result);
 		renderJson();
 	}
@@ -1036,7 +1040,7 @@ public class AdminController extends Controller {
 		String key = getPara("key");
 		int limit = getParaToInt("limit");
 		int page = getParaToInt("page");
-		Page<Arrange_subjectModel> c = Arrange_subjectModel.getList(page, limit, key);
+		Page<ArrangeSubjectModel> c = ArrangeSubjectModel.getList(page, limit, key);
 		setAttr("infos", c);
 		setAttr("code", 0);
 		setAttr("msg", "你好！");
@@ -1140,35 +1144,34 @@ public class AdminController extends Controller {
 	/**
 	 * 学生签到表
 	 */
-	public void openStu_registerInfo() {
+	public void openStuRegisterInfo() {
 		render("stu_reg/stu_reginfo.html");
 	}
-	public void openStu_registerAdd() {
+	public void openStuRegisterAdd() {
 		render("stu_reg/stu_regAdd.html");
 	}
-	public void openStu_registerEdit() {
+	public void openStuRegisterEdit() {
 		String id = getPara("id");
 		setAttr("id", id);
 		renderFreeMarker("stu_reg/stu_regEdit.html");
 	}
-	public void getStu_registerModel() {
+	public void getStuRegisterModel() {
 		 String id=getPara("id");
 		 Stu_registerModel result = Stu_registerModel.getById(id);
 		 setAttr("m", result);
 		 renderJson();
 	}
-	public void delStu_register() {
+	public void delStuRegister() {
 		String id = getPara("id");
 		boolean result = Stu_registerModel.delStu_register(id);
 		setAttr("result", result);
 		renderJson();
 	}
-	public void queryStu_register() {
+	public void queryStuRegister() {
 		String key = getPara("key");
 		int limit = getParaToInt("limit");
 		int page = getParaToInt("page");
-		Page<Stu_registerModel> c = Stu_registerModel.getList(page, limit, key);
-		setAttr("infos", c);
+		Page<StuRegisterNewModel> c = StuRegisterNewModel.getList(page, limit, key);
 		setAttr("code", 0);
 		setAttr("msg", "你好！");
 		setAttr("count", c.getTotalRow());

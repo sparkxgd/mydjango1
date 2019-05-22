@@ -25,7 +25,7 @@ layui.config({
 	var ins=  table.render({
 	    elem: '#demo',//渲染对象
 	    height: 'full-88',//表格高度
-	    url: 'queryStu_register', //数据接口
+	    url: 'queryStuRegister', //数据接口
 	    where: {key: ''},//给后台传的参数
 	    page: true, //开启分页
 	    limit: 10,//每页显示信息条数
@@ -33,20 +33,24 @@ layui.config({
 	    id: 'testReload',
 	    cols: [[ //表头
 		      {field: 'id', title: 'ID', sort: true, fixed: 'left',width:150}
-		      ,{field: 'reg_time', title: '签到时间',width:150}
-		      ,{field: 'addr', title: '签到位置',width:150}
-		      ,{field: 'type', title: '签到类型',width:150,
+		      ,{field: 'classname' ,title:'班级', width:150}
+		      ,{field: 'no' ,title:'学号', width:150}
+		      ,{field: 'username' ,title:'姓名', width:150}
+		      ,{field: 'status', title: '是否签到',width:150,
 		    	  templet:function(d){
-		    		  if(d.type==0){
-		    			  return '<span class="layui-badge layui-bg-blue">上课</span>'
-		    		  }
-		    		  else{
-		    			  return '<span class="layui-badge layui-bg-red">下课</span>'
+		    		  if(d.status==0){
+		    			  return '<span class="layui-badge layui-bg-red">未签到</span>'
+		    		  }else if(d.status==1){
+		    			  return '<span class="layui-badge layui-bg-green">已签到</span>'
+		    		  }else{
+		    			  return '<span class="layui-badge layui-bg-orange">其他</span>'
 		    		  }
 		    	  }
 		      }
+		      ,{field: 'reg_time', title: '时间',width:150}
+		      ,{field: 'classroom', title: '位置',width:150}
+		      ,{field: 'nickname' ,title:'科目', width:150}
 		      ,{field: 'remark' ,title:'备注', width:150}
-		      ,{field: 'studey_id' ,title:'上课记录ID', width:150}
 		      ,{fixed: 'right', align:'center',title:'操作', templet:function(d){
 		    	  var arr=new Array();
 		    	  if(per==1){
@@ -59,11 +63,6 @@ layui.config({
 		    ]]
 
 	  });
-	  
-
-	  
-	  
-	  
 	  
 //====================点击【搜索】按钮事件===========================
   var active = {
@@ -87,32 +86,7 @@ layui.config({
 	  active[type] ? active[type].call(this) : '';
 	  });
   
-  
-  
-  
-  
-//=============绑定【添加】事件============================
-	//$(window).one("resize",function(){
-		$(".add_btn").click(function(){
-			var index = layui.layer.open({
-				title : "【添加信息】",
-				icon: 2,
-				type : 2,
-				skin: 'layui-layer-lan',
-				area: ['800px', '600px'],
-				content : "openStu_registerAdd",
-				success : function(layero, index){
-					setTimeout(function(){
-						layui.layer.tips('点击此处返回列表', '.layui-layer-setwin .layui-layer-close', {
-							tips: 3
-						});
-					},500)
-				}
-			})			
-			layui.layer.full(index);
-		});
-//	}).resize();
-  
+
 //=======================监听工具条====================================
 	table.on('tool(test)', function(obj){ //注：tool是工具条事件名，test是table原始容器的属性 lay-filter="对应的值"
 	  var data = obj.data; //获得当前行数据
@@ -126,7 +100,7 @@ layui.config({
 				var msgid;
 				//向服务端发送删除指令
 		 		 $.ajax({//异步请求返回给后台
-			    	  url:'delStu_register',
+			    	  url:'delStuRegister',
 			    	  type:'POST',
 			    	  data:{"id":data.id},
 			    	  dataType:'json',
@@ -161,7 +135,7 @@ layui.config({
 		  var index = layui.layer.open({
               title : "修改信息",
               type : 2,
-              content : "openStu_registerEdit?id="+data.id,
+              content : "openStuRegisterEdit?id="+data.id,
               success : function(layero, index){
                   setTimeout(function(){
                       layui.layer.tips('点击此处返回列表', '.layui-layer-setwin .layui-layer-close', {

@@ -48,7 +48,7 @@
 		{
 			"title" : "学生签到表",
 			"icon" : "&#xe613;",
-			"href" : "admin/openStu_registerInfo",
+			"href" : "admin/openStuRegisterInfo",
 			"spread" : false
 		},
 		{
