@@ -4,6 +4,7 @@ import java.io.File;
 import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import com.jfinal.aop.Before;
 import com.jfinal.plugin.activerecord.Db;
@@ -11,7 +12,7 @@ import com.jfinal.plugin.activerecord.IAtom;
 import com.jfinal.plugin.activerecord.Model;
 import com.jfinal.plugin.activerecord.Page;
 import com.jfinal.plugin.activerecord.tx.Tx;
-import com.wudi.plugin.BaiduPlugin;
+import com.wudi.plugin.BaiduHttpPlugin;
 import com.wudi.util.StringUtil;
 import com.wudi.util.Util;
 /**
@@ -136,11 +137,19 @@ public class UserModel extends Model<UserModel>{
 					public boolean run() throws SQLException {
 						boolean re=false;
 						boolean ree=false;
-						HashMap<String, String> options = new HashMap<String, String>();
 						String u=System.getProperty("user.dir");
 						String url=u+"\\WebContent\\upload\\"+m.getImg();
 					    String image =Util.GetImageStr(url);
-						BaiduPlugin.face.addUser(image, "BASE64", "test", m.getId(), options);
+					    
+					    Map<String, Object> map = new HashMap<String, Object>();
+				        map.put("image", image);
+				        map.put("group_id", "test");
+			            map.put("user_id", m.getId());
+			            map.put("user_info", m.getUsername());
+			            map.put("liveness_control", "NORMAL");
+						
+					    BaiduHttpPlugin.face.userAdd(map);
+			            
 						ree=m.save();
 						if(m.getType()==1) {
 							StudentModel s=new StudentModel();

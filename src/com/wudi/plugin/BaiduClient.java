@@ -72,6 +72,39 @@ public class BaiduClient {
         }
         return null;
     }
+    
+    /**
+     * 单人脸检测
+     * @param map
+     * @return
+     */
+    public JSONObject detect(Map<String, Object> map) {
+    	String url = "https://aip.baidubce.com/rest/2.0/face/v3/detect";
+        try {
+            JSONObject result=baidu(url,map);
+            return result;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+    	
+    	
+        /**
+         * 添加人脸库
+         * @param map
+         * @return
+         */
+        public JSONObject userAdd(Map<String, Object> map) {
+        	String url = "https://aip.baidubce.com/rest/2.0/face/v3/faceset/user/add";
+            try {
+                JSONObject result=baidu(url,map);
+                return result;
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            return null;
+        }
     public static void main(String[] args) {
 //        BaiduClient.search();
     }

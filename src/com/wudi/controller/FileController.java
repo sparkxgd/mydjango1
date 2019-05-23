@@ -2,12 +2,14 @@ package com.wudi.controller;
 import java.io.File;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.Map;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
 
 import com.jfinal.core.Controller;
 import com.jfinal.upload.UploadFile;
+import com.wudi.plugin.BaiduHttpPlugin;
 import com.wudi.plugin.BaiduPlugin;
 import com.wudi.util.StringUtil;
 import com.wudi.util.Util;
@@ -37,38 +39,41 @@ public class FileController extends Controller {
         String filePath = upFile.getUploadPath();
         String fileName = System.currentTimeMillis() + extName;
         file.renameTo(new File(filePath+"\\"+fileName));
-        
-        // 传入可选参数调用接口
-        HashMap<String, String> options = new HashMap<String, String>();
-        options.put("face_field", "gender,age,beauty");
 	    String url=filePath+"\\"+fileName;
 	    String image =Util.GetImageStr(url);
-        String imageType = "BASE64";
         
-        // 人脸检测
-        JSONObject res = BaiduPlugin.face.detect(image, imageType, options);
-        System.out.println(res);
+        Map<String, Object> map = new HashMap<String, Object>();
+        map.put("image", image);
+        map.put("face_field", "age,beauty,gender");
+        map.put("image_type", "BASE64");
+        map.put("quality_control", "LOW");
+		
+	    JSONObject res=BaiduHttpPlugin.face.detect(map);
+
         //检测到的图片中的人脸数量
         int face_num=res.getJSONObject("result").getInt("face_num");
         //人脸置信度，范围【0~1】，代表这是一张人脸的概率，0最小、1最大。
-        double face_probability=res.getJSONObject("result").getJSONArray("face_list").getJSONObject(0).optDouble("face_probability");
-        double age=res.getJSONObject("result").getJSONArray("face_list").getJSONObject(0).optDouble("age");
-        double beauty=res.getJSONObject("result").getJSONArray("face_list").getJSONObject(0).optDouble("beauty");
-        String type=res.getJSONObject("result").getJSONArray("face_list").getJSONObject(0).getJSONObject("gender").getString("type");
+        JSONArray js=res.getJSONObject("result").getJSONArray("face_list");
+        if(!js.isNull(0)) {
+            JSONObject jsa=js.getJSONObject(0);
+            double face_probability=jsa.optDouble("face_probability");
+            double age=jsa.optDouble("age");
+            double beauty=jsa.optDouble("beauty");
+            String type=jsa.getJSONObject("gender").getString("type");
 
-        if(face_num<1||face_probability<0.8) {
-            file.delete();
-        	setAttr("code", 1);
-        	setAttr("msg", "没有检查到人脸或者，图片太模糊！！请重新上传");
-        	setAttr("src", "");
-        }else {
-        	setAttr("code", 0);
-        	setAttr("src", fileName);
-        	setAttr("age", age);
-        	setAttr("beauty", beauty);
-        	setAttr("type", type);
+            if(face_num<1||face_probability<0.8) {
+                file.delete();
+            	setAttr("code", 1);
+            	setAttr("msg", "没有检查到人脸或者，图片太模糊！！请重新上传");
+            	setAttr("src", "");
+            }else {
+            	setAttr("code", 0);
+            	setAttr("src", fileName);
+            	setAttr("age", age);
+            	setAttr("beauty", beauty);
+            	setAttr("type", type);
+            }
         }
-        
 		renderJson();
 	}
 
