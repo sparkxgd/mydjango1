@@ -33,6 +33,7 @@ import com.wudi.model.SubjectModel;
 import com.wudi.model.TeacherModel;
 import com.wudi.model.UserFaceModel;
 import com.wudi.model.UserModel;
+import com.wudi.plugin.BaiduHttpPlugin;
 import com.wudi.plugin.BaiduPlugin;
 
 public class Config extends JFinalConfig {
@@ -108,8 +109,10 @@ public class Config extends JFinalConfig {
 		
 		
 		//加载百度ai插件
-		BaiduPlugin baiduai=new BaiduPlugin(getProperty("APP_ID"),getProperty("API_KEY"), getProperty("SECRET_KEY"));
-		me.add(baiduai);
+//		BaiduPlugin baiduai=new BaiduPlugin(getProperty("APP_ID"),getProperty("API_KEY"), getProperty("SECRET_KEY"));
+//		me.add(baiduai);
+		BaiduHttpPlugin baiduaihttp=new BaiduHttpPlugin(getProperty("API_KEY"), getProperty("SECRET_KEY"));
+		me.add(baiduaihttp);
 		
 	}
 
