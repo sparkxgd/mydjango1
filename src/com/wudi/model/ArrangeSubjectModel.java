@@ -54,7 +54,7 @@ public class ArrangeSubjectModel extends Model<ArrangeSubjectModel> {
 		return dao.findFirst(sql, id);
 	}
 	public static List<ArrangeSubjectModel> getArrSub(String teacher) {
-		String sql = "select a.*,b.id as teacher,c.id as userid,d.id,d.nickname as classroom,e.id as classid,e.nickname as classname,f.nickname as subjcname " + 
+		String sql = "select a.*,b.id as teacher,c.id as userid,d.id,d.nickname as classname,e.id as classid,e.nickname as classname,f.nickname as subjcname " + 
 				"from arrange_subject as a LEFT JOIN teacher as b on b.id=a.teacher " + 
 				"LEFT JOIN `user` as c on c.id=b.userid " + 
 				"left join classroom as d on a.classroom=d.id " + 
