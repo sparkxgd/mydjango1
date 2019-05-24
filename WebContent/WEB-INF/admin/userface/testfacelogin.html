@@ -28,7 +28,6 @@
 			margin-left:10%; 
 			margin-top: 5%;
 			width: 300px;
-			height: 100px;
 			border-radius: 5px;
 			border:3px solid black;
 		}
@@ -41,7 +40,7 @@
 			<div class="layui-form-item">
 				<label class="layui-form-label">周次</label>
 				<div class="layui-input-block">
-					<input type="text" class="layui-input" id="week" name="week"  lay-verify="required" placeholder="请输入用户名"  autocomplete="off">
+					<input type="text" class="layui-input" id="week" name="week"  lay-verify="required" placeholder="请输入周次"  autocomplete="off">
 				</div>
 			</div>
 			<div class="layui-form-item" pane="">
@@ -59,20 +58,14 @@
 	   			</div>
 			</div>
 			<div class="layui-form-item" pane="">
-				<label class="layui-form-label">头像</label>
+				<label class="layui-form-label">上传图片</label>
 				<div class="layui-input-block">
 					<div class="layui-upload-list">
 	    			<p id="demoText"></p>
-	  				<button type="button" class="layui-btn" id="upschool">上传图片</button>
+	  				<button type="button" class="layui-btn" id="upschool">签到</button>
 	  				<input type="hidden" id="img" name="img" value=""/>
 	  				</div>
 				</div> 
-			</div>
-			<div class="layui-form-item">
-				<div class="layui-input-block">
-					<button class="layui-btn" lay-submit="" lay-filter="add">保存</button>
-					<button type="reset" class="layui-btn layui-btn-primary">重置</button>
-			    </div>
 			</div>
 		</form>
       
@@ -83,14 +76,12 @@
     	</div>
     	<div class="layui-row">
     		<div class="myinfo">
-				性别：<label id="type">女</label><br>
-				年龄：<label id="age">21</label><br>
-				颜值：<label id="beauty">89</label>
+				<label id="age"></label><br>
 			</div>
     	</div>
     </div>
   </div>
 	<script type="text/javascript" src="../../layui/layui.js"></script>
-	<script type="text/javascript" src="../js/userinfo/userinfoAdd.js"></script>
+	<script type="text/javascript" src="../js/userface/testfacelogin.js"></script>
 </body>
 </html>

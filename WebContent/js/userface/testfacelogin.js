@@ -27,7 +27,7 @@
 				//普通图片上传
 				  var uploadInst = upload.render({
 				    elem: '#upschool'
-				    ,url: '/admin/faceLogin'
+				    ,url: '/wudi/faceSignIn'
 				    ,multiple:false
 				    ,data: {
 				    	week: function(){
@@ -52,10 +52,11 @@
 				      if(res.code > 0){
 				        return layer.msg('上传失败:'+res.msg);
 				      }else{
-				    	  $('#img').val(res.src);
-				    	  $('#age').text(res.age);
-				    	  $('#beauty').text(res.beauty);
-				    	  $('#type').text(res.type);
+				    	  var arr=new Array();
+				    	  for(var i=0;i<res.data.length;i++){
+				  			arr.push("<label>"+res.data[i].no,res.data[i].username,res.data[i].status+"</label><br>");
+				    	  }
+				    	  $(".myinfo").append(arr.join("\n")); 
 				      }
 				      //上传成功
 				    }
@@ -68,34 +69,5 @@
 				      });
 				    }
 				  });
-				
-		 	form.on("submit(add)",function(data){
-		 		var index;
-		 		 $.ajax({//异步请求返回给后台
-			    	  url:'saveUser',
-			    	  type:'POST',
-			    	  data:data.field,
-			    	  dataType:'json',
-			    	  beforeSend: function(re){
-			    		  index = top.layer.msg('数据提交中，请稍候',{icon: 16,time:false,shade:0.8});
-			          },
-			    	  success:function(d){
-			    			//弹出loading
-					    	top.layer.close(index);
-					  		top.layer.msg("添加成功！");
-					   		layer.closeAll("iframe");
-					  	 		//刷新父页面
-					  	 	parent.location.reload();
-				    		
-			    	  },
-			    	  error:function(XMLHttpRequest, textStatus, errorThrown){
-			    		  top.layer.msg('保存失败！！！服务器有问题！！！！<br>请检测服务器是否启动？', {
-			    		        time: 20000, //20s后自动关闭
-			    		        btn: ['知道了']
-			    		      });
-			           }
-			      });
-		 		return false;
-		 	})
 			
 		})
