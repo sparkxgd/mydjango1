@@ -116,4 +116,11 @@ public class ArrangeSubjectModel extends Model<ArrangeSubjectModel> {
 		sql.append("select *  from ").append(tableName);
 		return dao.find(sql.toString());
 	}
+	
+	public static List<ArrangeSubjectModel> getStuSub(String classid){
+		String sql = "select a.*,b.nickname,c.nickname from arrange_subject AS a " + 
+				"LEFT JOIN `subject` as b ON a.`subject`=b.id " + 
+				"left join classinfo as c on a.classid=c.id WHERE classid = ?";
+		return dao.find(sql, classid);
+	}
 }

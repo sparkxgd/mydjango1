@@ -123,9 +123,9 @@ public class WeixinController extends Controller{
 	    String tcsuid=getPara("tcsuid");
 	    int week=getParaToInt("week");
 	    //将信息添加到数据库
-	    List<StuRegisterNewModel> list=StuRegisterNewModel.signIn(flist,tcsuid,classid,week);
+	    List<StuRegisterNewModel> data=StuRegisterNewModel.signIn(flist,tcsuid,classid,week);
 	    
-	    setAttr("data", list);
+	    setAttr("data", data);
 		setAttr("code", 0);
 	    renderJson();
 	}
@@ -176,7 +176,13 @@ public class WeixinController extends Controller{
 	}
 	//签到信息接口
 	public void StuReg() {
-		
+		String classid=getPara("classid");
+	    String tcsuid=getPara("tcsuid");
+	    int week=getParaToInt("week");
+	    List<StuRegisterNewModel> list=StuRegisterNewModel.getStuSub(tcsuid,classid,week);
+	    setAttr("list", list);
+	    renderJson();
+	    
 	}
 	//课表接口
 	public void ArrSub() {
@@ -189,6 +195,13 @@ public class WeixinController extends Controller{
 	public void StuMage() {
 		String id = getPara("id");
 		List<ClassinfoModel> data = ClassinfoModel.getStuMage(id);
+		setAttr("data", data);
+		renderJson();
+	}
+	//学生课表接口
+	public void StuSub() {
+		String classid = getPara("classid");
+		List<ArrangeSubjectModel> data = ArrangeSubjectModel.getStuSub(classid);
 		setAttr("data", data);
 		renderJson();
 	}

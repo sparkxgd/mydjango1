@@ -148,7 +148,6 @@ public class StuRegisterNewModel extends Model<StuRegisterNewModel> {
 				for(FaceSeachModel m:list) {
 					if(st.getUserid().equals(m.getUser_id())) {
 						st.setstatus(1);//0未签到，1已签到，-1其他，2旷课，3事假，4病假
-						st.setReg_time(new Date());
 						st.setType(0);//0上课，1下课
 						st.setReg_time(new Date());
 						break;
@@ -178,5 +177,10 @@ public class StuRegisterNewModel extends Model<StuRegisterNewModel> {
 	public static List<StuRegisterNewModel> getListN(String tcsuid,int week, String classid) {
 		String sql = "SELECT c.username ,b.`no`,a.`status` from stu_registernews as a LEFT JOIN student as b on a.stuid=b.id LEFT JOIN `user` as c on b.userid=c.id where a.week =? and a.tcsuid=? and a.classid = ? ";
 		return dao.find(sql, week,tcsuid,classid);
+	}
+	
+	public static List<StuRegisterNewModel> getStuSub(String tcsuid,String classid,int week) {
+		String sql = "select * from " + tableName + " where String tcsuid = ? and classid = ? and week = ?";
+		return dao.find(sql, tcsuid,classid,week);
 	}
 }

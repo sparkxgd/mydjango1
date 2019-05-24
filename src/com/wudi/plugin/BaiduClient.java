@@ -65,7 +65,6 @@ public class BaiduClient {
     	    // 传入可选参数调用接口
             Map<String, Object> map = new HashMap<String, Object>();
             map.put("image", image);
-            map.put("liveness_control", "NORMAL");
             map.put("group_id_list", "test");
             map.put("image_type", "BASE64");
             map.put("max_face_num", 10);
