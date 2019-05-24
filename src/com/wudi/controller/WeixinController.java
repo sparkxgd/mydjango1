@@ -237,10 +237,21 @@ public class WeixinController extends Controller{
 		setAttr("code", code);
 		renderJson();
 	}
+	//签到信息接口
+	public void StuReg() {
+		
+	}
 	//课表接口
 	public void ArrSub() {
 		String teacher = getPara("id");
 		List<ArrangeSubjectModel> data = ArrangeSubjectModel.getArrSub(teacher);
+		setAttr("data", data);
+		renderJson();
+	}
+	//学生信息接口
+	public void StuMage() {
+		String id = getPara("id");
+		List<ClassinfoModel> data = ClassinfoModel.getStuMage(id);
 		setAttr("data", data);
 		renderJson();
 	}
