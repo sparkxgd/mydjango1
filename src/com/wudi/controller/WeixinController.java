@@ -130,12 +130,6 @@ public class WeixinController extends Controller{
 	    renderJson();
 	}
 	/**
-	 * 打开签到页面
-	 */
-	public void openFaceLogin() {
-		
-	}
-	/**
 	 * xiao
 	 * 人脸登录
 	 */
