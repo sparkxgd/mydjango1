@@ -108,7 +108,7 @@ public class BaiduClient {
         	String image=getImg64(imgFile); 
         	 Map<String, Object> map = new HashMap<String, Object>();
              map.put("image", image);
-             map.put("liveness_control", "NORMAL");
+//             map.put("liveness_control", "NORMAL");
              map.put("group_id_list", "test");
              map.put("image_type", "BASE64");
              map.put("quality_control", "LOW");

@@ -123,6 +123,8 @@ public class StuRegisterNewModel extends Model<StuRegisterNewModel> {
 				for(FaceSeachModel f:list) {
 					if(f.getUser_id().equals(m.getUserid())) {
 						s.setstatus(1);//0未签到，1已签到，-1其他，2旷课，3事假，4病假
+						s.setReg_time(new Date());
+						s.setType(0);//0上课，1下课
 						break;
 					}					
 				}
@@ -145,14 +147,18 @@ public class StuRegisterNewModel extends Model<StuRegisterNewModel> {
 			addStuRegByClass(list,classid,tcsuid,week);
 		}else {
 			for(StuRegisterNewModel st:stulist) {
-				for(FaceSeachModel m:list) {
-					if(st.getUserid().equals(m.getUser_id())) {
-						st.setstatus(1);//0未签到，1已签到，-1其他，2旷课，3事假，4病假
-						st.setType(0);//0上课，1下课
-						st.setReg_time(new Date());
-						break;
+				if(st.getstatus()!=1) {//已经签到，就不用再签了,如果还没有签，就继续
+					for(FaceSeachModel m:list) {
+						if(st.getUserid().equals(m.getUser_id())) {
+							st.setstatus(1);//0未签到，1已签到，-1其他，2旷课，3事假，4病假
+							st.setReg_time(new Date());
+							st.setType(0);//0上课，1下课
+							break;
+						}
+
 					}
 				}
+			
 			}
 			Db.batchUpdate(stulist, 10);//批量保存数据
 		}
