@@ -185,8 +185,4 @@ public class StuRegisterNewModel extends Model<StuRegisterNewModel> {
 		return dao.find(sql, week,tcsuid,classid);
 	}
 	
-	public static List<StuRegisterNewModel> getStuSub(String tcsuid,String classid,int week) {
-		String sql = "select * from " + tableName + " where String tcsuid = ? and classid = ? and week = ?";
-		return dao.find(sql, tcsuid,classid,week);
-	}
 }
