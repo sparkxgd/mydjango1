@@ -139,21 +139,24 @@ public class WeixinController extends Controller{
 		
 	    JSONObject res=BaiduHttpPlugin.face.multiSearch(map);
 	    List<FaceSeachModel> flist=new ArrayList<FaceSeachModel>();
-	    Iterator<Object> it=res.getJSONObject("result").getJSONArray("face_list").iterator();
-	    while(it.hasNext()) {
-	    	JSONObject jsa=(JSONObject)it.next();
-	    	JSONArray jsb=jsa.getJSONArray("user_list");
-	    	if(!jsb.isNull(0)) {
-	    		JSONObject jsc=jsb.getJSONObject(0);
-	    		FaceSeachModel m=new FaceSeachModel();
-		    	m.setGroup_id(jsc.getString("group_id"));
-		    	m.setUser_id(jsc.getString("user_id"));
-		    	m.setUser_info(jsc.getString("user_info"));
-		    	m.setScore(jsc.getDouble("score"));
-		    	flist.add(m);
-	    	}
+	    JSONObject ob=res.getJSONObject("result");
+	    if(ob!=null) {
+	    	Iterator<Object> it=ob.getJSONArray("face_list").iterator();
+		    while(it.hasNext()) {
+		    	JSONObject jsa=(JSONObject)it.next();
+		    	JSONArray jsb=jsa.getJSONArray("user_list");
+		    	if(!jsb.isNull(0)) {
+		    		JSONObject jsc=jsb.getJSONObject(0);
+		    		FaceSeachModel m=new FaceSeachModel();
+			    	m.setGroup_id(jsc.getString("group_id"));
+			    	m.setUser_id(jsc.getString("user_id"));
+			    	m.setUser_info(jsc.getString("user_info"));
+			    	m.setScore(jsc.getDouble("score"));
+			    	flist.add(m);
+		    	}
+		    }
+		    
 	    }
-	    
  	    String classid=getPara("classid");
 	    String tcsuid=getPara("tcsuid");
 	    int week=getParaToInt("week");

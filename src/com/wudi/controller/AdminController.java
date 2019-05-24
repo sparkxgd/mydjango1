@@ -1365,49 +1365,6 @@ public class AdminController extends Controller {
 	public void openFaceLogin() {
 		render("userface/testfacelogin.html");
 	}
-	/**
-	 * xiao
-	 * 人脸登录
-	 */
-	public void faceLogin() {
-		int code = -1;
-		
-		UploadFile upFile = getFile();//单个上传文件一句搞定  默认路径是 upload
-		File file = upFile.getFile();
-        String extName = StringUtil.getFileExt(file.getName());
-        String filePath = upFile.getUploadPath();
-        String fileName = System.currentTimeMillis() + extName;
-        file.renameTo(new File(filePath+"\\"+fileName));        
-		
-        String url=filePath+"\\"+fileName;
-	    String image =Util.GetImageStr(url);
-	    file.delete();//文件删除   
-        
-        Map<String, Object> map = new HashMap<String, Object>();
-        map.put("image", image);
-        map.put("liveness_control", "NORMAL");
-        map.put("group_id_list", "test");
-        map.put("image_type", "BASE64");
-        map.put("quality_control", "LOW");
-		
-	    JSONObject res=BaiduHttpPlugin.face.search(map);
-	    JSONArray jsar=res.getJSONObject("result").getJSONArray("user_list");
-	    FaceSeachModel m=new FaceSeachModel();
-	    if(!jsar.isNull(0)) {
-	    	JSONObject jsa=jsar.getJSONObject(0);
-	    	m.setGroup_id(jsa.getString("group_id"));
-	    	m.setUser_id(jsa.getString("user_id"));
-	    	m.setUser_info(jsa.getString("user_info"));
-	    	m.setScore(jsa.getDouble("score"));
-	    }
-	  //到数据库查找一下是否有这个人
-	    UserModel data =UserModel.findByLogin(m.getUser_id());
-	    if(data!=null) {
-	    	code = 0;//0成功
-	    }
-	    setAttr("data", data);
-		setAttr("code", code);
-	}
 	//=====================测试人脸签到功能end==============================//	
 	
 	

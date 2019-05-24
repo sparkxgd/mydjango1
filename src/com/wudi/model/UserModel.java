@@ -132,7 +132,6 @@ public class UserModel extends Model<UserModel>{
 	@Before(Tx.class)
 	private static boolean save(final UserModel m){
 		boolean succeed = Db.tx(new IAtom() {
-					
 					@Override
 					public boolean run() throws SQLException {
 						boolean re=false;
@@ -144,9 +143,9 @@ public class UserModel extends Model<UserModel>{
 					    Map<String, Object> map = new HashMap<String, Object>();
 				        map.put("image", image);
 				        map.put("group_id", "test");
+				        map.put("image_type", "BASE64");
 			            map.put("user_id", m.getId());
 			            map.put("user_info", m.getUsername());
-			            map.put("liveness_control", "NORMAL");
 						
 					    BaiduHttpPlugin.face.userAdd(map);
 			            
