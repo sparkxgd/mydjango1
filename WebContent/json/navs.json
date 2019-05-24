@@ -80,6 +80,12 @@
 			"icon" : "&#x1006;",
 			"href" : "admin/openFaceList",
 			"spread" : false
+		},
+		{
+			"title" : "测试人脸签到",
+			"icon" : "&#x1006;",
+			"href" : "admin/openFaceLogin",
+			"spread" : false
 		}]
 		},
 	{

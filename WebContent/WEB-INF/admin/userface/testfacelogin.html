@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>信息添加</title>
+	<meta name="renderer" content="webkit">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+	<meta name="apple-mobile-web-app-status-bar-style" content="black">
+	<meta name="apple-mobile-web-app-capable" content="yes">
+	<meta name="format-detection" content="telephone=no">
+	<link rel="stylesheet" href="../../layui/css/layui.css" media="all" />
+	<style type="text/css">
+		.layui-form { width:90%; float:left; margin-left:5%; margin-top: 3%}
+		.myhead{
+			margin-left:10%; 
+			margin-top: 5%;
+			width: 300px;
+			height: 300px;
+			border-radius: 5px;
+			border:1px solid greed;
+			box-shadow:-10px 0px 10px red,   /*左边阴影*/ 
+                       0px -10px 10px #000,  /*上边阴影*/ 
+                       10px 0px 10px green,  /*右边阴影*/ 
+                       0px 10px 10px blue;" /*下边阴影*/ 
+		}
+		.myinfo{
+			margin-left:10%; 
+			margin-top: 5%;
+			width: 300px;
+			height: 100px;
+			border-radius: 5px;
+			border:3px solid black;
+		}
+	</style>
+</head>
+<body class="childrenBody">
+  <div class="layui-row">
+    <div class="layui-col-md6">
+      	<form class="layui-form layui-form-pane" name="addform">
+			<div class="layui-form-item">
+				<label class="layui-form-label">周次</label>
+				<div class="layui-input-block">
+					<input type="text" class="layui-input" id="week" name="week"  lay-verify="required" placeholder="请输入用户名"  autocomplete="off">
+				</div>
+			</div>
+			<div class="layui-form-item" pane="">
+				<label class="layui-form-label">教師課表</label>
+				<div class="layui-input-block">
+		      		 <select name="tcsuid"  id="tcsuid" lay-filter="state">
+      				</select>
+	   			</div>
+			</div>
+			<div class="layui-form-item" pane="">
+				<label class="layui-form-label">班級</label>
+				<div class="layui-input-block">
+		      		 <select name="classid"  id="classid" lay-filter="state">
+      				</select>
+	   			</div>
+			</div>
+			<div class="layui-form-item" pane="">
+				<label class="layui-form-label">头像</label>
+				<div class="layui-input-block">
+					<div class="layui-upload-list">
+	    			<p id="demoText"></p>
+	  				<button type="button" class="layui-btn" id="upschool">上传图片</button>
+	  				<input type="hidden" id="img" name="img" value=""/>
+	  				</div>
+				</div> 
+			</div>
+			<div class="layui-form-item">
+				<div class="layui-input-block">
+					<button class="layui-btn" lay-submit="" lay-filter="add">保存</button>
+					<button type="reset" class="layui-btn layui-btn-primary">重置</button>
+			    </div>
+			</div>
+		</form>
+      
+    </div>
+    <div class="layui-col-md6">
+    	<div class="layui-row">
+    		<img class="myhead" id="demo1"/>
+    	</div>
+    	<div class="layui-row">
+    		<div class="myinfo">
+				性别：<label id="type">女</label><br>
+				年龄：<label id="age">21</label><br>
+				颜值：<label id="beauty">89</label>
+			</div>
+    	</div>
+    </div>
+  </div>
+	<script type="text/javascript" src="../../layui/layui.js"></script>
+	<script type="text/javascript" src="../js/userinfo/userinfoAdd.js"></script>
+</body>
+</html>

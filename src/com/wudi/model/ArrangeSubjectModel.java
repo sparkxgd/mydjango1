@@ -111,5 +111,9 @@ public class ArrangeSubjectModel extends Model<ArrangeSubjectModel> {
 			return false;
 		}
 	}
-	
+	public static List<ArrangeSubjectModel> getListAll() {
+		StringBuffer sql=new StringBuffer();
+		sql.append("select *  from ").append(tableName);
+		return dao.find(sql.toString());
+	}
 }
