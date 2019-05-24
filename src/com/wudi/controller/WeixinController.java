@@ -117,51 +117,12 @@ public class WeixinController extends Controller{
 	 * 任课老师拍照签到
 	 */
 	public void faceSignIn() {
-		
 		UploadFile upFile = getFile();//单个上传文件一句搞定  默认路径是 upload
-		File file = upFile.getFile();
-        String extName = StringUtil.getFileExt(file.getName());
-        String filePath = upFile.getUploadPath();
-        String fileName = System.currentTimeMillis() + extName;
-        file.renameTo(new File(filePath+"\\"+fileName));
-		
-	    String url=filePath+"\\"+fileName;
-	    String image =Util.GetImageStr(url);
-	    file.delete();//文件删除        
-	    // 传入可选参数调用接口
-        Map<String, Object> map = new HashMap<String, Object>();
-        map.put("image", image);
-        map.put("liveness_control", "NORMAL");
-        map.put("group_id_list", "test");
-        map.put("image_type", "BASE64");
-        map.put("max_face_num", 10);
-        map.put("quality_control", "LOW");
-		
-	    JSONObject res=BaiduHttpPlugin.face.multiSearch(map);
-	    List<FaceSeachModel> flist=new ArrayList<FaceSeachModel>();
-	    JSONObject ob=res.getJSONObject("result");
-	    if(ob!=null) {
-	    	Iterator<Object> it=ob.getJSONArray("face_list").iterator();
-		    while(it.hasNext()) {
-		    	JSONObject jsa=(JSONObject)it.next();
-		    	JSONArray jsb=jsa.getJSONArray("user_list");
-		    	if(!jsb.isNull(0)) {
-		    		JSONObject jsc=jsb.getJSONObject(0);
-		    		FaceSeachModel m=new FaceSeachModel();
-			    	m.setGroup_id(jsc.getString("group_id"));
-			    	m.setUser_id(jsc.getString("user_id"));
-			    	m.setUser_info(jsc.getString("user_info"));
-			    	m.setScore(jsc.getDouble("score"));
-			    	flist.add(m);
-		    	}
-		    }
-		    
-	    }
+	    List<FaceSeachModel> flist=BaiduHttpPlugin.face.multiSearch(upFile);
  	    String classid=getPara("classid");
 	    String tcsuid=getPara("tcsuid");
 	    int week=getParaToInt("week");
 	    //将信息添加到数据库
-	    
 	    List<StuRegisterNewModel> list=StuRegisterNewModel.signIn(flist,tcsuid,classid,week);
 	    
 	    setAttr("data", list);
@@ -180,36 +141,9 @@ public class WeixinController extends Controller{
 	 */
 	public void faceLogin() {
 		int code = -1;
-		
 		UploadFile upFile = getFile();//单个上传文件一句搞定  默认路径是 upload
-		File file = upFile.getFile();
-        String extName = StringUtil.getFileExt(file.getName());
-        String filePath = upFile.getUploadPath();
-        String fileName = System.currentTimeMillis() + extName;
-        file.renameTo(new File(filePath+"\\"+fileName));        
-		
-        String url=filePath+"\\"+fileName;
-	    String image =Util.GetImageStr(url);
-	    file.delete();//文件删除   
-        
-        Map<String, Object> map = new HashMap<String, Object>();
-        map.put("image", image);
-        map.put("liveness_control", "NORMAL");
-        map.put("group_id_list", "test");
-        map.put("image_type", "BASE64");
-        map.put("quality_control", "LOW");
-		
-	    JSONObject res=BaiduHttpPlugin.face.search(map);
-	    JSONArray jsar=res.getJSONObject("result").getJSONArray("user_list");
-	    FaceSeachModel m=new FaceSeachModel();
-	    if(!jsar.isNull(0)) {
-	    	JSONObject jsa=jsar.getJSONObject(0);
-	    	m.setGroup_id(jsa.getString("group_id"));
-	    	m.setUser_id(jsa.getString("user_id"));
-	    	m.setUser_info(jsa.getString("user_info"));
-	    	m.setScore(jsa.getDouble("score"));
-	    }
-	  //到数据库查找一下是否有这个人
+		FaceSeachModel m=BaiduHttpPlugin.face.search(upFile);
+		//到数据库查找一下是否有这个人
 	    UserModel data =UserModel.findByLogin(m.getUser_id());
 	    if(data!=null) {
 	    	code = 0;//0成功

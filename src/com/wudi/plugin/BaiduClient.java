@@ -1,12 +1,23 @@
 package com.wudi.plugin;
 
 
+import java.io.File;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 
+import org.json.JSONArray;
 import org.json.JSONObject;
 
 import com.jfinal.kit.JsonKit;
+import com.jfinal.upload.UploadFile;
+import com.wudi.bean.FaceDetectBean;
+import com.wudi.bean.FaceSeachModel;
 import com.wudi.util.HttpUtil;
+import com.wudi.util.StringUtil;
+import com.wudi.util.Util;
 
 /**
 * 人脸搜索
@@ -47,11 +58,41 @@ public class BaiduClient {
      * @param map
      * @return
      */
-    public JSONObject multiSearch(Map<String, Object> map) {
+    public List<FaceSeachModel>  multiSearch(UploadFile imgFile) {
         String url = "https://aip.baidubce.com/rest/2.0/face/v3/multi-search";
         try {
-            JSONObject result=baidu(url,map);
-            return result;
+        	String image=getImg64(imgFile);     
+    	    // 传入可选参数调用接口
+            Map<String, Object> map = new HashMap<String, Object>();
+            map.put("image", image);
+            map.put("liveness_control", "NORMAL");
+            map.put("group_id_list", "test");
+            map.put("image_type", "BASE64");
+            map.put("max_face_num", 10);
+            map.put("quality_control", "LOW");
+            
+            JSONObject res=baidu(url,map);
+            
+    	    List<FaceSeachModel> flist=new ArrayList<FaceSeachModel>();
+    	    JSONObject ob=res.getJSONObject("result");
+    	    if(ob!=null) {
+    	    	Iterator<Object> it=ob.getJSONArray("face_list").iterator();
+    		    while(it.hasNext()) {
+    		    	JSONObject jsa=(JSONObject)it.next();
+    		    	JSONArray jsb=jsa.getJSONArray("user_list");
+    		    	if(!jsb.isNull(0)) {
+    		    		JSONObject jsc=jsb.getJSONObject(0);
+    		    		FaceSeachModel m=new FaceSeachModel();
+    			    	m.setGroup_id(jsc.getString("group_id"));
+    			    	m.setUser_id(jsc.getString("user_id"));
+    			    	m.setUser_info(jsc.getString("user_info"));
+    			    	m.setScore(jsc.getDouble("score"));
+    			    	flist.add(m);
+    		    	}
+    		    }
+    		    
+    	    }
+            return flist;
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -62,11 +103,29 @@ public class BaiduClient {
      * @param map
      * @return
      */
-    public JSONObject search(Map<String, Object> map) {
+    public FaceSeachModel search(UploadFile imgFile) {
     	String url = "https://aip.baidubce.com/rest/2.0/face/v3/search";
         try {
-            JSONObject result=baidu(url,map);
-            return result;
+        	String image=getImg64(imgFile); 
+        	 Map<String, Object> map = new HashMap<String, Object>();
+             map.put("image", image);
+             map.put("liveness_control", "NORMAL");
+             map.put("group_id_list", "test");
+             map.put("image_type", "BASE64");
+             map.put("quality_control", "LOW");
+        	
+            JSONObject res=baidu(url,map);
+            
+    	    JSONArray jsar=res.getJSONObject("result").getJSONArray("user_list");
+    	    FaceSeachModel m=new FaceSeachModel();
+    	    if(!jsar.isNull(0)) {
+    	    	JSONObject jsa=jsar.getJSONObject(0);
+    	    	m.setGroup_id(jsa.getString("group_id"));
+    	    	m.setUser_id(jsa.getString("user_id"));
+    	    	m.setUser_info(jsa.getString("user_info"));
+    	    	m.setScore(jsa.getDouble("score"));
+    	    }
+            return m;
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -78,11 +137,53 @@ public class BaiduClient {
      * @param map
      * @return
      */
-    public JSONObject detect(Map<String, Object> map) {
+    public FaceDetectBean detect(UploadFile imgFile) {
     	String url = "https://aip.baidubce.com/rest/2.0/face/v3/detect";
         try {
-            JSONObject result=baidu(url,map);
-            return result;
+        	File file = imgFile.getFile();
+            String extName = StringUtil.getFileExt(file.getName());
+            String filePath = imgFile.getUploadPath();
+            String fileName = System.currentTimeMillis() + extName;
+            file.renameTo(new File(filePath+"\\"+fileName));
+    		
+    	    String imgurl=filePath+"\\"+fileName;
+    	    String image =Util.GetImageStr(imgurl); 
+        	Map<String, Object> map = new HashMap<String, Object>();
+            map.put("image", image);
+            map.put("face_field", "age,beauty,gender");
+            map.put("image_type", "BASE64");
+            map.put("quality_control", "LOW");
+        	
+            JSONObject res=baidu(url,map);
+            FaceDetectBean b=new FaceDetectBean();
+
+            //检测到的图片中的人脸数量
+            int face_num=res.getJSONObject("result").getInt("face_num");
+            //人脸置信度，范围【0~1】，代表这是一张人脸的概率，0最小、1最大。
+            JSONArray js=res.getJSONObject("result").getJSONArray("face_list");
+            if(!js.isNull(0)) {
+                JSONObject jsa=js.getJSONObject(0);
+                double face_probability=jsa.optDouble("face_probability");
+                double age=jsa.optDouble("age");
+                double beauty=jsa.optDouble("beauty");
+                String type=jsa.getJSONObject("gender").getString("type");
+                
+                if(face_num<1||face_probability<0.8) {
+                    file.delete();
+                	b.setCode(1);
+                	b.setMsg("没有检查到人脸或者，图片太模糊！！请重新上传");
+                	
+                }else {
+                	b.setCode(0);
+                	b.setMsg("上传成功");
+                	b.setSrc(fileName);
+                	b.setAge(age);
+                	b.setBeauty(beauty);
+                	b.setType(type);
+                }
+            }
+            
+            return b;
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -104,6 +205,20 @@ public class BaiduClient {
                 e.printStackTrace();
             }
             return null;
+        }
+        
+
+        private String getImg64(UploadFile imgFile) {
+        	File file = imgFile.getFile();
+            String extName = StringUtil.getFileExt(file.getName());
+            String filePath = imgFile.getUploadPath();
+            String fileName = System.currentTimeMillis() + extName;
+            file.renameTo(new File(filePath+"\\"+fileName));
+    		
+    	    String imgurl=filePath+"\\"+fileName;
+    	    String image =Util.GetImageStr(imgurl);
+    	    file.delete();//文件删除  
+    	    return image;
         }
     public static void main(String[] args) {
 //        BaiduClient.search();

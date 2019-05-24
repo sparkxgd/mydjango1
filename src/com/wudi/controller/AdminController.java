@@ -1,20 +1,14 @@
 package com.wudi.controller;
 
-import java.io.File;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
-import org.json.JSONArray;
-import org.json.JSONObject;
 
 import com.jfinal.aop.Before;
 import com.jfinal.aop.Clear;
 import com.jfinal.core.Controller;
 import com.jfinal.kit.JsonKit;
 import com.jfinal.plugin.activerecord.Page;
-import com.jfinal.upload.UploadFile;
-import com.wudi.bean.FaceSeachModel;
 import com.wudi.interceptor.AdminInterceptor;
 import com.wudi.model.ArrangeSubjectModel;
 import com.wudi.model.ClassinfoModel;
@@ -36,9 +30,6 @@ import com.wudi.model.SubjectModel;
 import com.wudi.model.TeacherModel;
 import com.wudi.model.UserFaceModel;
 import com.wudi.model.UserModel;
-import com.wudi.plugin.BaiduHttpPlugin;
-import com.wudi.util.StringUtil;
-import com.wudi.util.Util;
 /**
  * 
  * @author ljp
