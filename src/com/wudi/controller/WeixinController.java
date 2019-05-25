@@ -21,7 +21,9 @@ import com.wudi.model.ClassinfoModel;
 import com.wudi.model.NewsModel;
 import com.wudi.model.ParentsModel;
 import com.wudi.model.StuRegisterNewModel;
+import com.wudi.model.StudentModel;
 import com.wudi.model.SubjectModel;
+import com.wudi.model.TeacherModel;
 import com.wudi.model.UserModel;
 import com.wudi.plugin.BaiduHttpPlugin;
 import com.wudi.plugin.BaiduPlugin;
@@ -123,7 +125,7 @@ public class WeixinController extends Controller{
 	    List<FaceSeachModel> flist=BaiduHttpPlugin.face.multiSearch(upFile);
  	    String classid=getPara("classid");
 	    String tcsuid=getPara("tcsuid");
-	    int week=getParaToInt("week");
+	    int week=Util.getWeek();
 	    //将信息添加到数据库
 	    List<StuRegisterNewModel> data=StuRegisterNewModel.signIn(flist,tcsuid,classid,week);
 	    
@@ -174,12 +176,11 @@ public class WeixinController extends Controller{
 	//签到信息接口
 	public void stuReg() {
 		String classid=getPara("classid");
-	    String tcsuid=getPara("tcsuid");
-	    int week=getParaToInt("week");
+	    String tcsuid=getPara("subject"); 
+	    int week=Util.getWeek();
 	    List<StuRegisterNewModel> list=StuRegisterNewModel.getListN(tcsuid, week, classid);
 	    setAttr("list", list);
-	    renderJson();
-	    
+	    renderJson();    
 	}
 	//课表接口
 	public void ArrSub() {
@@ -218,7 +219,27 @@ public class WeixinController extends Controller{
 	}
 	//家长所对应的学生信息
 	public void parStu() {
-		
+		String id = getPara("id");
+		List<StudentModel> data = StudentModel.getStu(id);
+		setAttr("data", data);
+		renderJson();
+	}
+	//学生签到数据可视化
+	public void stuArr() {
+		String classid=getPara("classid");
+	    String id=getPara("id");
+	    String stuid = StudentModel.getStuid(id);
+	    List<StuRegisterNewModel> list=StuRegisterNewModel.getstuArr(stuid,classid);
+	    setAttr("list", list);
+	    renderJson();
+	}
+	
+	//教师信息
+	public void teachMage() {
+		String id = getPara("id");
+		List<TeacherModel> data = TeacherModel.getTeach(id);
+		setAttr("data", data);
+		renderJson();
 	}
 	
 }

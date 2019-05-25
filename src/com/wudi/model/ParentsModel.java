@@ -94,7 +94,8 @@ public class ParentsModel extends Model<ParentsModel> {
 	}
 	public static List<ParentsModel> getListAll() {
 		StringBuffer sql=new StringBuffer();
-		sql.append("select *  from ").append(tableName);
+		sql.append("select b.username,a.*  from ").append(tableName).append(" as a");
+		sql.append(" left join ").append(UserModel.tableName).append(" as b on a.userid=b.id");
 		return dao.find(sql.toString());
 	}
 	
@@ -103,6 +104,6 @@ public class ParentsModel extends Model<ParentsModel> {
 		sql.append("select a.username,b.* from ");
 		sql.append(UserModel.tableName).append(" as a left join ").append(tableName).append(" as b on b.userid=a.id");
 		sql.append(" where b.userid = ?");
-		return dao.find(sql.toString());
+		return dao.find(sql.toString(),id);
 	}
 }

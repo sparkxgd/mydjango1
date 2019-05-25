@@ -20,9 +20,9 @@ layui.config({
 				var id=list[0].id;
 	    		for(var i=0;i<list.length;i++){
 	    			if(list[i].id==m.stu_id){
-	    				$("#stu_id").append("<option selected='true' value='"+list[i].id+"'>"+list[i].id+"</option>");
+	    				$("#stu_id").append("<option selected='true' value='"+list[i].id+"'>"+list[i].username+"</option>");
 	    			}else{
-	    				$("#stu_id").append("<option value='"+list[i].id+"'>"+list[i].id+"</option>");
+	    				$("#stu_id").append("<option value='"+list[i].id+"'>"+list[i].username+"</option>");
 	    			}
 	    			}
 	    			form.render();//必须要再次渲染，要不然option显示不出来
@@ -33,9 +33,9 @@ layui.config({
 				var id=list[0].id;
 	    		for(var i=0;i<list.length;i++){
 	    			if(list[i].id==m.pare_id){
-	    				$("#pare_id").append("<option selected='true' value='"+list[i].id+"'>"+list[i].id+"</option>");
+	    				$("#pare_id").append("<option selected='true' value='"+list[i].id+"'>"+list[i].username+"</option>");
 	    			}else{
-	    				$("#pare_id").append("<option value='"+list[i].id+"'>"+list[i].id+"</option>");
+	    				$("#pare_id").append("<option value='"+list[i].id+"'>"+list[i].username+"</option>");
 	    			}
 	    			}
 	    			form.render();//必须要再次渲染，要不然option显示不出来

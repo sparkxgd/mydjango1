@@ -7,21 +7,11 @@ layui.config({
 		laypage = layui.laypage;
 		$ = layui.jquery;
 		
-        var arr=new Array();
-        
-        for(var i=100;i<105;i++){
-        	var c="c"+i;
-	        arr.push("<input type='checkbox' name='"+c+"' lay-skin='primary'  title='"+c+"'>");
-        	
-        }	        
-        $("#permission").append(arr.join("\n"));
-		form.render();//必须要再次渲染，要不然option显示不出来
-		
 		//加载页面选择框数据
 		$.get("getStudentlist", function(data){
 			var list=data.list;
 			for(var i=0;i<list.length;i++){
-        		$("#pare_id").append("<option value='"+list[i].id+"'>"+list[i].id+"</option>");
+        		$("#stu_id").append("<option value='"+list[i].id+"'>"+list[i].username+"</option>");
 			}
 			form.render();//必须要再次渲染，要不然option显示不出来
 		});
@@ -29,7 +19,7 @@ layui.config({
 		$.get("getParentlist", function(data){
 				var list=data.list;
 				for(var i=0;i<list.length;i++){
-	        		$("#stu_id").append("<option value='"+list[i].id+"'>"+list[i].id+"</option>");
+	        		$("#pare_id").append("<option value='"+list[i].id+"'>"+list[i].username+"</option>");
 				}
 				form.render();//必须要再次渲染，要不然option显示不出来
 		});

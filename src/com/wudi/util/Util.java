@@ -5,11 +5,13 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.text.DateFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Random;
 
 import com.alibaba.druid.util.Base64;
+import com.mysql.fabric.xmlrpc.base.Data;
 
 public class Util {
 	public final static String Cookie_NAME="cname";
@@ -81,11 +83,37 @@ public class Util {
     
 
 	
-	public static void main(String[]args) {
-		String base=Util.GetImageStr("../baiduface/WebContent/images/user.png");
-		System.out.println("ss:"+base);
-	}
 	
+	public static int getWeek() {
+		int week = 1;
+		String beginTime = "2019-02-24 00:00:00";
+
+		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+
+		long curMillisecond = System.currentTimeMillis();
+
+		try {
+
+			Date date1 = format.parse(beginTime);
+			long beginMillisecond = date1.getTime();
+			long endMillisecond = beginMillisecond + 604800000;
+
+			for (int i = 1; i <= 19; i++) {
+				if (curMillisecond >= beginMillisecond && curMillisecond <= endMillisecond) {
+					week = i;
+					break;
+				}
+
+				beginMillisecond = endMillisecond + 1;
+				endMillisecond = beginMillisecond + 604800000;
+			}
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
+
+		return week;
+
+	}
 	
 	
 }

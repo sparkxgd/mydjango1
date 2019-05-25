@@ -2,6 +2,8 @@ package com.wudi.model;
 
 import java.util.List;
 
+import javax.security.auth.Subject;
+
 import com.jfinal.plugin.activerecord.Db;
 import com.jfinal.plugin.activerecord.Model;
 import com.jfinal.plugin.activerecord.Page;
@@ -103,5 +105,13 @@ public class TeacherModel extends Model<TeacherModel> {
 		StringBuffer sql=new StringBuffer();
 		sql.append("select a.*,b.username  from ").append(tableName).append(" as a left join ").append(UserModel.tableName).append(" as b on a.userid=b.id");
 		return dao.find(sql.toString());
+	}
+	public static List<TeacherModel> getTeach(String id) {
+		StringBuffer sql=new StringBuffer();
+		sql.append("select a.username,b.*,c.subject as tcsuid from ");
+		sql.append(UserModel.tableName).append(" as a left join ").append(tableName).append(" as b on b.userid=a.id");
+		sql.append(" left join ").append("arrange_subject").append(" as c on c.teacher=b.id");
+		sql.append(" where b.userid = ?");
+		return dao.find(sql.toString(), id);
 	}
 }

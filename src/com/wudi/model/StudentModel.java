@@ -106,12 +106,38 @@ public class StudentModel extends Model<StudentModel> {
 	
 	public static List<StudentModel> getListAll() {
 		StringBuffer sql=new StringBuffer();
-		sql.append("select *  from ").append(tableName);
+		sql.append("select b.username,a.*  from ").append(tableName).append(" as a");
+		sql.append(" left join ").append(UserModel.tableName).append(" as b on a.userid=b.id");
 		return dao.find(sql.toString());
 	}
 	public static List<StudentModel> getListbyClassid(String clid) {
 		StringBuffer sql=new StringBuffer();
 		sql.append("select *  from ").append(tableName).append(" where clas=?");
 		return dao.find(sql.toString(),clid);
+	}
+	public static List<StudentModel> getStu(String id){
+		StringBuffer sql = new StringBuffer();
+		sql.append("select a.username as parename,c.relation,d.no,f.username as stuname,e.class_time,i.username as teachername,j.nickname as subjname,k.addr ");
+		sql.append(" from ").append(UserModel.tableName).append(" as a ");
+		sql.append(" left join ").append(ParentsModel.tableName).append(" as b on a.id=b.userid");
+		sql.append(" left join ").append(Stu_pareModel.tableName).append(" as c on b.id=c.pare_id");
+		sql.append(" left join ").append(StudentModel.tableName).append(" as d on d.id=c.stu_id");
+		sql.append(" left join ").append(UserModel.tableName).append(" as f on d.userid=f.id ");
+		sql.append(" left join ").append(ArrangeSubjectModel.tableName).append(" as e on d.clas=e.classid ");
+		sql.append(" left join ").append(TeacherModel.tableName).append(" as h on h.id=e.teacher ");
+		sql.append(" left join ").append(UserModel.tableName).append(" as i on i.id=h.userid ");
+		sql.append(" left join ").append(SubjectModel.tableName).append(" as j on e.subject=j.id ");
+		sql.append(" left join ").append(ClassroomModel.tableName).append(" as k on k.id=e.classroom where a.id=?");
+		return dao.find(sql.toString(), id);
+	}
+	
+	public static String getStuid(String id) {
+		StringBuffer sql = new StringBuffer();
+		sql.append("select a.id from").append(tableName).append(" as a ");
+		sql.append("left join ").append(Stu_pareModel.tableName).append(" as b on a.id=b.stu_id");
+		sql.append("left join ").append(ParentsModel.tableName).append(" as c on c.id=b.pare_id");
+		sql.append("left join ").append(UserModel.tableName).append(" as d on d.id=c.userid ");
+		sql.append(" WHERE c.userid=?");
+		return sql.toString();
 	}
 }
