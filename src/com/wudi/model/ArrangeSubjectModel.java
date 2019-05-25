@@ -54,7 +54,7 @@ public class ArrangeSubjectModel extends Model<ArrangeSubjectModel> {
 		return dao.findFirst(sql, id);
 	}
 	public static List<ArrangeSubjectModel> getArrSub(String teacher) {
-		String sql = "select a.*,b.id as teacher,c.id as userid,d.id,d.nickname as classname,e.id as classid,e.nickname as classname,f.nickname as subjcname " + 
+		String sql = "select a.*,b.id as teacher,c.id as userid,d.id,d.nickname as roomname,e.id as classid,e.nickname as classname,f.nickname as subjcname " + 
 				"from arrange_subject as a LEFT JOIN teacher as b on b.id=a.teacher " + 
 				"LEFT JOIN `user` as c on c.id=b.userid " + 
 				"left join classroom as d on a.classroom=d.id " + 
@@ -118,8 +118,11 @@ public class ArrangeSubjectModel extends Model<ArrangeSubjectModel> {
 	}
 	
 	public static List<ArrangeSubjectModel> getStuSub(String classid){
-		String sql = "select a.*,b.nickname,c.nickname from arrange_subject AS a " + 
+		String sql = "select a.*,g.username as teachername,f.nickname as roomname,b.nickname as subject,c.nickname as classname from arrange_subject AS a " + 
 				"LEFT JOIN `subject` as b ON a.`subject`=b.id " + 
+				"left join teacher as d on a.teacher=d.id "+
+				"left join user as g on d.userid=g.id "+
+				"left join classroom as f on f.id=a.classroom "+
 				"left join classinfo as c on a.classid=c.id WHERE classid = ?";
 		return dao.find(sql, classid);
 	}

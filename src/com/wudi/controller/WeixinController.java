@@ -18,6 +18,8 @@ import com.jfinal.upload.UploadFile;
 import com.wudi.bean.FaceSeachModel;
 import com.wudi.model.ArrangeSubjectModel;
 import com.wudi.model.ClassinfoModel;
+import com.wudi.model.NewsModel;
+import com.wudi.model.ParentsModel;
 import com.wudi.model.StuRegisterNewModel;
 import com.wudi.model.SubjectModel;
 import com.wudi.model.UserModel;
@@ -144,6 +146,7 @@ public class WeixinController extends Controller{
 	    }
 	    setAttr("data", data);
 		setAttr("code", code);
+		renderJson();
 	}
 
 	/**
@@ -198,6 +201,24 @@ public class WeixinController extends Controller{
 		List<ArrangeSubjectModel> data = ArrangeSubjectModel.getStuSub(classid);
 		setAttr("data", data);
 		renderJson();
+	}
+	//消息接口
+	public void massage() {
+		List<NewsModel> data = NewsModel.getAll();
+		setAttr("data", data);
+		renderJson();
+	}
+	
+	//家长信息
+	public void pareMage() {
+		String id = getPara("id");
+		List<ParentsModel> data = ParentsModel.getPare(id);
+		setAttr("data", data);
+		renderJson();
+	}
+	//家长所对应的学生信息
+	public void parStu() {
+		
 	}
 	
 }

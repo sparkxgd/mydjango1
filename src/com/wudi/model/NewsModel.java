@@ -133,4 +133,8 @@ public class NewsModel extends Model<NewsModel>{
 	public static List<NewsModel> getByReading(String reading) {
 		return dao.find("select * from " + tableName + " where reading like '%"+reading+"%' ");
 	}
+	public static List<NewsModel> getAll(){
+		String sql = "select a.title,a.content,a.release_time,b.username from news as a left join user as b on b.id=a.user_id";
+		return dao.find(sql);
+	}
 }

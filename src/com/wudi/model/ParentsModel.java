@@ -97,4 +97,12 @@ public class ParentsModel extends Model<ParentsModel> {
 		sql.append("select *  from ").append(tableName);
 		return dao.find(sql.toString());
 	}
+	
+	public static List<ParentsModel> getPare(String id) {
+		StringBuffer sql = new StringBuffer();
+		sql.append("select a.username,b.* from ");
+		sql.append(UserModel.tableName).append(" as a left join ").append(tableName).append(" as b on b.userid=a.id");
+		sql.append(" where b.userid = ?");
+		return dao.find(sql.toString());
+	}
 }

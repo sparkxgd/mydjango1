@@ -113,7 +113,7 @@ public class ClassinfoModel extends Model<ClassinfoModel> {
 	}
 	
 	public static List<ClassinfoModel> getStuMage(String id){
-		String sql = "SELECT a.nickname as classname,b.`no`,c.nickname as majorname,d.nickname as depname,f.username " + 
+		String sql = "SELECT a.nickname as classname,b.clas as classid,b.`no`,c.nickname as majorname,d.nickname as depname,f.username " + 
 				"FROM classinfo AS a LEFT JOIN student AS b ON a.id=b.clas " + 
 				"LEFT JOIN major AS c ON c.id=a.major_id " + 
 				"LEFT JOIN department as d on c.department=d.id " + 
