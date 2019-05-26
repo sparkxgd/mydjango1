@@ -193,6 +193,8 @@ public class StuRegisterNewModel extends Model<StuRegisterNewModel> {
 		sql.append(ArrangeSubjectModel.tableName).append(" d on c.tcsuid = d.id LEFT JOIN ");
 		sql.append(SubjectModel.tableName).append(" f on d.`subject`=f.id ");
 		sql.append(" where a.pare_id=? ");
+		
+		
 		return dao.find(sql.toString(),prentid);
 	}
 	
