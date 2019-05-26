@@ -176,7 +176,7 @@ public class WeixinController extends Controller{
 	//签到信息接口
 	public void stuReg() {
 		String classid=getPara("classid");
-	    String tcsuid=getPara("subject"); 
+	    String tcsuid=getPara("tcsuid"); 
 	    int week=Util.getWeek();
 	    List<StuRegisterNewModel> list=StuRegisterNewModel.getListN(tcsuid, week, classid);
 	    setAttr("list", list);
@@ -224,12 +224,15 @@ public class WeixinController extends Controller{
 		setAttr("data", data);
 		renderJson();
 	}
-	//学生签到数据可视化
+	//数据可视化
 	public void stuArr() {
 		String classid=getPara("classid");
 	    String id=getPara("id");
-	    String stuid = StudentModel.getStuid(id);
-	    List<StuRegisterNewModel> list=StuRegisterNewModel.getstuArr(stuid,classid);
+	    StudentModel m = StudentModel.getStuid(id);
+	    List<StuRegisterNewModel> list=new ArrayList<>();
+	    if(m!=null) {
+	    	list=StuRegisterNewModel.getstuArr(m.getId(),classid);
+	    }
 	    setAttr("list", list);
 	    renderJson();
 	}
@@ -241,5 +244,6 @@ public class WeixinController extends Controller{
 		setAttr("data", data);
 		renderJson();
 	}
+	
 	
 }

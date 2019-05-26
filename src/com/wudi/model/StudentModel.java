@@ -117,7 +117,7 @@ public class StudentModel extends Model<StudentModel> {
 	}
 	public static List<StudentModel> getStu(String id){
 		StringBuffer sql = new StringBuffer();
-		sql.append("select a.username as parename,c.relation,d.no,f.username as stuname,e.class_time,i.username as teachername,j.nickname as subjname,k.addr ");
+		sql.append("select a.username as parename,c.relation,d.no,d.clas as classid,f.username as stuname,e.class_time,i.username as teachername,j.nickname as subjname,k.addr ");
 		sql.append(" from ").append(UserModel.tableName).append(" as a ");
 		sql.append(" left join ").append(ParentsModel.tableName).append(" as b on a.id=b.userid");
 		sql.append(" left join ").append(Stu_pareModel.tableName).append(" as c on b.id=c.pare_id");
@@ -131,13 +131,15 @@ public class StudentModel extends Model<StudentModel> {
 		return dao.find(sql.toString(), id);
 	}
 	
-	public static String getStuid(String id) {
+	public static StudentModel getStuid(String id) {
 		StringBuffer sql = new StringBuffer();
-		sql.append("select a.id from").append(tableName).append(" as a ");
-		sql.append("left join ").append(Stu_pareModel.tableName).append(" as b on a.id=b.stu_id");
-		sql.append("left join ").append(ParentsModel.tableName).append(" as c on c.id=b.pare_id");
+		sql.append("select a.* from ").append(tableName).append(" as a ");
+		sql.append("left join ").append(Stu_pareModel.tableName).append(" as b on a.id=b.stu_id ");
+		sql.append("left join ").append(ParentsModel.tableName).append(" as c on c.id=b.pare_id ");
 		sql.append("left join ").append(UserModel.tableName).append(" as d on d.id=c.userid ");
-		sql.append(" WHERE c.userid=?");
-		return sql.toString();
+		sql.append("left join ").append(ClassinfoModel.tableName).append(" as e on a.clas=e.id ");
+		sql.append(" left join ").append(ArrangeSubjectModel.tableName).append(" as f on f.classid=e.id ");
+		sql.append(" WHERE d.id=?");
+		return dao.findFirst(sql.toString(), id);
 	}
 }

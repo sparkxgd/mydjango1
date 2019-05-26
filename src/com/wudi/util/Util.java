@@ -114,6 +114,11 @@ public class Util {
 		return week;
 
 	}
-	
+	public static void main(String[] args) {
+		String u=System.getProperty("user.dir");
+		String url=u+"\\WebContent\\upload\\123.jpg";
+	    String image =Util.GetImageStr(url);
+	    System.out.println(image);
+	}
 	
 }

@@ -54,7 +54,7 @@ public class ArrangeSubjectModel extends Model<ArrangeSubjectModel> {
 		return dao.findFirst(sql, id);
 	}
 	public static List<ArrangeSubjectModel> getArrSub(String teacher) {
-		String sql = "select a.*,b.id as teacher,c.id as userid,d.id,d.nickname as roomname,e.id as classid,e.nickname as classname,f.nickname as subjcname " + 
+		String sql = "select a.*,b.id as teacher,c.id as userid,d.id as roomid,d.nickname as roomname,e.id as classid,e.nickname as classname,f.nickname as subjcname " + 
 				"from arrange_subject as a LEFT JOIN teacher as b on b.id=a.teacher " + 
 				"LEFT JOIN `user` as c on c.id=b.userid " + 
 				"left join classroom as d on a.classroom=d.id " + 
@@ -125,5 +125,17 @@ public class ArrangeSubjectModel extends Model<ArrangeSubjectModel> {
 				"left join classroom as f on f.id=a.classroom "+
 				"left join classinfo as c on a.classid=c.id WHERE classid = ?";
 		return dao.find(sql, classid);
+	}
+	
+	public static ArrangeSubjectModel getStuid(String id) {
+		StringBuffer sql = new StringBuffer();
+		sql.append("select f.* from ").append(StudentModel.tableName).append(" as a ");
+		sql.append("left join ").append(Stu_pareModel.tableName).append(" as b on a.id=b.stu_id ");
+		sql.append("left join ").append(ParentsModel.tableName).append(" as c on c.id=b.pare_id ");
+		sql.append("left join ").append(UserModel.tableName).append(" as d on d.id=c.userid ");
+		sql.append("left join ").append(ClassinfoModel.tableName).append(" as e on a.clas=e.id ");
+		sql.append(" left join ").append(tableName).append(" as f on f.classid=e.id ");
+		sql.append(" WHERE d.id=?");
+		return dao.findFirst(sql.toString(), id);
 	}
 }

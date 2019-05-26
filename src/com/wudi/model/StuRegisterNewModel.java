@@ -188,7 +188,7 @@ public class StuRegisterNewModel extends Model<StuRegisterNewModel> {
 	public static List<StuRegisterNewModel> getstuArr(String stuid,String classid) {
 		StringBuffer sql = new StringBuffer();
 		sql.append("select count(*) from ").append(tableName).append(" where stuid=? and classid = ?");
-		return dao.find(sql.toString());
+		return dao.find(sql.toString(),stuid,classid);
 	}
 	
 }
