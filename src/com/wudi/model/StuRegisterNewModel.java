@@ -187,7 +187,7 @@ public class StuRegisterNewModel extends Model<StuRegisterNewModel> {
 	}
 	public static List<StuRegisterNewModel> getstuArr(String prentid) {
 		StringBuffer sql = new StringBuffer();
-		sql.append("SELECT c.*,f.nickname as coursename from").append(Stu_pareModel.tableName).append(" a LEFT JOIN ");
+		sql.append("SELECT c.*,f.nickname as coursename from ").append(Stu_pareModel.tableName).append(" a LEFT JOIN ");
 		sql.append(StudentModel.tableName).append(" b on a.stu_id=b.id LEFT JOIN ");
 		sql.append(tableName).append(" c on c.stuid=b.id  LEFT JOIN ");
 		sql.append(ArrangeSubjectModel.tableName).append(" d on c.tcsuid = d.id LEFT JOIN ");
