@@ -226,13 +226,8 @@ public class WeixinController extends Controller{
 	}
 	//数据可视化
 	public void stuArr() {
-		String classid=getPara("classid");
 	    String id=getPara("id");
-	    StudentModel m = StudentModel.getStuid(id);
-	    List<StuRegisterNewModel> list=new ArrayList<>();
-	    if(m!=null) {
-	    	list=StuRegisterNewModel.getstuArr(m.getId(),classid);
-	    }
+	    List<StuRegisterNewModel> list=StuRegisterNewModel.getstuArr(id);
 	    setAttr("list", list);
 	    renderJson();
 	}

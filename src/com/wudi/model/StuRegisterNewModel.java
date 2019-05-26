@@ -185,10 +185,15 @@ public class StuRegisterNewModel extends Model<StuRegisterNewModel> {
 		String sql = "SELECT c.username ,b.`no`,a.`status` from stu_registernews as a LEFT JOIN student as b on a.stuid=b.id LEFT JOIN `user` as c on b.userid=c.id where a.week =? and a.tcsuid=? and a.classid = ? ";
 		return dao.find(sql, week,tcsuid,classid);
 	}
-	public static List<StuRegisterNewModel> getstuArr(String stuid,String classid) {
+	public static List<StuRegisterNewModel> getstuArr(String prentid) {
 		StringBuffer sql = new StringBuffer();
-		sql.append("select count(*) from ").append(tableName).append(" where stuid=? and classid = ?");
-		return dao.find(sql.toString(),stuid,classid);
+		sql.append("SELECT c.*,f.nickname as coursename from").append(Stu_pareModel.tableName).append(" a LEFT JOIN ");
+		sql.append(StudentModel.tableName).append(" b on a.stu_id=b.id LEFT JOIN ");
+		sql.append(tableName).append(" c on c.stuid=b.id  LEFT JOIN ");
+		sql.append(ArrangeSubjectModel.tableName).append(" d on c.tcsuid = d.id LEFT JOIN ");
+		sql.append(SubjectModel.tableName).append(" f on d.`subject`=f.id ");
+		sql.append(" where a.pare_id=? ");
+		return dao.find(sql.toString(),prentid);
 	}
 	
 }
