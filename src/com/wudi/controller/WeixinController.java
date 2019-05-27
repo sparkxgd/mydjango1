@@ -240,5 +240,12 @@ public class WeixinController extends Controller{
 		renderJson();
 	}
 	
-	
+	//班级内每一个人的签到情况
+	public void classArr() {
+		String id=getPara("id");
+		String classid=getPara("classid");
+	    List<StuRegisterNewModel> list=StuRegisterNewModel.getclassArr(id,classid);
+	    setAttr("list", list);
+	    renderJson();
+	}
 }

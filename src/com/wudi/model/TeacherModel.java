@@ -108,10 +108,13 @@ public class TeacherModel extends Model<TeacherModel> {
 	}
 	public static List<TeacherModel> getTeach(String id) {
 		StringBuffer sql=new StringBuffer();
-		sql.append("select a.username,b.*,c.subject as tcsuid from ");
+		sql.append("select a.username,b.*,c.subject as tcsuid,c.classid,d.nickname as classname from ");
 		sql.append(UserModel.tableName).append(" as a left join ").append(tableName).append(" as b on b.userid=a.id");
 		sql.append(" left join ").append("arrange_subject").append(" as c on c.teacher=b.id");
+		sql.append(" left join ").append(ClassinfoModel.tableName).append(" as d on c.classid=d.id ");
 		sql.append(" where b.userid = ?");
 		return dao.find(sql.toString(), id);
 	}
+	
+	
 }
