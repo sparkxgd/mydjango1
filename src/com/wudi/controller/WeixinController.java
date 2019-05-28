@@ -248,4 +248,12 @@ public class WeixinController extends Controller{
 	    setAttr("list", list);
 	    renderJson();
 	}
+	
+	public void stuSubArr() {
+		String id = getPara("id");
+		String classid = getPara("classid");
+		List<StuRegisterNewModel> list=StuRegisterNewModel.getSubArr(id,classid);
+		setAttr("list", list);
+	    renderJson();
+	}
 }

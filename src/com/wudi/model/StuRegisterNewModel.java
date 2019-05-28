@@ -208,4 +208,14 @@ public class StuRegisterNewModel extends Model<StuRegisterNewModel> {
 		return dao.find(sql.toString(), id,classid);
 	}
 	
+	public static List<StuRegisterNewModel> getSubArr(String id,String classid){
+		String sql = "SELECT d.nickname,e.stuid,e.classid,COUNT(*) as count FROM " + 
+				"student a LEFT JOIN " + 
+				"classinfo b ON a.clas=b.id LEFT JOIN " + 
+				"arrange_subject c ON c.classid=b.id LEFT JOIN " + 
+				"`subject` d ON d.id=c.`subject` LEFT JOIN " + 
+				"stu_registernews e ON e.stuid=a.id WHERE e.classid=? and e.`status`=1 and a.userid=? GROUP BY e.stuid,d.nickname,e.classid";
+		return dao.find(sql.toString(), id,classid);
+	}
+	
 }
