@@ -51,7 +51,7 @@ layui.config({
 		    	  }else if(d.type==2){
 		    		  return '<span style="color: red" >老师</span>'
 		    	  } else {
-		    		  return '<span style="color: red" >家长</span>'
+		    		  return '<span style="color: green" >家长</span>'
 		    	  }
 		      }}
 		      ,{field: 'role_id', title: '角色',width:150,  align:'center'}

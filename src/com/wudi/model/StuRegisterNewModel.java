@@ -214,7 +214,7 @@ public class StuRegisterNewModel extends Model<StuRegisterNewModel> {
 				"classinfo b ON a.clas=b.id LEFT JOIN " + 
 				"arrange_subject c ON c.classid=b.id LEFT JOIN " + 
 				"`subject` d ON d.id=c.`subject` LEFT JOIN " + 
-				"stu_registernews e ON e.stuid=a.id WHERE e.classid=? and e.`status`=1 and a.userid=? GROUP BY e.stuid,d.nickname,e.classid";
+				"stu_registernews e ON e.stuid=a.id WHERE a.userid=? and e.`status`=1 and e.classid=? GROUP BY e.stuid,d.nickname,e.classid";
 		return dao.find(sql.toString(), id,classid);
 	}
 	

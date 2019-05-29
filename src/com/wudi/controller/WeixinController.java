@@ -18,6 +18,7 @@ import com.jfinal.upload.UploadFile;
 import com.wudi.bean.FaceSeachModel;
 import com.wudi.model.ArrangeSubjectModel;
 import com.wudi.model.ClassinfoModel;
+import com.wudi.model.MajorModel;
 import com.wudi.model.NewsModel;
 import com.wudi.model.ParentsModel;
 import com.wudi.model.StuRegisterNewModel;
@@ -256,4 +257,10 @@ public class WeixinController extends Controller{
 		setAttr("list", list);
 	    renderJson();
 	}
+	
+	public void school() {
+		List<MajorModel> list = MajorModel.getSchool();
+		setAttr("list", list);
+	    renderJson();
+	} 
 }

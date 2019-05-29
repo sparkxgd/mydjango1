@@ -195,9 +195,9 @@ public class UserModel extends Model<UserModel>{
 	 * @param phone_no
 	 * @return
 	 */
-	public static UserModel findById(String username) {
-		String selectsql = "SELECT * FROM " + tableName + " WHERE username=?";
-		return dao.findFirst(selectsql,username);
+	public static UserModel findById(String id) {
+		String selectsql = "SELECT * FROM " + tableName + " WHERE id=?";
+		return dao.findFirst(selectsql,id);
 		
 	}
 	/**
@@ -240,16 +240,6 @@ public class UserModel extends Model<UserModel>{
 		m.setPassword(password);
 		return m.update();
 	}
-//	public static boolean updateLevel(String id){
-//		UserModel m=getById(id);
-//		m.setLevel(1);
-//		return m.update();
-//	}
-//	public static boolean updateLevel(String id,int level){
-//		UserModel m=getById(id);
-//		m.setLevel(level);
-//		return m.update();
-//	}
 	
 
 	public static boolean delById(String id) {
