@@ -50,7 +50,6 @@ public class WeixinController extends Controller{
 	public void testface() {
 		
 		String u=System.getProperty("user.dir");
-//		String url=u+"\\WebContent\\upload\\1558260092850.jpg";
 		String url=u+"\\WebContent\\upload\\xiaoxiao.jpg";
 	    String image =Util.GetImageStr(url);  
 	    // 传入可选参数调用接口
@@ -62,25 +61,6 @@ public class WeixinController extends Controller{
 	    
 	    // 人脸搜索
 	    JSONObject res = BaiduPlugin.face.multiSearch(image, imageType, groupIdList, options);
-//	    
-//	    List<FaceSeachModel> flist=new ArrayList<FaceSeachModel>();
-//	    Iterator<Object> it=res.getJSONObject("result").getJSONArray("face_list").getJSONObject(0).getJSONArray("user_list").iterator();
-//	    while(it.hasNext()) {
-//	    	JSONObject jo=(JSONObject)it.next();
-//	    	FaceSeachModel m=new FaceSeachModel();
-//	    	m.setGroup_id(jo.getString("group_id"));
-//	    	m.setUser_id(jo.getString("user_id"));
-//	    	m.setUser_info(jo.getString("user_info"));
-//	    	m.setScore(jo.getDouble("score"));
-//	    	flist.add(m);
-//	    }
-//	    
-// 	    String classid=getPara("classid");
-//	    String tcsuid=getPara("tcsuid");
-//	    int week=getParaToInt("week");
-//	    //将信息添加到数据库
-//	    
-//	    List<StuRegisterNewModel> list=StuRegisterNewModel.signIn(flist,tcsuid,classid,week);
 	    
 	    setAttr("data", res);
 		setAttr("code", 0);
@@ -263,4 +243,17 @@ public class WeixinController extends Controller{
 		setAttr("list", list);
 	    renderJson();
 	} 
+	
+	//注册页面
+	public void stuSign() {
+		String username = getPara("username");
+		int sex = getParaToInt("sex");
+		String password = getPara("password");
+		String birth = getPara("birth");
+		int type = getParaToInt("type");
+		String img = getPara("img");
+		boolean result = UserModel.saveUserinfo(username, sex, password, birth, type, img);
+		setAttr("result", result);
+		renderJson();
+	}
 }
