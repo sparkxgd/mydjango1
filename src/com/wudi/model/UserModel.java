@@ -12,6 +12,7 @@ import com.jfinal.plugin.activerecord.IAtom;
 import com.jfinal.plugin.activerecord.Model;
 import com.jfinal.plugin.activerecord.Page;
 import com.jfinal.plugin.activerecord.tx.Tx;
+import com.jfinal.upload.UploadFile;
 import com.wudi.plugin.BaiduHttpPlugin;
 import com.wudi.util.StringUtil;
 import com.wudi.util.Util;
@@ -113,6 +114,71 @@ public class UserModel extends Model<UserModel>{
 		return list;
 	}
 	
+	public static boolean saveUserReg(String username, int sex, String password, String birth, int type,UploadFile upFile) {
+		UserModel m=new UserModel();
+		
+		m.setId(StringUtil.getId());
+		m.setUsername(username);
+		m.setSex(sex);
+		m.setPassword(password);
+		m.setBirth(birth);
+		m.setType(type);
+		m.setStatus(0);
+		m.setRole_id("1555148650901");
+		
+		File file = upFile.getFile();
+        String extName = StringUtil.getFileExt(file.getName());
+        String filePath = upFile.getUploadPath();
+        String fileName = System.currentTimeMillis() + extName;
+        file.renameTo(new File(filePath+"\\"+fileName));
+        m.setImg(fileName);
+
+		
+		return saveReg(m);
+	}
+	
+	@Before(Tx.class)
+	private static boolean saveReg(final UserModel m){
+		boolean succeed = Db.tx(new IAtom() {
+					@Override
+					public boolean run() throws SQLException {
+						boolean re=false;
+						boolean ree=false;
+						String u=System.getProperty("user.dir");
+						String url=u+"\\WebContent\\upload\\"+m.getImg();
+					    String image =Util.GetImageStr(url);
+					    
+					    Map<String, Object> map = new HashMap<String, Object>();
+				        map.put("image", image);
+				        map.put("group_id", "test");
+				        map.put("image_type", "BASE64");
+			            map.put("user_id", m.getId());
+			            map.put("user_info", m.getUsername());
+						
+					    BaiduHttpPlugin.face.userAdd(map);
+			            
+						ree=m.save();
+						if(m.getType()==1) {
+							StudentModel s=new StudentModel();
+							s.setId(StringUtil.getId());
+							s.setUserid(m.getId());
+							re=s.save();
+						}else if(m.getType()==2) {
+							TeacherModel s=new TeacherModel();
+							s.setId(StringUtil.getId());
+							s.setUserid(m.getId());
+							re=s.save();
+						}else if(m.getType()==3) {
+							ParentsModel s=new ParentsModel();
+							s.setId(StringUtil.getId());
+							s.setUserid(m.getId());
+							re=s.save();
+						}
+						return ree&&re;
+					}
+					});
+				return succeed;
+	}
 	
 	public static boolean saveUserinfo(String username, int sex, String password, String birth, int type, String img) {
 		UserModel m=new UserModel();

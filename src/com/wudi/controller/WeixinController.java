@@ -15,6 +15,7 @@ import org.json.JSONObject;
 import com.jfinal.core.Controller;
 import com.jfinal.kit.JsonKit;
 import com.jfinal.upload.UploadFile;
+import com.wudi.bean.FaceDetectBean;
 import com.wudi.bean.FaceSeachModel;
 import com.wudi.model.ArrangeSubjectModel;
 import com.wudi.model.ClassinfoModel;
@@ -246,13 +247,22 @@ public class WeixinController extends Controller{
 	
 	//注册页面
 	public void stuSign() {
-		String username = getPara("username");
-		int sex = getParaToInt("sex");
-		String password = getPara("password");
-		String birth = getPara("birth");
-		int type = getParaToInt("type");
-		String img = getPara("img");
-		boolean result = UserModel.saveUserinfo(username, sex, password, birth, type, img);
+		UploadFile upFile = getFile();//单个上传文件一句搞定  默认路径是 upload
+	    FaceDetectBean flist=BaiduHttpPlugin.face.detect(upFile);
+	    FaceSeachModel flist1=BaiduHttpPlugin.face.search(upFile);
+	    boolean result=false;
+	    if(flist1!=null) {
+	    	if(flist!=null) {
+		    	if(flist.getCode()==0) {
+		    		String username = getPara("username");
+		    		int sex = getParaToInt("sex");
+		    		String password = getPara("password");
+		    		String birth = getPara("birth");
+		    		int type = getParaToInt("type");
+		    		result = UserModel.saveUserReg(username, sex, password, birth, type, upFile);
+		    	}
+		    }
+	    }
 		setAttr("result", result);
 		renderJson();
 	}
