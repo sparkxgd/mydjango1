@@ -16,29 +16,26 @@
  </style>
 </head>
 <body class="childrenBody">
-
-
-	<div class="layadmin-tabsbody-item layui-show"><div class="layui-card layadmin-header">
-</div><div class="layui-fluid">
-  <div class="layui-row layui-col-space15">   
-    <div class="layui-col-sm6 layui-col-md3" id=student>
-    <a href="javascript:;" data-url="admin/openStudentInfo">
-      <div class="layui-card">
+<div class="layui-fluid">
+  	<div class="layui-col-sm6 layui-col-md3">
+  	<a href = "javascript:;" data-url="admin/openStudentInfo" >
+      <div class="layui-card" id="student">
         <div class="layui-card-header">
           学生管理
           <span class="layui-badge layui-bg-blue layuiadmin-badge">人</span>
         </div>
         <div class="layui-card-body layuiadmin-card-list">
-          <p class="layuiadmin-big-font">9,999,666</p>
+          <p class="layuiadmin-big-font">33,555</p>
           <p>
-            学生总数 
-            <span class="layuiadmin-span-color">88万 <i class="layui-icon"></i></span>
+            学生人数 
+            <span class="layuiadmin-span-color">10000人<i class="layui-icon"></i></span>
           </p>
         </div>
       </div>
       </a>
     </div>
     <div class="layui-col-sm6 layui-col-md3">
+    <a href = "javascript:;" data-url="admin/openTeacherInfo" >
       <div class="layui-card">
         <div class="layui-card-header">
           教师管理
@@ -52,8 +49,10 @@
           </p>
         </div>
       </div>
+      </a>
     </div>
     <div class="layui-col-sm6 layui-col-md3">
+    <a href = "javascript:;" data-url="admin/openStuRegisterInfo" >
       <div class="layui-card">
         <div class="layui-card-header">
           签到管理
@@ -68,8 +67,10 @@
           </p>
         </div>
       </div>
+      </a>
     </div>
     <div class="layui-col-sm6 layui-col-md3">
+    <a href = "javascript:;" data-url="admin/userinfo" >
       <div class="layui-card">
         <div class="layui-card-header">
           用户管理
@@ -84,14 +85,12 @@
           </p>
         </div>
       </div>
+      </a>
     </div> 
-    <div id=page></div>  
+    <div id="tubiao" style="height:600px;"></div>  
 	<script type="text/javascript" src="../layui/layui.js"></script>
 	<script type="text/javascript" src="../js/echarts.min.js"></script>
 	<script type="text/javascript" src="../js/main.js"></script>
-	<script>
-		$("#page").load("userinfo/userinfoInfo.html");
-	</script>
 </div>
 
 </body>

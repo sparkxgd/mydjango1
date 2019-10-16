@@ -15,9 +15,11 @@ import org.json.JSONObject;
 import com.jfinal.core.Controller;
 import com.jfinal.kit.JsonKit;
 import com.jfinal.upload.UploadFile;
+import com.wudi.bean.FaceDetectBean;
 import com.wudi.bean.FaceSeachModel;
 import com.wudi.model.ArrangeSubjectModel;
 import com.wudi.model.ClassinfoModel;
+import com.wudi.model.MajorModel;
 import com.wudi.model.NewsModel;
 import com.wudi.model.ParentsModel;
 import com.wudi.model.StuRegisterNewModel;
@@ -49,7 +51,6 @@ public class WeixinController extends Controller{
 	public void testface() {
 		
 		String u=System.getProperty("user.dir");
-//		String url=u+"\\WebContent\\upload\\1558260092850.jpg";
 		String url=u+"\\WebContent\\upload\\xiaoxiao.jpg";
 	    String image =Util.GetImageStr(url);  
 	    // 传入可选参数调用接口
@@ -61,25 +62,6 @@ public class WeixinController extends Controller{
 	    
 	    // 人脸搜索
 	    JSONObject res = BaiduPlugin.face.multiSearch(image, imageType, groupIdList, options);
-//	    
-//	    List<FaceSeachModel> flist=new ArrayList<FaceSeachModel>();
-//	    Iterator<Object> it=res.getJSONObject("result").getJSONArray("face_list").getJSONObject(0).getJSONArray("user_list").iterator();
-//	    while(it.hasNext()) {
-//	    	JSONObject jo=(JSONObject)it.next();
-//	    	FaceSeachModel m=new FaceSeachModel();
-//	    	m.setGroup_id(jo.getString("group_id"));
-//	    	m.setUser_id(jo.getString("user_id"));
-//	    	m.setUser_info(jo.getString("user_info"));
-//	    	m.setScore(jo.getDouble("score"));
-//	    	flist.add(m);
-//	    }
-//	    
-// 	    String classid=getPara("classid");
-//	    String tcsuid=getPara("tcsuid");
-//	    int week=getParaToInt("week");
-//	    //将信息添加到数据库
-//	    
-//	    List<StuRegisterNewModel> list=StuRegisterNewModel.signIn(flist,tcsuid,classid,week);
 	    
 	    setAttr("data", res);
 		setAttr("code", 0);
@@ -241,5 +223,48 @@ public class WeixinController extends Controller{
 		renderJson();
 	}
 	
+	//班级内每一个人的签到情况
+	public void classArr() {
+		String id=getPara("id");
+		String classid=getPara("classid");
+	    List<StuRegisterNewModel> list=StuRegisterNewModel.getclassArr(id,classid);
+	    setAttr("list", list);
+	    renderJson();
+	}
 	
+	public void stuSubArr() {
+		String id = getPara("id");
+		String classid = getPara("classid");
+		List<StuRegisterNewModel> list=StuRegisterNewModel.getSubArr(id,classid);
+		setAttr("list", list);
+	    renderJson();
+	}
+	
+	public void school() {
+		List<MajorModel> list = MajorModel.getSchool();
+		setAttr("list", list);
+	    renderJson();
+	} 
+	
+	//注册页面
+	public void stuSign() {
+		UploadFile upFile = getFile();//单个上传文件一句搞定  默认路径是 upload
+	    FaceDetectBean flist=BaiduHttpPlugin.face.detect(upFile);
+	    FaceSeachModel flist1=BaiduHttpPlugin.face.search(upFile);
+	    boolean result=false;
+	    if(flist1!=null) {
+	    	if(flist!=null) {
+		    	if(flist.getCode()==0) {
+		    		String username = getPara("username");
+		    		int sex = getParaToInt("sex");
+		    		String password = getPara("password");
+		    		String birth = getPara("birth");
+		    		int type = getParaToInt("type");
+		    		result = UserModel.saveUserReg(username, sex, password, birth, type, upFile);
+		    	}
+		    }
+	    }
+		setAttr("result", result);
+		renderJson();
+	}
 }

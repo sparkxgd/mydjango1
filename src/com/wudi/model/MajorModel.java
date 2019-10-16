@@ -97,4 +97,9 @@ public class MajorModel extends Model<MajorModel> {
 		sql.append("select *  from ").append(tableName);
 		return dao.find(sql.toString());
 	}
+	
+	public static List<MajorModel> getSchool(){
+		String sql = "SELECT a.nickname as majorname,b.nickname as depname FROM major a LEFT JOIN department b on a.department=b.id";
+		return dao.find(sql.toString());
+	}
 }

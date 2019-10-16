@@ -46,6 +46,18 @@
 			"spread" : false
 		},
 		{
+			"title" : "上课记录表",
+			"icon" : "&#xe613;",
+			"href" : "admin/openStudyInfo",
+			"spread" : false
+		},
+		{
+			"title" : "学生上课记录表",
+			"icon" : "&#xe613;",
+			"href" : "admin/openStu_studyInfo",
+			"spread" : false
+		},
+		{
 			"title" : "学生签到表",
 			"icon" : "&#xe613;",
 			"href" : "admin/openStuRegisterInfo",
@@ -128,18 +140,6 @@
 			"title" : "教师课表",
 			"icon" : "&#xe613;",
 			"href" : "admin/openArr_SubjectInfo",
-			"spread" : false
-		},
-		{
-			"title" : "上课记录表",
-			"icon" : "&#xe613;",
-			"href" : "admin/openStudyInfo",
-			"spread" : false
-		},
-		{
-			"title" : "学生上课记录表",
-			"icon" : "&#xe613;",
-			"href" : "admin/openStu_studyInfo",
 			"spread" : false
 		},		
 		{

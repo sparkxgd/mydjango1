@@ -105,7 +105,7 @@ public class BaiduClient {
     public FaceSeachModel search(UploadFile imgFile) {
     	String url = "https://aip.baidubce.com/rest/2.0/face/v3/search";
         try {
-        	String image=getImg64(imgFile); 
+        	String image=getImge64(imgFile); 
         	 Map<String, Object> map = new HashMap<String, Object>();
              map.put("image", image);
 //             map.put("liveness_control", "NORMAL");
@@ -215,10 +215,19 @@ public class BaiduClient {
             file.renameTo(new File(filePath+"\\"+fileName));
     		
     	    String imgurl=filePath+"\\"+fileName;
-    	    String image =Util.GetImageStr(imgurl);
-    	    file.delete();//文件删除  
+    	    String image =Util.GetImageStr(imgurl);  
     	    return image;
         }
+        
+        private String getImge64(UploadFile imgFile) {
+        	File file = imgFile.getFile();
+            String extName = StringUtil.getFileExt(file.getName());
+            String filePath = imgFile.getUploadPath();
+            String fileName = System.currentTimeMillis() + extName;
+    	    String image =Util.GetImageStr(filePath+"\\"+fileName);  
+    	    return image;
+        }
+        
     public static void main(String[] args) {
 //        BaiduClient.search();
     }

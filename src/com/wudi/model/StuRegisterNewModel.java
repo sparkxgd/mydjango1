@@ -187,16 +187,35 @@ public class StuRegisterNewModel extends Model<StuRegisterNewModel> {
 	}
 	public static List<StuRegisterNewModel> getstuArr(String prentid) {
 		StringBuffer sql = new StringBuffer();
-		sql.append("SELECT c.*,f.nickname as coursename from ").append(Stu_pareModel.tableName).append(" a LEFT JOIN ");
+		sql.append("SELECT c.classid,f.nickname as coursename,count(*) count from ").append(Stu_pareModel.tableName).append(" a LEFT JOIN ");
 		sql.append(StudentModel.tableName).append(" b on a.stu_id=b.id LEFT JOIN ");
 		sql.append(tableName).append(" c on c.stuid=b.id  LEFT JOIN ");
 		sql.append(ArrangeSubjectModel.tableName).append(" d on c.tcsuid = d.id LEFT JOIN ");
 		sql.append(SubjectModel.tableName).append(" f on d.`subject`=f.id LEFT JOIN ");
 		sql.append(ParentsModel.tableName).append(" g on a.pare_id=g.id ");
-		sql.append(" where g.userid=? ");
-		
-		
+		sql.append(" where g.userid=? and c.`status`=1 group by c.classid,f.nickname ");
 		return dao.find(sql.toString(),prentid);
+	}
+	
+	public static List<StuRegisterNewModel> getclassArr(String id,String classid) {
+		String sql = "SELECT d.`no`,e.username as stuname,count(*) as count from teacher a LEFT JOIN " + 
+				"		arrange_subject b on a.id=b.teacher LEFT JOIN " + 
+				"		classinfo c on c.id=b.classid  LEFT JOIN " + 
+				"		student d on c.id = d.clas LEFT JOIN " + 
+				"		`user` e on e.id=d.userid LEFT JOIN " + 
+				"		stu_registernews f on f.classid=c.id " + 
+				"		where a.userid=? and f.`status`=1 and f.classid=? GROUP BY e.username,d.`no`";
+		return dao.find(sql.toString(), id,classid);
+	}
+	
+	public static List<StuRegisterNewModel> getSubArr(String id,String classid){
+		String sql = "SELECT d.nickname,e.stuid,e.classid,COUNT(*) as count FROM " + 
+				"student a LEFT JOIN " + 
+				"classinfo b ON a.clas=b.id LEFT JOIN " + 
+				"arrange_subject c ON c.classid=b.id LEFT JOIN " + 
+				"`subject` d ON d.id=c.`subject` LEFT JOIN " + 
+				"stu_registernews e ON e.stuid=a.id WHERE a.userid=? and e.`status`=1 and e.classid=? GROUP BY e.stuid,d.nickname,e.classid";
+		return dao.find(sql.toString(), id,classid);
 	}
 	
 }
