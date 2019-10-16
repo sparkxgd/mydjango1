@@ -63,6 +63,17 @@ layui.config({
 					  });
 			  }
   };
+  var activeop = {
+		  reload : function() {
+			  var demoReload = $('#demoReload');
+							// 执行重载
+			  table.reload('testReload', {				 
+					  where : {//要查询的字段
+						  key : demoReload.val()
+						  }
+					  });
+			  }
+  };
 //绑定搜索事件
   $('.layui-btn').on('click', function() {
 	  var type = $(this).data('type');
@@ -98,7 +109,7 @@ layui.config({
 	  var tr = obj.tr; //获得当前行 tr 的DOM对象
 	 
 	  if(layEvent === 'detail'){ //查看
-		  
+		  activeop.reload();  
 	  } else if(layEvent === 'del'){
 		  layer.confirm('确定删除此信息？',{icon:3, title:'提示信息'},function(index){
 				var msgid;
@@ -118,7 +129,7 @@ layui.config({
 						   		layer.closeAll("iframe");
 						   		obj.del(); //删除对应行（tr）的DOM结构，并更新缓存
 						  	 //刷新父页面
-						  	 	parent.location.reload();
+						   	activeop.reload();
 			    		  }else{
 			    			  top.layer.msg("操作失败！，数据库操作有问题！！");
 			    		  }

@@ -228,6 +228,7 @@ public class WeixinController extends Controller{
 	public void stuArr() {
 	    String id=getPara("id");
 	    List<StuRegisterNewModel> list=StuRegisterNewModel.getstuArr(id);
+	    
 	    setAttr("list", list);
 	    renderJson();
 	}

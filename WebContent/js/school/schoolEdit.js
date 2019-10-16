@@ -4,7 +4,6 @@ layui.config({
 }).use(['form','layer','jquery'],function(){
 	var form = layui.form,
 		layer = parent.layer === undefined ? layui.layer : parent.layer,
-		laypage = layui.laypage;
 		$ = layui.jquery;
 		var id=$("input[name='id']").val();
 		//加载页面数据
@@ -32,7 +31,11 @@ layui.config({
 			  		top.layer.msg("操作成功！");
 			   		layer.closeAll("iframe");
 			  	 		//刷新父页面
-			  	 	parent.location.reload();
+			   		parent.layui.table.reload('testReload', {						  
+							  where : {//要查询的字段
+								  key : $('#demoReload').val()
+								  }
+							  });
 		    		
 	    	  },
 	    	  error:function(XMLHttpRequest, textStatus, errorThrown){
